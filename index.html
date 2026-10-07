@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="배우고 성장하는 과정, 기록과 대표작을 담은 포트폴리오입니다.">
+  <title>나의 이야기 · Portfolio</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="records-result.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#story">본문으로 바로가기</a>
+  <div class="page">
+    <header class="header">
+      <a class="brand" href="#home" data-name>[이름]</a>
+      <nav aria-label="주요 메뉴"><a href="#story">내 이야기</a><a href="#records">기록</a><a href="#projects">대표작</a><a href="#contact">연락처</a></nav>
+    </header>
+    <main id="home">
+      <section class="hero" aria-labelledby="intro-title">
+        <div class="hero-copy"><h1 id="intro-title">안녕하세요,<br><span data-name>[이름]</span>입니다.</h1><p id="tagline">배우고 성장하는 과정을 기록합니다.</p><a class="button" href="#story">내 이야기 읽기</a></div>
+        <img class="hero-image" src="assets/hero.png" alt="마크 없는 노트북으로 작업하는 사람의 흑백 선화" width="1024" height="1024" fetchpriority="high">
+      </section>
+      <section id="story" class="section" aria-labelledby="story-title">
+        <h2 id="story-title">내 이야기</h2>
+        <div class="story-panel" id="story-content"><article><h3>멈춰 섰던 순간</h3><p>실제 경험과 날짜를 담을 자리입니다.</p></article><article><h3>다시 시작한 작은 행동</h3><p>실제 경험과 날짜를 담을 자리입니다.</p></article><article><h3>더 나아진 지금</h3><p>실제 경험과 날짜를 담을 자리입니다.</p></article></div>
+        <p class="abilities">자기조절력 · 대인관계력 · 자기동기력</p>
+      </section>
+      <section id="records" class="section" aria-labelledby="records-title">
+        <h2 id="records-title">13주 기록</h2>
+        <dl class="metrics"><div><dt>기록 기간</dt><dd id="period">—</dd></div><div><dt>과제 지속률</dt><dd id="persistence">—</dd></div><div><dt>다시 시작한 횟수</dt><dd id="restarts">—</dd></div></dl>
+        <p id="record-source" class="caption">수치와 출처는 실제 기록을 바탕으로 연결합니다.</p>
+      </section>
+      <section id="projects" class="section" aria-labelledby="projects-title">
+        <h2 id="projects-title">대표작</h2>
+        <div class="projects"><article class="project"><h3 id="paper-title">10번 · 논문</h3><p id="paper-summary">논문 제목과 핵심 내용을 담을 자리입니다.</p><span id="paper-link" class="status">자료 준비 중</span></article><article class="project"><h3>13번 · 앱</h3><p>13번 과제를 마친 뒤 공개합니다.</p><span class="status">공개 예정</span></article></div>
+      </section>
+      <section id="documents" class="section" aria-labelledby="documents-title">
+        <h2 id="documents-title">문서</h2>
+        <div class="documents" id="document-list"><div class="document"><h3>이력서</h3><span class="status">준비 중</span></div><div class="document"><h3>자기소개서</h3><span class="status">준비 중</span></div><div class="document"><h3>경력기술서</h3><span class="status">준비 중</span></div></div>
+      </section>
+      <section id="contact" class="section" aria-labelledby="contact-title"><h2 id="contact-title">Contact</h2><div class="contact-row"><p>함께 일할 다음 이야기를 기다립니다.</p><span id="contact-link">[공개할 연락 수단 하나]</span></div></section>
+    </main>
+    <footer><span data-name>[이름]</span> · Portfolio</footer>
+  </div>
+</body>
+</html>
