@@ -20,16 +20,66 @@
     if (href) element.href = href;
     return element;
   };
+  const submissionModal = document.getElementById("submission-modal");
+  const submissionModalBody = document.getElementById("submission-modal-body");
+  const submissionModalClose = document.getElementById("submission-modal-close");
+  let submissionTrigger = null;
+  const openSubmission = (code, trigger) => {
+    const submission = data.submissionContents?.[code];
+    submissionTrigger = trigger;
+    text("submission-modal-title", submission?.title || `${code} 제출 내용`);
+    if (submission) {
+      // content.js에 보관한, 원문을 이스케이프하여 변환한 제출 본문을 사용합니다.
+      submissionModalBody.innerHTML = submission.body;
+    } else {
+      submissionModalBody.textContent = "제출 내용을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 열어주세요.";
+    }
+    submissionModal.showModal();
+    submissionModal.scrollTop = 0;
+    document.body.classList.add("modal-open");
+    submissionModalClose.focus();
+  };
+  submissionModalClose.addEventListener("click", () => submissionModal.close());
+  submissionModal.addEventListener("click", event => {
+    if (event.target !== submissionModal) return;
+    const bounds = submissionModal.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) submissionModal.close();
+  });
+  submissionModal.addEventListener("close", () => {
+    document.body.classList.remove("modal-open");
+    submissionTrigger?.focus({ preventScroll: true });
+    submissionTrigger = null;
+  });
   document.querySelectorAll("[data-name]").forEach(el => { el.textContent = data.name; });
   document.title = `${data.name} · Portfolio`;
   text("tagline", data.tagline);
   const story = document.getElementById("story-content");
   story.replaceChildren(...data.story.map(scene => {
     const article = document.createElement("article");
+    if (scene.id) article.id = scene.id;
     const heading = document.createElement("h3"); heading.textContent = scene.title;
     article.append(heading);
-    if (scene.date) { const time = document.createElement("time"); time.dateTime = scene.date; time.textContent = scene.date; article.append(time); }
-    const paragraph = document.createElement("p"); paragraph.textContent = scene.body; article.append(paragraph);
+    // '7월 말 이후' 같은 기간 표현에는 임의의 날짜를 부여하지 않습니다.
+    if (scene.date || scene.dateLabel) {
+      const date = document.createElement(scene.date ? "time" : "p");
+      date.className = "story-date";
+      if (scene.date) date.dateTime = scene.date;
+      date.textContent = scene.dateLabel || scene.date;
+      article.append(date);
+    }
+    scene.body.split(/\n\s*\n/).forEach(body => {
+      const paragraph = document.createElement("p"); paragraph.textContent = body; article.append(paragraph);
+    });
+    if (scene.ability) {
+      const ability = document.createElement("p"); ability.className = "story-ability";
+      const label = document.createElement("strong"); label.textContent = scene.ability;
+      ability.append(label);
+      if (scene.abilitySummary) {
+        const summary = document.createElement("span"); summary.textContent = ` · ${scene.abilitySummary}`;
+        ability.append(summary);
+      }
+      article.append(ability);
+    }
     return article;
   }));
   text("paper-title", data.paper.title);
@@ -42,11 +92,44 @@
     card.append(heading, status); return card;
   }));
   document.getElementById("contact-link").replaceChildren(link(data.contact.label, data.contact.url, true));
-  const result = window.PORTFOLIO_RECORDS;
-  if (result?.weeks > 0) {
-    text("period", `${result.weeks}주`);
-    text("persistence", result.persistenceRate === null ? "—" : `${result.persistenceRate}%`);
-    text("restarts", `${result.restarts}회`);
-    text("record-source", `출처: ${result.sources.join(" · ")} | ${result.start} ~ ${result.end} | 지속률: 완료 ${result.completed}건 / 계획 ${result.planned}건`);
+  const records = data.records;
+  if (records) {
+    const { attendance, ritual, submissions, connection } = records;
+    const card = (title, values) => {
+      const article = document.createElement("article"); article.className = "record-card";
+      const heading = document.createElement("h3"); heading.textContent = title;
+      const metrics = document.createElement("dl"); metrics.className = "record-metrics";
+      values.forEach(([label, value]) => {
+        const item = document.createElement("div");
+        const term = document.createElement("dt"); term.textContent = label;
+        const count = document.createElement("dd"); count.textContent = value;
+        item.append(term, count); metrics.append(item);
+      });
+      article.append(heading, metrics); return article;
+    };
+    document.getElementById("record-cards").replaceChildren(
+      card("내 출석 기록", [["출석률", `${attendance.rate}%`], ["훈련일", `${attendance.trainingDays}일`], ["재적일", `${attendance.enrolledDays}일`], ["출석", `${attendance.presentDays}일`], ["결석", `${attendance.absentDays}일`]]),
+      card("리추얼 기록", [["기록 일수", `${ritual.days}일`], ["아침", `${ritual.morning}회`], ["마무리", `${ritual.closing}회`]]),
+      card("내 제출 현황", [["제출 과제", `${submissions.length}건`], ["최종 확인 완료", `${submissions.filter(item => item.status === "최종 확인 완료").length}건`]])
+    );
+    text("submission-summary", `제출 과제 ${submissions.length}건 자세히 보기`);
+    document.getElementById("submission-list").replaceChildren(...submissions.map(item => {
+      const row = document.createElement("li");
+      const title = document.createElement("strong"); title.textContent = `${item.code} · Studio 과제 ${item.code.slice(1)}`;
+      const detail = document.createElement("span"); detail.textContent = `${item.submitted} 제출 · ${item.status}`;
+      row.append(title, detail);
+      const view = document.createElement("button"); view.type = "button";
+      view.textContent = `${item.code} 제출 내용 보기`;
+      view.className = "submission-view";
+      view.setAttribute("aria-haspopup", "dialog");
+      view.setAttribute("aria-controls", "submission-modal");
+      view.addEventListener("click", () => openSubmission(item.code, view));
+      row.append(view);
+      return row;
+    }));
+    text("record-source", records.source);
+    text("record-connection-title", connection.title);
+    text("record-connection-body", connection.body);
+    document.getElementById("record-story-link").replaceChildren(link(connection.linkLabel, `#${connection.storyId}`));
   }
 })();
