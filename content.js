@@ -21,9 +21,11 @@ window.PORTFOLIO_CONTENT = {
     }
   ],
   records: {
-    source: "출처: 내 출석 기록 · 리추얼 기록 · 내 제출 현황 (사용자 제공 누적 기록)",
-    attendance: { trainingDays: 39, enrolledDays: 39, presentDays: 39, absentDays: 0, rate: 100 },
-    ritual: { days: 53, morning: 53, closing: 53 },
+    // 날짜별 원문은 data/records-history.js에서 관리하며 화면에서 요약을 집계합니다.
+    period: { start: "2026-08-11", end: "2026-11-12" },
+    source: "출처: 사용자 제공 출석표 · 리추얼 JSON (2026-10-12 기준) · 내 제출 현황",
+    attendance: { trainingDays: 40, enrolledDays: 40, presentDays: 39, absentDays: 0, pendingDays: 1, rate: 97.5 },
+    ritual: { days: 58, morning: 58, closing: 57 },
     // 제공된 과제 목록을 기준으로 집계하며, 첨부 파일 수를 제출 건수로 세지 않습니다.
     submissions: [
       { code: "T11", submitted: "10월 7일 오후 02:42", status: "최종 확인 완료" },
@@ -40,7 +42,7 @@ window.PORTFOLIO_CONTENT = {
     ],
     connection: {
       title: "어려움 속에서도 이어간 기록",
-      body: "제 뜻을 말하기 어려웠던 순간과 함께 돌아보는 기록입니다. 아침 53회, 마무리 53회의 리추얼은 일상에서 행동을 이어간 흔적입니다.",
+      body: "제 뜻을 말하기 어려웠던 순간과 함께 돌아보는 기록입니다. 아침 58회, 마무리 57회의 리추얼은 일상에서 행동을 이어간 흔적입니다.",
       storyId: "story-communication", linkLabel: "내 뜻을 표현하며 배운 소통 읽기"
     }
   },

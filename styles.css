@@ -31,17 +31,39 @@ p { margin: 0; }
 .story-panel p:not(.story-date) + p { margin-top: 12px; }
 .story-panel .story-ability { margin-top: 12px; padding-left: 12px; border-left: 2px solid var(--line); font-size: 14px; }
 .story-ability strong { color: var(--ink); }
-.record-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; gap: 16px; margin-bottom: 16px; }
+.record-period { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 400; letter-spacing: 0; }
+.record-scroll { margin-bottom: 16px; }
+.record-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.record-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .record-card { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fafafa; }
-.record-card h3 { font-size: 17px; margin: 0; padding: 14px 16px; background: #ededed; border-bottom: 1px solid var(--line); }
+.record-card h3 { font-size: 15px; margin: 0; padding: 14px 12px; background: #ededed; border-bottom: 1px solid var(--line); }
 .record-metrics { margin: 0; }
-.record-metrics > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 11px 16px; background: #fff; }
+.record-metrics > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 16px; background: #fff; }
 .record-metrics > div + div { border-top: 1px solid #e3e3e3; }
 .record-metrics > div:nth-child(odd) { background: #fafafa; }
-.record-metrics > div:first-child { min-height: 92px; padding: 16px; background: var(--panel); }
-.record-metrics dt { color: var(--muted); font-size: 14px; }
+.record-metrics > div:first-child { min-height: 52px; padding: 8px 16px; background: var(--panel); }
+.record-metrics dt { color: var(--muted); font-size: 12px; }
 .record-metrics dd { margin: 0; text-align: right; font-size: 18px; font-weight: 750; line-height: 1.4; font-variant-numeric: tabular-nums; }
-.record-metrics > div:first-child dd { font-size: 34px; }
+.record-metrics > div:first-child dd { font-size: 28px; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #ededed; border-bottom: 1px solid var(--line); }
+.calendar-header h3 { border: 0; padding: 0; }
+.calendar-header button { width: 30px; height: 30px; font: inherit; font-size: 22px; line-height: 1; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
+.calendar-header button:disabled { opacity: .35; cursor: default; }
+.calendar-body { padding: 16px; }
+.calendar-weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.calendar-weekdays { font-size: 11px; color: var(--muted); text-align: center; margin-bottom: 7px; }
+.calendar-cell { display: block; width: 100%; aspect-ratio: 1 / 1; padding: 0; border: 1px solid var(--line); border-radius: 3px; }
+.ritual-none { background: #fff; }
+.ritual-one { background: #999; }
+.ritual-both { background: #000; }
+.calendar-legend { display: flex; flex-wrap: wrap; gap: 6px 9px; margin-top: 12px; font-size: 10px; }
+.calendar-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.calendar-legend i { display: inline-block; width: 11px; height: 11px; border: 1px solid var(--line); border-radius: 2px; }
+.calendar-status { font-size: 11px; color: var(--muted); margin-top: 8px; min-height: 38px; }
+.record-card-note { margin: 8px 16px; color: var(--muted); font-size: 11px; }
+.record-detail-button { display: block; width: calc(100% - 32px); margin: 10px 16px 14px; padding: 9px 8px; border: 1px solid #111; border-radius: 3px; background: #111; color: #fff; font: inherit; font-size: 12px; }
+.record-detail-button:hover { background: #333; }
+.calendar-cell:focus-visible, .calendar-header button:focus-visible, .record-detail-button:focus-visible, .record-scroll:focus-visible, .record-filters button:focus-visible, .ritual-date-nav button:focus-visible, .ritual-peer-details summary:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
 .submission-details { margin: 20px 0; }
 .submission-details summary { cursor: pointer; font-weight: 700; }
 .submission-details summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
@@ -68,7 +90,29 @@ body.modal-open { overflow: hidden; }
 .record-connection h3 { font-size: 18px; margin-bottom: 8px; }
 .record-connection p { color: var(--muted); }
 .record-connection a { display: inline-block; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
-@media (max-width: 640px) { .record-cards { grid-template-columns: 1fr; } }
+.detail-summary { margin: 12px 0; font-size: 20px; font-weight: 700; }
+.record-filters { display: flex; gap: 8px; margin: 16px 0; }
+.record-filters button, .ritual-date-nav button { font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 3px; background: #fff; color: var(--ink); }
+.record-filters button { flex: 1; }
+.record-filters button[aria-pressed="true"] { background: #111; color: #fff; border-color: #111; }
+.record-date-range { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; font-size: 13px; }
+.record-date-range input, .ritual-date-nav input { max-width: 100%; font: inherit; padding: 6px; border: 1px solid var(--line); border-radius: 3px; background: #fff; color: var(--ink); }
+.attendance-table-wrap { overflow: auto; max-height: 430px; border: 1px solid var(--line); margin-bottom: 12px; }
+.attendance-table { width: 100%; min-width: 650px; border-collapse: collapse; font-size: 13px; text-align: left; }
+.attendance-table caption { text-align: left; padding: 10px; color: var(--muted); background: #fff; }
+.attendance-table th, .attendance-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.attendance-table th { position: sticky; top: 0; background: #ededed; }
+.attendance-table td:nth-child(-n+6) { white-space: nowrap; }
+.attendance-legend { margin-top: 16px; font-size: 12px; color: var(--muted); }
+.ritual-date-nav { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 16px; }
+.ritual-date-nav button:disabled { opacity: .35; cursor: default; }
+.ritual-fields { margin: 0 0 16px; }
+.ritual-fields > div { display: grid; grid-template-columns: minmax(110px, .4fr) minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ritual-fields dt { font-weight: 700; font-size: 14px; }
+.ritual-fields dd { margin: 0; white-space: pre-wrap; font-size: 14px; }
+.ritual-peer-details { padding: 12px 16px; background: var(--panel); border-radius: 4px; margin-bottom: 16px; }
+.ritual-peer-details summary { font-weight: 700; cursor: pointer; }
+@media (max-width: 640px) { .record-row { grid-template-columns: minmax(0, 1fr); } .ritual-fields > div { grid-template-columns: minmax(0, 1fr); gap: 4px; } .submission-modal-body { padding-left: 16px; padding-right: 16px; } }
 @media (max-width: 640px) { .submission-list li { grid-template-columns: 1fr; } .submission-view { grid-column: 1; grid-row: auto; margin-top: 4px; } }
 .caption { color: var(--muted); font-size: 14px; }
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }

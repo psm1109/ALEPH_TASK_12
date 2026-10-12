@@ -8,6 +8,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="content.js" defer></script>
+  <script src="data/records-history.js" defer></script>
+  <script src="records-ui.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -30,15 +32,30 @@
         </div>
       </section>
       <section id="records" class="section" aria-labelledby="records-title">
-        <h2 id="records-title">13주간의 기록</h2>
+        <h2 id="records-title">13주간의 기록<span id="record-period" class="record-period">8/11 ~ 11/12</span></h2>
+        <div class="record-scroll" role="region" aria-label="달력과 기록 요약" tabindex="0">
+        <div class="record-row">
+          <article class="record-card record-calendar" aria-label="출석·리추얼 달력">
+            <div class="calendar-header"><button id="calendar-prev" type="button" aria-label="이전 달" disabled>‹</button><h3 id="calendar-month" aria-live="polite">8월</h3><button id="calendar-next" type="button" aria-label="다음 달" disabled>›</button></div>
+            <div class="calendar-body">
+              <div class="calendar-weekdays" aria-hidden="true"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+              <div class="calendar-grid" id="calendar-grid" role="group" aria-label="날짜별 기록"></div>
+              <div class="calendar-legend"><span><i class="ritual-none"></i>리추얼 없음</span><span><i class="ritual-one"></i>아침만</span><span><i class="ritual-both"></i>아침+마무리</span></div>
+              <p id="calendar-status" class="calendar-status" aria-live="polite">날짜별 기록을 기다리고 있습니다.</p>
+            </div>
+          </article>
         <div class="record-cards" id="record-cards">
-          <article class="record-card"><h3>내 출석 기록</h3><dl class="record-metrics"><div><dt>출석률</dt><dd>100%</dd></div><div><dt>훈련일</dt><dd>39일</dd></div><div><dt>재적일</dt><dd>39일</dd></div><div><dt>출석</dt><dd>39일</dd></div><div><dt>결석</dt><dd>0일</dd></div></dl></article>
-          <article class="record-card"><h3>리추얼 기록</h3><dl class="record-metrics"><div><dt>기록 일수</dt><dd>53일</dd></div><div><dt>아침</dt><dd>53회</dd></div><div><dt>마무리</dt><dd>53회</dd></div></dl></article>
+          <article class="record-card"><h3>내 출석 기록</h3><dl class="record-metrics"><div><dt>출석률</dt><dd>97.5%</dd></div><div><dt>훈련일</dt><dd>40일</dd></div><div><dt>재적일</dt><dd>40일</dd></div><div><dt>출석 인정</dt><dd>39일</dd></div><div><dt>결석</dt><dd>0일</dd></div><div><dt>확정 전</dt><dd>1일</dd></div></dl><p class="record-card-note">공가 포함 · 2026-10-12 기준</p></article>
+          <article class="record-card"><h3>리추얼 기록</h3><dl class="record-metrics"><div><dt>기록 일수</dt><dd>58일</dd></div><div><dt>아침</dt><dd>58회</dd></div><div><dt>마무리</dt><dd>57회</dd></div><div><dt>총 작성</dt><dd>115회</dd></div></dl></article>
           <article class="record-card"><h3>내 제출 현황</h3><dl class="record-metrics"><div><dt>제출 과제</dt><dd>11건</dd></div><div><dt>최종 확인 완료</dt><dd>11건</dd></div></dl></article>
         </div>
+        </div>
+        </div>
         <p id="record-source" class="caption">출처: 내 출석 기록 · 리추얼 기록 · 내 제출 현황 (사용자 제공 누적 기록)</p>
-        <details class="submission-details">
-          <summary id="submission-summary">제출 과제 11건 자세히 보기</summary>
+        <noscript><p class="caption">달력과 제출 내용을 보려면 JavaScript를 활성화해 주세요.</p></noscript>
+        <dialog class="submission-modal" id="submission-list-modal" aria-labelledby="submission-list-title">
+          <div class="submission-modal-header"><h2 id="submission-list-title">제출 과제 11건</h2><button type="button" class="submission-modal-close" id="submission-list-close" autofocus>닫기</button></div>
+          <div class="submission-modal-body">
           <ul class="submission-list" id="submission-list">
             <li><strong>T11 · Studio 과제 11</strong><span>10월 7일 오후 02:42 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T11 제출 내용 보기</button></li>
             <li><strong>T10 · Studio 과제 10</strong><span>10월 7일 오전 01:03 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T10 제출 내용 보기</button></li>
@@ -52,11 +69,11 @@
             <li><strong>T02 · Studio 과제 02</strong><span>9월 13일 오전 12:58 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T02 제출 내용 보기</button></li>
             <li><strong>T01 · Studio 과제 01</strong><span>9월 10일 오후 03:30 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T01 제출 내용 보기</button></li>
           </ul>
-          <noscript><p class="caption">제출 내용을 보려면 JavaScript를 활성화해 주세요.</p></noscript>
-        </details>
+          </div>
+        </dialog>
         <aside class="record-connection" aria-labelledby="record-connection-title">
           <h3 id="record-connection-title">어려움 속에서도 이어간 기록</h3>
-          <p id="record-connection-body">제 뜻을 말하기 어려웠던 순간과 함께 돌아보는 기록입니다. 아침 53회, 마무리 53회의 리추얼은 일상에서 행동을 이어간 흔적입니다.</p>
+          <p id="record-connection-body">제 뜻을 말하기 어려웠던 순간과 함께 돌아보는 기록입니다. 아침 58회, 마무리 57회의 리추얼은 일상에서 행동을 이어간 흔적입니다.</p>
           <div id="record-story-link"><a href="#story-communication">내 뜻을 표현하며 배운 소통 읽기</a></div>
         </aside>
       </section>
@@ -79,6 +96,14 @@
     </div>
     <div class="submission-modal-body submission-document" id="submission-modal-body"></div>
     <p class="caption submission-modal-caption">첨부파일은 이름만 기록되어 있으며 이 창에 포함되어 있지 않습니다.</p>
+  </dialog>
+  <dialog class="submission-modal" id="attendance-modal" aria-labelledby="attendance-modal-title">
+    <div class="submission-modal-header"><h2 id="attendance-modal-title">내 출석 기록</h2><button type="button" class="submission-modal-close" autofocus>닫기</button></div>
+    <div class="submission-modal-body" id="attendance-modal-body"></div>
+  </dialog>
+  <dialog class="submission-modal" id="ritual-modal" aria-labelledby="ritual-modal-title">
+    <div class="submission-modal-header"><h2 id="ritual-modal-title">리추얼 기록</h2><button type="button" class="submission-modal-close" autofocus>닫기</button></div>
+    <div class="submission-modal-body" id="ritual-modal-body"></div>
   </dialog>
 </body>
 </html>

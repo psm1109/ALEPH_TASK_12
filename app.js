@@ -21,35 +21,37 @@
     return element;
   };
   const submissionModal = document.getElementById("submission-modal");
-  const submissionModalBody = document.getElementById("submission-modal-body");
-  const submissionModalClose = document.getElementById("submission-modal-close");
-  let submissionTrigger = null;
+  const triggers = new WeakMap();
+  const syncModalLock = () => document.body.classList.toggle("modal-open", Boolean(document.querySelector("dialog[open]")));
+  const openModal = (modal, trigger) => {
+    triggers.set(modal, trigger);
+    modal.showModal();
+    modal.scrollTop = 0;
+    syncModalLock();
+    modal.querySelector(".submission-modal-close").focus();
+  };
+  document.querySelectorAll("dialog.submission-modal").forEach(modal => {
+    modal.querySelector(".submission-modal-close").addEventListener("click", () => modal.close());
+    modal.addEventListener("click", event => {
+      if (event.target !== modal) return;
+      const bounds = modal.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) modal.close();
+    });
+    modal.addEventListener("close", () => {
+      syncModalLock();
+      triggers.get(modal)?.focus({ preventScroll: true });
+      triggers.delete(modal);
+    });
+  });
   const openSubmission = (code, trigger) => {
     const submission = data.submissionContents?.[code];
-    submissionTrigger = trigger;
     text("submission-modal-title", submission?.title || `${code} 제출 내용`);
-    if (submission) {
-      // content.js에 보관한, 원문을 이스케이프하여 변환한 제출 본문을 사용합니다.
-      submissionModalBody.innerHTML = submission.body;
-    } else {
-      submissionModalBody.textContent = "제출 내용을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 열어주세요.";
-    }
-    submissionModal.showModal();
-    submissionModal.scrollTop = 0;
-    document.body.classList.add("modal-open");
-    submissionModalClose.focus();
+    const body = document.getElementById("submission-modal-body");
+    // 기존 제출 HTML만 사용합니다. 가져온 기록의 문자열은 textContent로 표시합니다.
+    if (submission) body.innerHTML = submission.body;
+    else body.textContent = "제출 내용을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 열어주세요.";
+    openModal(submissionModal, trigger);
   };
-  submissionModalClose.addEventListener("click", () => submissionModal.close());
-  submissionModal.addEventListener("click", event => {
-    if (event.target !== submissionModal) return;
-    const bounds = submissionModal.getBoundingClientRect();
-    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) submissionModal.close();
-  });
-  submissionModal.addEventListener("close", () => {
-    document.body.classList.remove("modal-open");
-    submissionTrigger?.focus({ preventScroll: true });
-    submissionTrigger = null;
-  });
   document.querySelectorAll("[data-name]").forEach(el => { el.textContent = data.name; });
   document.title = `${data.name} · Portfolio`;
   text("tagline", data.tagline);
@@ -94,25 +96,9 @@
   document.getElementById("contact-link").replaceChildren(link(data.contact.label, data.contact.url, true));
   const records = data.records;
   if (records) {
-    const { attendance, ritual, submissions, connection } = records;
-    const card = (title, values) => {
-      const article = document.createElement("article"); article.className = "record-card";
-      const heading = document.createElement("h3"); heading.textContent = title;
-      const metrics = document.createElement("dl"); metrics.className = "record-metrics";
-      values.forEach(([label, value]) => {
-        const item = document.createElement("div");
-        const term = document.createElement("dt"); term.textContent = label;
-        const count = document.createElement("dd"); count.textContent = value;
-        item.append(term, count); metrics.append(item);
-      });
-      article.append(heading, metrics); return article;
-    };
-    document.getElementById("record-cards").replaceChildren(
-      card("내 출석 기록", [["출석률", `${attendance.rate}%`], ["훈련일", `${attendance.trainingDays}일`], ["재적일", `${attendance.enrolledDays}일`], ["출석", `${attendance.presentDays}일`], ["결석", `${attendance.absentDays}일`]]),
-      card("리추얼 기록", [["기록 일수", `${ritual.days}일`], ["아침", `${ritual.morning}회`], ["마무리", `${ritual.closing}회`]]),
-      card("내 제출 현황", [["제출 과제", `${submissions.length}건`], ["최종 확인 완료", `${submissions.filter(item => item.status === "최종 확인 완료").length}건`]])
-    );
-    text("submission-summary", `제출 과제 ${submissions.length}건 자세히 보기`);
+    const { submissions, connection } = records;
+    window.initRecordsUI(records, openModal);
+    text("submission-list-title", `제출 과제 ${submissions.length}건`);
     document.getElementById("submission-list").replaceChildren(...submissions.map(item => {
       const row = document.createElement("li");
       const title = document.createElement("strong"); title.textContent = `${item.code} · Studio 과제 ${item.code.slice(1)}`;

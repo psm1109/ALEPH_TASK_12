@@ -1,33 +1,39 @@
 # 현재 작업 상태
 
-- 마지막 수정 날짜: 2026-10-08 (Asia/Seoul)
+- 마지막 수정 날짜: 2026-10-12 (Asia/Seoul)
 - 현재 브랜치: `main`
-- 기준 커밋: `629d4607218a8514279a8ee69e866735f7c467c3`
+- 기준 커밋: `6afeb43a3aa91dd6cf31a5cc4fea9742d56f1b64`
+- 시작 시 이전 대화의 `app.js`, `content.js`, `index.html`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md` 변경이 있었으며 이어서 작업했습니다.
+- 커밋과 push는 실행하지 않았습니다. 작성할 커밋 메시지를 채팅으로 전달합니다.
 
 ## 완료한 작업
 
-- 제출내용 11건의 제목과 본문을 `content.js`의 `submissionContents`로 통합했습니다. 기존 데이터와 모든 제목·본문이 완전히 같습니다.
-- `app.js`는 `PORTFOLIO_CONTENT.submissionContents`의 과제 코드로 기존 모달을 엽니다. `index.html`의 별도 데이터 스크립트 참조를 제거했습니다.
-- `data/submissions/T01-submission.md`~`T11-submission.md`, `submissions-content.js`, `scripts/build_submissions.py`를 제거했습니다. `data/records.json`과 `scripts/update_records.py`는 유지했습니다.
-- README에 콘텐츠 수정 방법과 배포 파일 목록을 갱신했습니다. 제출내용은 이제 `content.js`만 편집하면 반영되며 별도 Markdown·생성 도구·제출 HTML 페이지·다운로드 기능이 없습니다.
-- 기존 모달 열기·닫기·Esc·배경 클릭·초점 복귀, 기록 숫자·표 디자인·세 카드 높이 통일, 일반 텍스트 선택·복사 및 깜빡이는 입력 표시 숨김을 유지했습니다.
-- 주요 수정 경로: `content.js`, `app.js`, `index.html`, `README.md`, `PROJECT_CONTEXT.md`.
-- 작업 시작 당시 `README.md`, `app.js`, `content.js`, `index.html`, `styles.css`가 수정 상태였고, `AGENTS.md`, 이 문서, 생성 도구, 모달 데이터, Markdown 원본은 미추적 상태였습니다. 기존 변경을 보존했습니다.
+- 사용자가 승인한 최신 시안대로 왼쪽 공통 달력, 오른쪽 출석·리추얼·제출 현황 세로 배치를 구현했습니다. 모바일에서는 달력 다음에 카드가 이어집니다. 세 자세히 보기 버튼의 검은 배경·흰 글씨를 통일했습니다.
+- 제목 아래 작은 `8/11 ~ 11/12`, 번호 없는 정사각형 칸, 8월~11월 이동을 유지합니다. 기준일의 월(10월)부터 표시하며 실제 기간 밖 칸은 비웁니다.
+- 채팅 출석표 40일을 시각·기호·상태·비고와 함께 `data/records-history.js`에 입력했습니다. 일반 출석 38일·공가 1일·확정 전 1일로 출석 인정 39일, 결석 0일, 출석률 97.5%입니다. 공가는 출석 인정에 포함되고 확정 전도 재적일 분모에 포함됩니다.
+- `C:/Users/user/Desktop/ritual-history-2026-10-12.json`의 58일 원문을 그대로 `ritualDays`에 보존했습니다. 아침 58회·마무리 57회·총 115회이며 10/12는 아침만 있습니다. 시안에서 합계를 117회로 잘못 안내했으나 실제 계산과 코드·문서는 115회로 바로잡았습니다.
+- 사용자의 요청에 따라 리추얼 요약은 기록 일수·아침·마무리·총 작성만 표시합니다. ‘아침+마무리’, ‘아침만’ 요약 행은 없으며 달력 범례는 유지합니다.
+- 출석 모달은 40일 표와 최근 1주(7일)·최근 1달(30일)·개강일부터·직접 날짜 범위를 제공합니다. 기간 필터와 전체 요약을 구분합니다.
+- 리추얼 모달은 날짜·이전/다음·아침/마무리 선택과 원문 항목, 접는 동료 피드백·감사 기록을 제공합니다. 달력 칸에서 해당 날짜를 열 수 있습니다. 원문 문자열은 textContent로 표시해 HTML 실행을 방지합니다.
+- 미등록 날짜와 기준일 이후 날짜는 미확인입니다. 실제 확인되지 않은 결석·미작성으로 추정하지 않습니다. 출석 날짜에 없는 휴일도 새 행을 만들지 않습니다.
+- 기존 제출 11건의 목록·상세 모달과 원문을 유지하고 네 모달의 닫기·Esc·배경·초점·스크롤 잠금 처리를 공통화했습니다.
+- 주요 파일: `records-ui.js`, `data/records-history.js`, `app.js`, `content.js`, `index.html`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md`.
 
 ## 검사 결과
 
-- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`로 기존 변경·브랜치·기준 커밋을 재확인했습니다.
-- Node `vm` 검사: 통합 전후 제출내용 11건의 제목·본문 완전 일치 및 과제 코드 연결을 확인했습니다. 결과: PASS.
-- `node --check app.js`, `node --check content.js`: 통과했습니다.
-- `git diff --check`: 통과했습니다.
-- 통합 후 로컬 브라우저 `http://localhost:5500/#records`에서 T11~T01 11개 모달을 모두 열고 닫았습니다. 제목·본문 표시 및 페이지 주소 유지가 모두 정상입니다. 임시 검증 탭을 닫았습니다.
-- 실제 외부 결과물·저장소·출석/리추얼 서비스, 첨부파일, 배포 환경, Supabase는 확인하지 않았으며 SQL도 실행하지 않았습니다.
+- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 시작 상태 확인.
+- `node --check app.js`, `node --check records-ui.js`, `node --check data/records-history.js`, `node --check content.js`: 통과.
+- `git diff --check`: 통과(Windows 줄바꿈 변환 경고만 표시).
+- `node .checks/verify-record-details.cjs`: 승인된 로컬 Chrome 헤드리스 검사 통과. 리추얼 JSON의 날짜·본문 배열 완전 일치, 출석 40행과 공가·확정 전 집계, 요약·총 115회, 세로 배치·버튼색, 달력 3색·정사각형·월 경계, 출석 필터 및 잘못된 범위, 리추얼 원문/누락/날짜 전환, 제출 상세 11건, 모달 초점·Esc·배경 클릭, 모바일 페이지 넘침 없음과 표 내부 스크롤, HTML 문자열 실행 방지, 브라우저 오류 없음을 확인했습니다.
+- `.checks/records-stacked.png`, `.checks/ritual-modal.png`를 열어 실제 화면의 배치와 상세 텍스트를 확인했습니다. 전체 사이트 이미지는 `.checks/site-full.png`입니다. `.checks/`는 git에서 무시되는 임시 검증 폴더입니다.
+- 외부 출석/리추얼 서비스와 배포 브라우저·Supabase는 확인하지 않았고 SQL도 실행하지 않았습니다. 데이터는 사용자 제공 2026-10-12 스냅샷입니다.
 
 ## 미확인 항목과 다음 단계
 
-- 제출내용 수정: `content.js`의 `submissionContents.Txx.title`과 `body`를 편집합니다. 본문은 HTML 문자열이며 텍스트 특수문자는 HTML 이스케이프합니다. 숫자·시각·상태 목록은 `records.submissions`에서 관리합니다.
-- 배포 대상은 `index.html`, `styles.css`, `app.js`, `content.js`, `assets/`입니다. 제출 Markdown 파일은 필요하지 않습니다.
-- 기존 이야기 날짜 불일치: 표시 날짜는 2026년 3월이지만 `date`는 `2026-04`이며 이전 대화에서는 2026년 4월을 확인했습니다. 실제 시점 확인 후 맞춰야 합니다. 마지막 이야기 기간의 종료월 11월도 확인이 필요합니다.
-- 원본 첨부파일은 이름 목록만 제공되고 실제 파일은 미제공입니다. 외부 링크의 현재 가용성도 미확인입니다.
-- 로컬 서버가 없으면 `python -m http.server 8000 --bind 127.0.0.1`을 실행하고 `http://localhost:8000/#records`를 엽니다.
-- 기존 변경과 이번 변경을 검토한 뒤 필요한 파일만 커밋합니다. 이번 작업에서는 커밋과 push를 실행하지 않았습니다.
+1. 원문을 갱신하려면 `data/records-history.js`의 `PORTFOLIO_HISTORY.asOf`, `attendance`, `ritualDays`를 변경합니다. 형식은 README에 있습니다. 원본 Desktop JSON은 다른 PC에 없으므로 사이트 실행에는 저장소의 JS만 필요합니다.
+2. 10/12 출석 확정과 마무리 리추얼은 이후 제공 자료로 갱신해야 합니다. 파일에 없는 8/15~17, 8/22~23의 리추얼 미작성 여부는 확인하지 않았습니다. 10/13 이후는 미래/미확인입니다.
+3. 파일 자동 가져오기와 능력별 문단 후보 재생성 장치는 별도 작업입니다. 기존 `scripts/update_records.py`는 계획·완료·다시 시작 집계용이며 새 UI 원문과 자동 연결되지 않습니다.
+4. 새 데이터를 넣을 때 `index.html`의 JavaScript 미실행 요약, `content.js`의 예비 누적 숫자·연결 문구도 갱신합니다. 표시 중인 실제 숫자는 `records-ui.js`가 원문에서 집계합니다. 제출 목록·상태·본문은 `content.js`에서 관리합니다.
+5. 서버가 필요하면 `python -m http.server 8000 --bind 127.0.0.1` 후 `http://localhost:8000/#records`를 엽니다. 배포 파일에 `records-ui.js`와 `data/records-history.js`를 반드시 포함합니다.
+6. 이전 이야기 날짜 불일치(표시 2026년 3월, date 2026-04), 외부 링크 가용성, 원본 첨부파일, 실제 운영 환경은 미확인입니다.
+7. 변경을 검토하고 필요한 파일만 커밋합니다. 직접 push하지 않습니다.
