@@ -31,7 +31,8 @@ p { margin: 0; }
 .story-panel p:not(.story-date) + p { margin-top: 12px; }
 .story-panel .story-ability { margin-top: 12px; padding-left: 12px; border-left: 2px solid var(--line); font-size: 14px; }
 .story-ability strong { color: var(--ink); }
-.record-period { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 400; letter-spacing: 0; }
+#records-title { display: flex; align-items: baseline; gap: 12px; }
+.record-period { display: inline-block; flex-shrink: 0; color: var(--muted); font-size: 13px; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
 .record-scroll { margin-bottom: 16px; }
 .record-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
 .record-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }

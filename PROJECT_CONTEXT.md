@@ -2,14 +2,16 @@
 
 - 마지막 수정 날짜: 2026-10-12 (Asia/Seoul)
 - 현재 브랜치: `main`
-- 기준 커밋: `6afeb43a3aa91dd6cf31a5cc4fea9742d56f1b64`
-- 시작 시 이전 대화의 `app.js`, `content.js`, `index.html`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md` 변경이 있었으며 이어서 작업했습니다.
+- 기준 커밋: `8dafbbdfb5571c97e7ba5679ed41dfc53b00c4a3`
+- 이번 작업 시작 시 작업 트리는 깨끗했습니다. 이전 변경은 기준 커밋에 포함되어 있었습니다.
 - 커밋과 push는 실행하지 않았습니다. 작성할 커밋 메시지를 채팅으로 전달합니다.
 
 ## 완료한 작업
 
+- 기간을 제목과 같은 줄의 오른쪽에 배치했습니다. 출석 상세에서 입실·퇴실 안내와 담당 선생님 안내, 반 이름·기준일 문구를 제거했습니다. 숫자·표·필터는 유지합니다. 이번 주요 수정 파일은 `styles.css`, `records-ui.js`, `PROJECT_CONTEXT.md`입니다.
+
 - 사용자가 승인한 최신 시안대로 왼쪽 공통 달력, 오른쪽 출석·리추얼·제출 현황 세로 배치를 구현했습니다. 모바일에서는 달력 다음에 카드가 이어집니다. 세 자세히 보기 버튼의 검은 배경·흰 글씨를 통일했습니다.
-- 제목 아래 작은 `8/11 ~ 11/12`, 번호 없는 정사각형 칸, 8월~11월 이동을 유지합니다. 기준일의 월(10월)부터 표시하며 실제 기간 밖 칸은 비웁니다.
+- 제목 바로 오른쪽 작은 `8/11 ~ 11/12`, 번호 없는 정사각형 칸, 8월~11월 이동을 유지합니다. 기준일의 월(10월)부터 표시하며 실제 기간 밖 칸은 비웁니다.
 - 채팅 출석표 40일을 시각·기호·상태·비고와 함께 `data/records-history.js`에 입력했습니다. 일반 출석 38일·공가 1일·확정 전 1일로 출석 인정 39일, 결석 0일, 출석률 97.5%입니다. 공가는 출석 인정에 포함되고 확정 전도 재적일 분모에 포함됩니다.
 - `C:/Users/user/Desktop/ritual-history-2026-10-12.json`의 58일 원문을 그대로 `ritualDays`에 보존했습니다. 아침 58회·마무리 57회·총 115회이며 10/12는 아침만 있습니다. 시안에서 합계를 117회로 잘못 안내했으나 실제 계산과 코드·문서는 115회로 바로잡았습니다.
 - 사용자의 요청에 따라 리추얼 요약은 기록 일수·아침·마무리·총 작성만 표시합니다. ‘아침+마무리’, ‘아침만’ 요약 행은 없으며 달력 범례는 유지합니다.
@@ -20,6 +22,9 @@
 - 주요 파일: `records-ui.js`, `data/records-history.js`, `app.js`, `content.js`, `index.html`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md`.
 
 ## 검사 결과
+
+- 이번 변경: `node --check records-ui.js`, `git diff --check` 통과. `node .checks/verify-record-copy.cjs` 로컬 Chrome 검사 통과: 1280px/390px 제목 오른쪽 기간 배치·가로 넘침 없음·요청 문구 제거·97.5% 및 40행 유지·브라우저 오류 없음. 화면은 `.checks/records-heading.png`, `.checks/attendance-modal.png`에 저장했습니다.
+- 아래 전체 기능 검사 결과는 이전 작업에서 확인한 결과입니다.
 
 - `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 시작 상태 확인.
 - `node --check app.js`, `node --check records-ui.js`, `node --check data/records-history.js`, `node --check content.js`: 통과.

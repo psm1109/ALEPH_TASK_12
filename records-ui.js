@@ -58,8 +58,7 @@ window.initRecordsUI = (records, openModal) => {
 
   // 기간 필터는 표만 바꿉니다. 출석률의 분모에는 확정 전 훈련일도 포함합니다.
   const attendanceBody = document.getElementById("attendance-modal-body");
-  attendanceBody.append(el("p", "훈련일마다 기록된 입실·퇴실 시각과 출석 기호를 확인할 수 있습니다. 수기 출석부와 다른 점이 있으면 담당 선생님께 알려 주세요.", "caption"));
-  attendanceBody.append(el("p", `${history.className} · ${asOf} 기준`, "caption"), el("p", `훈련일 ${attendanceRows.length}일 · 재적일 ${attendanceRows.length}일 · 출석 인정 ${present}일 · 결석 ${absent}일`), el("p", `출석률 ${rate === null ? "—" : rate + "%"}`, "detail-summary"), el("p", `출석·공가 ÷ 재적일 · 확정 전 ${pending}일 포함. 요약은 기간 선택과 별개로 전체 훈련일 기준입니다.`, "caption"));
+  attendanceBody.append(el("p", `훈련일 ${attendanceRows.length}일 · 재적일 ${attendanceRows.length}일 · 출석 인정 ${present}일 · 결석 ${absent}일`), el("p", `출석률 ${rate === null ? "—" : rate + "%"}`, "detail-summary"), el("p", `출석·공가 ÷ 재적일 · 확정 전 ${pending}일 포함. 요약은 기간 선택과 별개로 전체 훈련일 기준입니다.`, "caption"));
   const filters = el("div", undefined, "record-filters");
   const fromInput = el("input"); fromInput.type = "date"; fromInput.min = start; fromInput.max = asOf; fromInput.value = start;
   const toInput = el("input"); toInput.type = "date"; toInput.min = start; toInput.max = asOf; toInput.value = asOf;
