@@ -70,7 +70,19 @@ python scripts/update_records.py --output .checks/first
 python scripts/update_records.py --output .checks/second
 ```
 
-## 공개하기
+## 지원 문서
+
+`assets/documents/self-introduction.docx`와 `assets/documents/project-experience.docx`는 나중에 작성할 자기소개서·경력기술서입니다. 사용자 요청으로 기존 본문과 생성용 원문 데이터를 비웠으며 현재 파일에는 이름과 문서 제목만 있습니다. 다운로드 기능과 파일 경로는 유지합니다. 이력서는 사용자가 별도로 작성 중이므로 이번 산출물에 포함하지 않았습니다.
+
+두 Word 파일은 사이트 문서 영역에서 내려받을 수 있고 JavaScript를 끈 경우에도 링크가 작동합니다. 내용과 출처는 `assets/documents/application-content.json`, 생성기는 `scripts/build_application_documents.py`에서 관리합니다. Python과 `python-docx`가 필요합니다. Codex에서는 `load_workspace_dependencies`가 반환한 Python 경로로 아래 명령을 실행합니다.
+
+```sh
+python scripts/build_application_documents.py
+```
+
+자기소개서는 JSON의 `introduction.field`(선택 지원 분야), `title`, `paragraphs`에 내용을 입력합니다. 경력기술서는 `experience.scope`, `role`, `projects`에 내용을 입력합니다. 과제 항목은 `code`, `title`, `submitted`, `ability`, `situation`, `action`, `result`를 사용합니다. 과제를 채울 때 `asOf`도 입력합니다. 내용이 비어 있으면 생성기는 본문·표·기준일을 넣지 않습니다. 원문 변경 후 문서를 다시 생성하고 Word에서 내용과 페이지 배치를 확인하세요. 배포 시 `assets/documents/`를 함께 포함합니다. 원본 카드·제출 기록이 바뀌더라도 문서는 자동으로 변경되지 않습니다.
+
+## 논문과 배포
 
 ‘10번 · 논문’에는 `assets/papers/t10-paper.md` 원본 다운로드와 Markdown 모달 보기를 제공합니다. 원문을 바꾼 뒤 `python scripts/build_paper.py`를 실행하면 `data/paper-markdown.js`가 갱신됩니다. Python 표준 라이브러리만 사용하며 다운로드 원본 파일은 변경하지 않습니다. 이 JS 문자열을 사용하는 이유는 `file://`로 사이트를 직접 열어도 추가 요청 없이 논문을 표시하기 위해서입니다. 제목·요약·다운로드 경로·파일 이름은 `content.js`의 `paper`에서 관리합니다.
 

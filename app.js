@@ -104,7 +104,8 @@
   document.getElementById("document-list").replaceChildren(...data.documents.map(doc => {
     const card = document.createElement("div"); card.className = "document";
     const heading = document.createElement("h3"); heading.textContent = doc.title;
-    const status = link(safeUrl(doc.url) ? "문서 보기" : "준비 중", doc.url); status.className = "status";
+    const status = link(safeUrl(doc.url) ? "Word 다운로드" : "준비 중", doc.url); status.className = "status";
+    if (safeUrl(doc.url)) status.setAttribute("download", "");
     card.append(heading, status); return card;
   }));
   document.getElementById("contact-link").replaceChildren(link(data.contact.label, data.contact.url, true));

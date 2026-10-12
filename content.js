@@ -96,8 +96,8 @@ window.PORTFOLIO_CONTENT = {
   paper: { title: "10번 · 논문", summary: "성격 특성과 청취 음악의 음향·가사 특성의 관계", url: "assets/papers/t10-paper.md", filename: "성격 특성과 청취 음악의 음향·가사 특성의 관계.md" },
   documents: [
     { title: "이력서", url: "" },
-    { title: "자기소개서", url: "" },
-    { title: "경력기술서", url: "" }
+    { title: "자기소개서", url: "assets/documents/self-introduction.docx" },
+    { title: "경력기술서", url: "assets/documents/project-experience.docx" }
   ],
   contact: { label: "[공개할 연락 수단 하나]", url: "" }
 };
