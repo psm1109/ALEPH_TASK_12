@@ -2,11 +2,15 @@
 
 - 마지막 수정 날짜: 2026-10-12 (Asia/Seoul)
 - 현재 브랜치: `main`
-- 기준 커밋: `7f221813dcd244010b62e5c0a5bcf103905525f2`
+- 기준 커밋: `4b6222fe55613892cbfeaa6537c2b5d0be411428`
 - 이번 작업 시작 시 작업 트리는 깨끗했습니다. 이전 변경은 기준 커밋에 포함되어 있었습니다.
 - 커밋과 push는 실행하지 않았습니다. 작성할 커밋 메시지를 채팅으로 전달합니다.
 
 ## 완료한 작업
+
+- 10번 논문 카드에 사용자 제공 Markdown 원본 다운로드와 보기 모달을 연결했습니다. 원본은 `assets/papers/t10-paper.md`, 미리보기 문자열은 `data/paper-markdown.js`이며 `python scripts/build_paper.py`로 갱신합니다.
+- `paper-view.js`가 Marked 17.0.5의 로컬 번들(`assets/vendor/marked.umd.js`, MIT 라이선스 포함)로 서식을 적용합니다. HTML 및 URL 허용 목록을 적용하며 표·코드의 스크롤, 기존 모달의 닫기·초점 복귀·스크롤 잠금을 유지합니다.
+- 이번 주요 파일: `app.js`, `content.js`, `index.html`, `styles.css`, `paper-view.js`, `scripts/build_paper.py`, `data/paper-markdown.js`, `assets/papers/t10-paper.md`, `assets/vendor/`, `README.md`, `PROJECT_CONTEXT.md`.
 
 - 전체 컨테이너를 1280px(실제 본문 1200px)로 넓혔고 내 이야기·기록·대표작의 좌우 폭을 일치시켰습니다. 긴 글의 내부 여백은 유지합니다.
 - 기록 카드의 수치를 2열로 정리하고 기준일 안내와 상세 버튼을 하단에 나란히 배치했습니다. 900px 이하에서는 달력과 카드를 세로로, 640px 이하에서는 수치를 한 열로 표시합니다. JavaScript 미실행 HTML의 수치 순서도 일치시켰습니다.
@@ -27,14 +31,13 @@
 
 ## 검사 결과
 
-- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 작업 시작 시 깨끗한 main과 기준 커밋 확인.
-- `node --check records-ui.js`, `git diff --check`: 이번 변경 통과.
-- `node .checks/verify-wide-layout.cjs --before`: 변경 전 1440px 화면에서 본문 880px, 기록 영역 높이 922.30px 측정.
-- `node .checks/verify-wide-layout.cjs`: 승인된 로컬 Chrome 검사 통과. 내 이야기·기록·대표작 폭 1200px 및 좌측 일치, 수치 2열, 기존 숫자 유지, 출석·리추얼·제출 모달 열기와 Esc 닫기, 출석 40행·리추얼 원문·제출 11건, 1024/768/390/320px에서 페이지 가로 넘침 없음·정사각형 칸을 확인했습니다. 브라우저 오류 없음.
-- 변경 후 기록 영역 높이 639.23px로 약 31% 감소했습니다. 측정은 1440px 로컬 브라우저 기준입니다.
-- `.checks/site-wide-final.png` 실제 전체 화면을 열어 확인했습니다. `.checks/records-wide-final.png`에 기록 영역도 저장했습니다. `.checks/`는 git에서 무시되는 임시 검증 경로입니다.
-- 이전 작업에서 출석 기간 필터, 리추얼 원문 일치, 제출 상세 11건, 초점 복귀·배경 닫기·문자열 이스케이프를 확인했습니다. 이번에는 레이아웃 변경 범위에 맞춰 위 검사를 수행했습니다.
-- 외부 서비스·배포 브라우저·Supabase는 미확인이며 SQL도 실행하지 않았습니다. 이번 작업은 로컬 UI 개선입니다.
+- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 깨끗한 main과 기준 커밋 확인.
+- `python scripts/build_paper.py`: 미리보기 JS 생성 완료.
+- `node --check app.js`, `node --check paper-view.js`, `node --check data/paper-markdown.js`, `node --check content.js`, `git diff --check`: 통과.
+- `node .checks/verify-paper.cjs`: 승인된 로컬 Chrome 검사 통과. 사용자 원본/저장소 원본/실제 다운로드의 SHA-256 일치와 파일명, 미리보기 Markdown 문자열 일치, 제목·표·코드 블록·참고문헌, 닫기·Esc·배경·초점 복귀, 390px 모바일 표 스크롤·페이지 넘침 없음, file:// 직접 열기, 위험 HTML/URL 비실행, 브라우저 오류 없음을 확인했습니다.
+- `.checks/paper-modal.png`를 열어 실제 논문 모달 레이아웃을 확인했습니다. `.checks/`는 임시 검증 경로입니다.
+- 이전 기록 영역·본문 폭의 전체 기능 검사는 이전 작업 결과입니다. 이번에는 논문 기능과 공통 모달 영향 범위를 확인했습니다.
+- 외부 참고문헌·OSF 링크 가용성과 배포 브라우저·Supabase는 미확인입니다. SQL과 논문 안의 분석/재현 명령은 실행하지 않았습니다.
 ## 미확인 항목과 다음 단계
 
 1. 원문을 갱신하려면 `data/records-history.js`의 `PORTFOLIO_HISTORY.asOf`, `attendance`, `ritualDays`를 변경합니다. 형식은 README에 있습니다. 원본 Desktop JSON은 다른 PC에 없으므로 사이트 실행에는 저장소의 JS만 필요합니다.
@@ -43,4 +46,5 @@
 4. 새 데이터를 넣을 때 `index.html`의 JavaScript 미실행 요약, `content.js`의 예비 누적 숫자·연결 문구도 갱신합니다. 표시 중인 실제 숫자는 `records-ui.js`가 원문에서 집계합니다. 제출 목록·상태·본문은 `content.js`에서 관리합니다.
 5. 서버가 필요하면 `python -m http.server 8000 --bind 127.0.0.1` 후 `http://localhost:8000/#records`를 엽니다. 배포 파일에 `records-ui.js`와 `data/records-history.js`를 반드시 포함합니다.
 6. 이전 이야기 날짜 불일치(표시 2026년 3월, date 2026-04), 외부 링크 가용성, 원본 첨부파일, 실제 운영 환경은 미확인입니다.
-7. 변경을 검토하고 필요한 파일만 커밋합니다. 직접 push하지 않습니다.
+7. 논문을 바꾸려면 `assets/papers/t10-paper.md`를 편집하고 `python scripts/build_paper.py`를 실행합니다. 다른 PC에서는 Desktop 원본이 없어도 저장소 파일만으로 동작합니다. 배포에 `paper-view.js`, `data/paper-markdown.js`, `assets/papers/`, `assets/vendor/`도 포함합니다. 다운로드에는 원본 Markdown만 포함되며 논문에 언급된 ZIP·CSV·분석 코드는 별도 제공되지 않았습니다.
+8. 변경을 검토하고 필요한 파일만 커밋합니다. 직접 push하지 않습니다.

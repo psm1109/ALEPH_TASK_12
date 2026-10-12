@@ -120,6 +120,26 @@ body.modal-open { overflow: hidden; }
 .project { padding: 22px 24px; border: 1px solid var(--line); border-radius: 4px; }
 .status { display: block; color: #777; font-size: 14px; margin-top: 15px; }
 .project a, .document a { text-decoration: underline; text-underline-offset: 4px; }
+.paper-actions { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-top: 16px; font-size: 14px; }
+.paper-view-button { border: 1px solid #111; border-radius: 3px; background: #111; color: #fff; padding: 8px 20px; font: inherit; }
+.paper-view-button:disabled { opacity: .45; cursor: default; }
+.paper-view-button:focus-visible, .paper-table-scroll:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+.paper-modal { width: min(1000px, calc(100% - 32px)); }
+.paper-document { padding-top: 24px; line-height: 1.8; }
+.paper-document h1 { margin: 0 0 24px; font-size: 28px; letter-spacing: -.6px; }
+.paper-document h2 { margin: 32px 0 12px; padding: 0; border: 0; font-size: 24px; }
+.paper-document h3 { margin: 24px 0 10px; font-size: 20px; }
+.paper-document h4, .paper-document h5, .paper-document h6 { margin: 20px 0 8px; font-size: 17px; }
+.paper-document p, .paper-document ul, .paper-document ol { margin: 12px 0; }
+.paper-document a[href] { text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.paper-document blockquote { margin: 16px 0; padding-left: 16px; border-left: 3px solid var(--line); }
+.paper-document code { font-family: Consolas, monospace; font-size: .9em; background: var(--panel); padding: 1px 4px; }
+.paper-document pre { max-width: 100%; overflow: auto; padding: 16px; background: var(--panel); border-radius: 3px; white-space: pre; }
+.paper-document pre code { padding: 0; }
+.paper-table-scroll { max-width: 100%; overflow-x: auto; margin: 20px 0; }
+.paper-document table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: 14px; }
+.paper-document th, .paper-document td { border: 1px solid var(--line); padding: 10px 12px; vertical-align: top; }
+.paper-document th { background: #ededed; }
 .documents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .document { border: 1px solid var(--line); border-radius: 4px; padding: 11px 20px; }
 .document h3 { font-size: 17px; }

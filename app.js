@@ -86,7 +86,21 @@
   }));
   text("paper-title", data.paper.title);
   text("paper-summary", data.paper.summary);
-  if (safeUrl(data.paper.url)) document.getElementById("paper-link").replaceChildren(link("논문 읽기", data.paper.url));
+  const paperDownload = document.querySelector("#paper-link .paper-download");
+  const paperView = document.getElementById("paper-view");
+  if (safeUrl(data.paper.url)) {
+    paperDownload.href = safeUrl(data.paper.url);
+    paperDownload.download = data.paper.filename;
+  }
+  if (typeof window.PORTFOLIO_PAPER_MARKDOWN === "string" && window.renderPaperMarkdown) {
+    paperView.disabled = false;
+    paperView.addEventListener("click", () => {
+      const body = document.getElementById("paper-modal-body");
+      if (!body.childElementCount) body.replaceChildren(window.renderPaperMarkdown(window.PORTFOLIO_PAPER_MARKDOWN));
+      text("paper-modal-title", data.paper.title);
+      openModal(document.getElementById("paper-modal"), paperView);
+    });
+  }
   document.getElementById("document-list").replaceChildren(...data.documents.map(doc => {
     const card = document.createElement("div"); card.className = "document";
     const heading = document.createElement("h3"); heading.textContent = doc.title;
