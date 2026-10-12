@@ -9,7 +9,7 @@ input[readonly], textarea[readonly], [contenteditable="false"], :disabled { care
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 5px; }
 a:focus-visible { outline: 2px solid #111; outline-offset: 5px; }
-.page { max-width: 960px; margin: auto; padding: 0 40px; }
+.page { max-width: 1280px; margin: auto; padding: 0 40px; }
 .header { display: flex; align-items: center; justify-content: space-between; padding: 32px 0; gap: 24px; }
 .brand { font-size: 24px; font-weight: 750; letter-spacing: -.6px; }
 nav { display: flex; gap: 30px; font-size: 14px; }
@@ -34,18 +34,16 @@ p { margin: 0; }
 #records-title { display: flex; align-items: baseline; gap: 12px; }
 .record-period { display: inline-block; flex-shrink: 0; color: var(--muted); font-size: 13px; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
 .record-scroll { margin-bottom: 16px; }
-.record-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
-.record-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.record-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr); gap: 24px; align-items: stretch; }
+.record-cards { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 12px; }
 .record-card { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #fafafa; }
-.record-card h3 { font-size: 15px; margin: 0; padding: 14px 12px; background: #ededed; border-bottom: 1px solid var(--line); }
-.record-metrics { margin: 0; }
-.record-metrics > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 5px 16px; background: #fff; }
-.record-metrics > div + div { border-top: 1px solid #e3e3e3; }
-.record-metrics > div:nth-child(odd) { background: #fafafa; }
-.record-metrics > div:first-child { min-height: 52px; padding: 8px 16px; background: var(--panel); }
-.record-metrics dt { color: var(--muted); font-size: 12px; }
-.record-metrics dd { margin: 0; text-align: right; font-size: 18px; font-weight: 750; line-height: 1.4; font-variant-numeric: tabular-nums; }
-.record-metrics > div:first-child dd { font-size: 28px; }
+.record-card h3 { font-size: 15px; margin: 0; padding: 10px 16px; background: #ededed; border-bottom: 1px solid var(--line); }
+.record-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.record-metrics > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; min-height: 44px; gap: 8px; padding: 8px 16px; background: #fff; border-bottom: 1px solid #e3e3e3; }
+.record-metrics > div:nth-child(odd) { border-right: 1px solid #e3e3e3; }
+.record-metrics dt { color: var(--muted); font-size: 13px; }
+.record-metrics dd { margin: 0; text-align: right; font-size: 22px; font-weight: 750; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.record-metrics > div:first-child dd { font-size: 26px; }
 .calendar-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #ededed; border-bottom: 1px solid var(--line); }
 .calendar-header h3 { border: 0; padding: 0; }
 .calendar-header button { width: 30px; height: 30px; font: inherit; font-size: 22px; line-height: 1; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
@@ -61,8 +59,9 @@ p { margin: 0; }
 .calendar-legend span { display: inline-flex; align-items: center; gap: 4px; }
 .calendar-legend i { display: inline-block; width: 11px; height: 11px; border: 1px solid var(--line); border-radius: 2px; }
 .calendar-status { font-size: 11px; color: var(--muted); margin-top: 8px; min-height: 38px; }
-.record-card-note { margin: 8px 16px; color: var(--muted); font-size: 11px; }
-.record-detail-button { display: block; width: calc(100% - 32px); margin: 10px 16px 14px; padding: 9px 8px; border: 1px solid #111; border-radius: 3px; background: #111; color: #fff; font: inherit; font-size: 12px; }
+.record-card-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px 12px; padding: 10px 16px; }
+.record-card-note { margin: 0 auto 0 0; color: var(--muted); font-size: 11px; }
+.record-detail-button { display: block; margin: 0; padding: 8px 16px; border: 1px solid #111; border-radius: 3px; background: #111; color: #fff; font: inherit; font-size: 12px; }
 .record-detail-button:hover { background: #333; }
 .calendar-cell:focus-visible, .calendar-header button:focus-visible, .record-detail-button:focus-visible, .record-scroll:focus-visible, .record-filters button:focus-visible, .ritual-date-nav button:focus-visible, .ritual-peer-details summary:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
 .submission-details { margin: 20px 0; }
@@ -87,7 +86,7 @@ body.modal-open { overflow: hidden; }
 .submission-document p, .submission-document ul, .submission-document ol { margin: 12px 0; }
 .submission-document a { text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; word-break: break-all; }
 .submission-document code { font-family: Consolas, monospace; background: var(--panel); padding: 1px 4px; }
-.record-connection { margin-top: 20px; padding: 20px 24px; background: var(--panel); border-radius: 4px; }
+.record-connection { margin-top: 20px; padding: 14px 20px; background: var(--panel); border-radius: 4px; }
 .record-connection h3 { font-size: 18px; margin-bottom: 8px; }
 .record-connection p { color: var(--muted); }
 .record-connection a { display: inline-block; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
@@ -113,7 +112,8 @@ body.modal-open { overflow: hidden; }
 .ritual-fields dd { margin: 0; white-space: pre-wrap; font-size: 14px; }
 .ritual-peer-details { padding: 12px 16px; background: var(--panel); border-radius: 4px; margin-bottom: 16px; }
 .ritual-peer-details summary { font-weight: 700; cursor: pointer; }
-@media (max-width: 640px) { .record-row { grid-template-columns: minmax(0, 1fr); } .ritual-fields > div { grid-template-columns: minmax(0, 1fr); gap: 4px; } .submission-modal-body { padding-left: 16px; padding-right: 16px; } }
+@media (max-width: 900px) { .record-row { grid-template-columns: minmax(0, 1fr); } .record-calendar { max-width: 520px; width: 100%; justify-self: center; } }
+@media (max-width: 640px) { .record-metrics { grid-template-columns: minmax(0, 1fr); } .record-metrics > div:nth-child(odd) { border-right: 0; } .record-detail-button { width: 100%; } .ritual-fields > div { grid-template-columns: minmax(0, 1fr); gap: 4px; } .submission-modal-body { padding-left: 16px; padding-right: 16px; } }
 @media (max-width: 640px) { .submission-list li { grid-template-columns: 1fr; } .submission-view { grid-column: 1; grid-row: auto; margin-top: 4px; } }
 .caption { color: var(--muted); font-size: 14px; }
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }

@@ -37,8 +37,9 @@ window.initRecordsUI = (records, openModal) => {
     for (const [label, value] of values) {
       const row = el("div"); row.append(el("dt", label), el("dd", value)); metrics.append(row);
     }
-    article.append(el("h3", title), metrics);
-    if (note) article.append(el("p", note, "record-card-note"));
+    const footer = el("div", undefined, "record-card-footer");
+    if (note) footer.append(el("p", note, "record-card-note"));
+    article.append(el("h3", title), metrics, footer);
     return article;
   };
   const detailButton = (label, id, callback) => {
@@ -49,11 +50,11 @@ window.initRecordsUI = (records, openModal) => {
     button.addEventListener("click", () => { callback?.(); openModal(document.getElementById(id), button); });
     return button;
   };
-  const attendanceCard = card("내 출석 기록", [["출석률", rate === null ? "—" : `${rate}%`], ["훈련일", `${attendanceRows.length}일`], ["재적일", `${attendanceRows.length}일`], ["출석 인정", `${present}일`], ["결석", `${absent}일`], ["확정 전", `${pending}일`]], `공가 포함 · ${asOf} 기준`);
-  attendanceCard.append(detailButton("날짜별 출석 자세히 보기", "attendance-modal"));
-  const ritualCard = card("리추얼 기록", [["기록 일수", `${recordedDays}일`], ["아침", `${morning}회`], ["마무리", `${closing}회`], ["총 작성", `${morning + closing}회`]], `${asOf} 기준`);
+  const attendanceCard = card("내 출석 기록", [["출석률", rate === null ? "—" : `${rate}%`], ["확정 전", `${pending}일`], ["훈련일", `${attendanceRows.length}일`], ["재적일", `${attendanceRows.length}일`], ["출석 인정", `${present}일`], ["결석", `${absent}일`]], `공가 포함 · ${asOf} 기준`);
+  attendanceCard.querySelector(".record-card-footer").append(detailButton("날짜별 출석 자세히 보기", "attendance-modal"));
+  const ritualCard = card("리추얼 기록", [["기록 일수", `${recordedDays}일`], ["총 작성", `${morning + closing}회`], ["아침", `${morning}회`], ["마무리", `${closing}회`]], `${asOf} 기준`);
   const submissionCard = card("내 제출 현황", [["제출 과제", `${records.submissions.length}건`], ["최종 확인 완료", `${records.submissions.filter(row => row.status === "최종 확인 완료").length}건`]]);
-  submissionCard.append(detailButton("제출 과제 자세히 보기", "submission-list-modal"));
+  submissionCard.querySelector(".record-card-footer").append(detailButton("제출 과제 자세히 보기", "submission-list-modal"));
   document.getElementById("record-period").textContent = `${short(start)} ~ ${short(end)}`;
 
   // 기간 필터는 표만 바꿉니다. 출석률의 분모에는 확정 전 훈련일도 포함합니다.
@@ -147,7 +148,7 @@ window.initRecordsUI = (records, openModal) => {
   ritualPrev.addEventListener("click", () => { selectedDate.value = shift(selectedDate.value, -1); renderRitual(); });
   ritualNext.addEventListener("click", () => { selectedDate.value = shift(selectedDate.value, 1); renderRitual(); });
   ritualBody.append(dateNav, tabs, detail, ritualStatus);
-  ritualCard.append(detailButton("날짜별 리추얼 자세히 보기", "ritual-modal", () => selectRitual(asOf)));
+  ritualCard.querySelector(".record-card-footer").append(detailButton("날짜별 리추얼 자세히 보기", "ritual-modal", () => selectRitual(asOf)));
   document.getElementById("record-cards").replaceChildren(attendanceCard, ritualCard, submissionCard);
   renderRitual();
 

@@ -2,11 +2,15 @@
 
 - 마지막 수정 날짜: 2026-10-12 (Asia/Seoul)
 - 현재 브랜치: `main`
-- 기준 커밋: `8dafbbdfb5571c97e7ba5679ed41dfc53b00c4a3`
+- 기준 커밋: `7f221813dcd244010b62e5c0a5bcf103905525f2`
 - 이번 작업 시작 시 작업 트리는 깨끗했습니다. 이전 변경은 기준 커밋에 포함되어 있었습니다.
 - 커밋과 push는 실행하지 않았습니다. 작성할 커밋 메시지를 채팅으로 전달합니다.
 
 ## 완료한 작업
+
+- 전체 컨테이너를 1280px(실제 본문 1200px)로 넓혔고 내 이야기·기록·대표작의 좌우 폭을 일치시켰습니다. 긴 글의 내부 여백은 유지합니다.
+- 기록 카드의 수치를 2열로 정리하고 기준일 안내와 상세 버튼을 하단에 나란히 배치했습니다. 900px 이하에서는 달력과 카드를 세로로, 640px 이하에서는 수치를 한 열로 표시합니다. JavaScript 미실행 HTML의 수치 순서도 일치시켰습니다.
+- 이번 주요 수정 파일: `styles.css`, `records-ui.js`, `index.html`, `README.md`, `PROJECT_CONTEXT.md`.
 
 - 기간을 제목과 같은 줄의 오른쪽에 배치했습니다. 출석 상세에서 입실·퇴실 안내와 담당 선생님 안내, 반 이름·기준일 문구를 제거했습니다. 숫자·표·필터는 유지합니다. 이번 주요 수정 파일은 `styles.css`, `records-ui.js`, `PROJECT_CONTEXT.md`입니다.
 
@@ -23,16 +27,14 @@
 
 ## 검사 결과
 
-- 이번 변경: `node --check records-ui.js`, `git diff --check` 통과. `node .checks/verify-record-copy.cjs` 로컬 Chrome 검사 통과: 1280px/390px 제목 오른쪽 기간 배치·가로 넘침 없음·요청 문구 제거·97.5% 및 40행 유지·브라우저 오류 없음. 화면은 `.checks/records-heading.png`, `.checks/attendance-modal.png`에 저장했습니다.
-- 아래 전체 기능 검사 결과는 이전 작업에서 확인한 결과입니다.
-
-- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 시작 상태 확인.
-- `node --check app.js`, `node --check records-ui.js`, `node --check data/records-history.js`, `node --check content.js`: 통과.
-- `git diff --check`: 통과(Windows 줄바꿈 변환 경고만 표시).
-- `node .checks/verify-record-details.cjs`: 승인된 로컬 Chrome 헤드리스 검사 통과. 리추얼 JSON의 날짜·본문 배열 완전 일치, 출석 40행과 공가·확정 전 집계, 요약·총 115회, 세로 배치·버튼색, 달력 3색·정사각형·월 경계, 출석 필터 및 잘못된 범위, 리추얼 원문/누락/날짜 전환, 제출 상세 11건, 모달 초점·Esc·배경 클릭, 모바일 페이지 넘침 없음과 표 내부 스크롤, HTML 문자열 실행 방지, 브라우저 오류 없음을 확인했습니다.
-- `.checks/records-stacked.png`, `.checks/ritual-modal.png`를 열어 실제 화면의 배치와 상세 텍스트를 확인했습니다. 전체 사이트 이미지는 `.checks/site-full.png`입니다. `.checks/`는 git에서 무시되는 임시 검증 폴더입니다.
-- 외부 출석/리추얼 서비스와 배포 브라우저·Supabase는 확인하지 않았고 SQL도 실행하지 않았습니다. 데이터는 사용자 제공 2026-10-12 스냅샷입니다.
-
+- `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 작업 시작 시 깨끗한 main과 기준 커밋 확인.
+- `node --check records-ui.js`, `git diff --check`: 이번 변경 통과.
+- `node .checks/verify-wide-layout.cjs --before`: 변경 전 1440px 화면에서 본문 880px, 기록 영역 높이 922.30px 측정.
+- `node .checks/verify-wide-layout.cjs`: 승인된 로컬 Chrome 검사 통과. 내 이야기·기록·대표작 폭 1200px 및 좌측 일치, 수치 2열, 기존 숫자 유지, 출석·리추얼·제출 모달 열기와 Esc 닫기, 출석 40행·리추얼 원문·제출 11건, 1024/768/390/320px에서 페이지 가로 넘침 없음·정사각형 칸을 확인했습니다. 브라우저 오류 없음.
+- 변경 후 기록 영역 높이 639.23px로 약 31% 감소했습니다. 측정은 1440px 로컬 브라우저 기준입니다.
+- `.checks/site-wide-final.png` 실제 전체 화면을 열어 확인했습니다. `.checks/records-wide-final.png`에 기록 영역도 저장했습니다. `.checks/`는 git에서 무시되는 임시 검증 경로입니다.
+- 이전 작업에서 출석 기간 필터, 리추얼 원문 일치, 제출 상세 11건, 초점 복귀·배경 닫기·문자열 이스케이프를 확인했습니다. 이번에는 레이아웃 변경 범위에 맞춰 위 검사를 수행했습니다.
+- 외부 서비스·배포 브라우저·Supabase는 미확인이며 SQL도 실행하지 않았습니다. 이번 작업은 로컬 UI 개선입니다.
 ## 미확인 항목과 다음 단계
 
 1. 원문을 갱신하려면 `data/records-history.js`의 `PORTFOLIO_HISTORY.asOf`, `attendance`, `ritualDays`를 변경합니다. 형식은 README에 있습니다. 원본 Desktop JSON은 다른 PC에 없으므로 사이트 실행에는 저장소의 JS만 필요합니다.
