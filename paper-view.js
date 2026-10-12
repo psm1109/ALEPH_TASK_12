@@ -1,7 +1,17 @@
 window.renderPaperMarkdown = markdown => {
   "use strict";
   const escape = value => value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-  const parser = new window.marked.Marked({ gfm: true, renderer: { html: token => escape(token.text) } });
+  const parser = new window.marked.Marked({
+    gfm: true,
+    renderer: { html: token => escape(token.text) },
+    tokenizer: {
+      del(source) {
+        // 숫자 범위의 단일 ~는 본문으로 남기고, 명시적인 ~~만 기본 취소선 규칙에 맡깁니다.
+        if (source.startsWith("~~")) return false;
+        return undefined;
+      }
+    }
+  });
   const template = document.createElement("template");
   template.innerHTML = parser.parse(markdown);
   // 논문의 서식만 허용합니다. Markdown/HTML의 URL과 속성을 실행 가능한 코드로 신뢰하지 않습니다.

@@ -2,11 +2,14 @@
 
 - 마지막 수정 날짜: 2026-10-12 (Asia/Seoul)
 - 현재 브랜치: `main`
-- 기준 커밋: `4b6222fe55613892cbfeaa6537c2b5d0be411428`
+- 기준 커밋: `9c64c9d119c5841de392696af9958422468bdd25`
 - 이번 작업 시작 시 작업 트리는 깨끗했습니다. 이전 변경은 기준 커밋에 포함되어 있었습니다.
 - 커밋과 push는 실행하지 않았습니다. 작성할 커밋 메시지를 채팅으로 전달합니다.
 
 ## 완료한 작업
+
+- 논문 숫자 범위의 단일 `~`가 취소선으로 변환되는 오류를 해결했습니다. `paper-view.js`의 Marked del 토크나이저에서 단일 물결표는 일반 본문으로 처리하고 `~~`는 기존 취소선 규칙으로 처리합니다. 다운로드 원문·미리보기 데이터·벤더 코드는 변경하지 않았습니다.
+- 이번 주요 수정 파일: `paper-view.js`, `README.md`, `PROJECT_CONTEXT.md`.
 
 - 10번 논문 카드에 사용자 제공 Markdown 원본 다운로드와 보기 모달을 연결했습니다. 원본은 `assets/papers/t10-paper.md`, 미리보기 문자열은 `data/paper-markdown.js`이며 `python scripts/build_paper.py`로 갱신합니다.
 - `paper-view.js`가 Marked 17.0.5의 로컬 번들(`assets/vendor/marked.umd.js`, MIT 라이선스 포함)로 서식을 적용합니다. HTML 및 URL 허용 목록을 적용하며 표·코드의 스크롤, 기존 모달의 닫기·초점 복귀·스크롤 잠금을 유지합니다.
@@ -30,6 +33,10 @@
 - 주요 파일: `records-ui.js`, `data/records-history.js`, `app.js`, `content.js`, `index.html`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md`.
 
 ## 검사 결과
+
+- 이번 변경: `node --check paper-view.js`, `git diff --check` 통과.
+- `node .checks/verify-paper.cjs` 이번 재실행 통과. 문제 문단의 숫자 범위와 원문 문자열 완전 일치, 논문 본문의 del 요소 0개, 명시적인 `~~취소선~~`·굵게·코드·물결표가 포함된 링크 정상 표시를 확인했습니다. 기존 다운로드 원본 일치·Markdown 서식·모달·모바일·보안 검사도 함께 통과했습니다.
+- 아래 논문 최초 추가 및 이전 기능 설명은 기존 작업 결과입니다.
 
 - `git status --short`, `git branch --show-current`, `git rev-parse HEAD`: 깨끗한 main과 기준 커밋 확인.
 - `python scripts/build_paper.py`: 미리보기 JS 생성 완료.
