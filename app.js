@@ -123,6 +123,7 @@
   }));
   text("paper-title", data.paper.title);
   text("paper-summary", data.paper.summary);
+  text("paper-description", data.paper.description);
   const paperDownload = document.querySelector("#paper-link .paper-download");
   const paperView = document.getElementById("paper-view");
   if (safeUrl(data.paper.url)) {
@@ -134,7 +135,7 @@
     paperView.addEventListener("click", () => {
       const body = document.getElementById("paper-modal-body");
       if (!body.childElementCount) body.replaceChildren(window.renderPaperMarkdown(window.PORTFOLIO_PAPER_MARKDOWN));
-      text("paper-modal-title", data.paper.title);
+      text("paper-modal-title", data.paper.summary);
       openModal(document.getElementById("paper-modal"), paperView);
     });
   }

@@ -125,8 +125,11 @@ body.modal-open { overflow: hidden; }
 .project { padding: 22px 24px; border: 1px solid var(--line); border-radius: 4px; }
 .status { display: block; color: #777; font-size: 14px; margin-top: 15px; }
 .project a, .document a { text-decoration: underline; text-underline-offset: 4px; }
-.paper-actions { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-top: 16px; font-size: 14px; }
-.paper-view-button { border: 1px solid #111; border-radius: 3px; background: #111; color: #fff; padding: 8px 20px; font: inherit; }
+.paper-project .paper-subtitle { margin-top: 14px; color: var(--ink); font-weight: 600; }
+.paper-description { margin-top: 6px; font-size: 14px; }
+.paper-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; }
+.paper-actions > :is(button, a) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 16px; border: 1px solid #999; border-radius: 3px; background: #fff; color: var(--ink); font: inherit; line-height: 1.5; text-decoration: none; }
+.paper-actions > :is(button, a):hover { background: var(--panel); border-color: var(--ink); }
 .paper-view-button:disabled { opacity: .45; cursor: default; }
 .paper-view-button:focus-visible, .paper-table-scroll:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
 .paper-modal { width: min(1000px, calc(100% - 32px)); }

@@ -87,7 +87,7 @@ python scripts/build_application_documents.py
 
 ## 논문과 배포
 
-‘10번 · 논문’에는 `assets/papers/t10-paper.md` 원본 다운로드와 Markdown 모달 보기를 제공합니다. 원문을 바꾼 뒤 `python scripts/build_paper.py`를 실행하면 `data/paper-markdown.js`가 갱신됩니다. Python 표준 라이브러리만 사용하며 다운로드 원본 파일은 변경하지 않습니다. 이 JS 문자열을 사용하는 이유는 `file://`로 사이트를 직접 열어도 추가 요청 없이 논문을 표시하기 위해서입니다. 제목·요약·다운로드 경로·파일 이름은 `content.js`의 `paper`에서 관리합니다.
+‘AI와 함께 쓰는 첫 논문 - 가설에서 결론까지’에는 `assets/papers/t10-paper.md` 원본 다운로드와 Markdown 모달 보기를 제공합니다. 원문을 바꾼 뒤 `python scripts/build_paper.py`를 실행하면 `data/paper-markdown.js`가 갱신됩니다. Python 표준 라이브러리만 사용하며 다운로드 원본 파일은 변경하지 않습니다. 이 JS 문자열을 사용하는 이유는 `file://`로 사이트를 직접 열어도 추가 요청 없이 논문을 표시하기 위해서입니다. 주제목(title)·부제목(summary)·설명(description)·다운로드 경로·파일 이름은 `content.js`의 `paper`에서 관리합니다. 모달 상단 제목은 부제목(summary)을 사용하며 논문 원문 제목은 그대로 표시합니다.
 
 `paper-view.js`는 로컬에 포함한 Marked 17.0.5(`assets/vendor/marked.umd.js`, MIT 라이선스 전문: `assets/vendor/marked-LICENSE.md`)로 표·목록·코드·링크 서식을 적용합니다. HTML 원문은 텍스트로 처리하고 허용한 요소와 안전한 링크 프로토콜만 표시합니다. 숫자 범위의 단일 `~`는 그대로 표시하며 `~~취소선~~`처럼 물결표 두 개를 쓴 경우에만 취소선을 적용합니다. 표와 코드 블록은 가로 스크롤할 수 있으며 보기 모달은 기존 닫기·Esc·배경 클릭·초점 복귀를 사용합니다. JavaScript가 꺼진 경우에도 원본 다운로드는 가능합니다. 이번 제공 파일은 논문 Markdown이며 논문에서 언급하는 분석 ZIP·CSV·코드는 별도 포함하지 않습니다.
 
