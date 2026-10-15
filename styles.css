@@ -136,6 +136,7 @@ body.modal-open { overflow: hidden; }
 #ritual-excerpt h4 { margin: 0 0 8px; font-size: 18px; }
 #ritual-excerpt blockquote { margin: 16px 0; padding-left: 16px; border-left: 2px solid var(--line); }
 #ritual-excerpt blockquote p + p { margin-top: 14px; }
+.ritual-peer-feedback { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
 .detail-summary { margin: 12px 0; font-size: 20px; font-weight: 700; }
 .record-filters { display: flex; gap: 8px; margin: 16px 0; }
 .record-filters button, .ritual-date-nav button { font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 3px; background: #fff; color: var(--ink); }

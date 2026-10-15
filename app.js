@@ -50,7 +50,20 @@
     }
     const source = document.createElement("p"); source.className = "caption";
     source.textContent = `출처: ${excerpt.source}`;
-    article.append(title, quote, source);
+    article.append(title, quote);
+    const feedback = data.ritualPeerFeedback;
+    // 승인 장면이 바뀌면 다른 경험에 이 동료 평가가 연결되지 않게 합니다.
+    if (feedback?.excerptTitle === excerpt.title) {
+      const peer = document.createElement("section"); peer.className = "ritual-peer-feedback";
+      const peerTitle = document.createElement("h4"); peerTitle.textContent = "동료가 말해 준 내 장점";
+      const peerQuote = document.createElement("blockquote");
+      const peerBody = document.createElement("p"); peerBody.textContent = feedback.body;
+      peerQuote.append(peerBody);
+      source.textContent = `출처: ${feedback.combinedSource}`;
+      peer.append(peerTitle, peerQuote);
+      article.append(peer);
+    }
+    article.append(source);
     section.replaceChildren(heading, description, article);
   }
   const submissionModal = document.getElementById("submission-modal");

@@ -17,6 +17,11 @@ window.PORTFOLIO_CONTENT = {
     "source": "2026-09-11 아침 리추얼",
     "description": "‘받았던 배려를 다른 사람에게’ 이야기와 이어지는, 동료에게 내가 할 수 있는 도움을 건넨 기록입니다."
   },
+  ritualPeerFeedback: {
+    excerptTitle: "어려움을 겪는 동료에게 먼저 다가가다",
+    body: "주변 사람들이 고민에 빠지고 모르는 게 있으면 앞이든 옆이든 거리가 멀어도 직접 찾아가 정답을 찾을 수 있게 해주는 사람이다.",
+    combinedSource: "2026-09-11 아침 리추얼"
+  },
   story: [
     {
       "title": "컴퓨터에 대한 관심으로 시작한 진로 탐색",
