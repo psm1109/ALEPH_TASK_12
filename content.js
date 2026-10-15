@@ -130,5 +130,5 @@ window.PORTFOLIO_CONTENT = {
     { title: "자기소개서", url: "assets/documents/self-introduction.docx" },
     { title: "경력기술서", url: "assets/documents/project-experience.docx" }
   ],
-  contact: { label: "[공개할 연락 수단 하나]", url: "" }
+  contact: { label: "tjsals2375@gmail.com", url: "mailto:tjsals2375@gmail.com" }
 };

@@ -198,3 +198,40 @@ test("패키징은 현재 승인과 다른 입력 및 사이트를 거절", t =>
   const f = fixture(t); success(f.cli(["--yes"])); fs.writeFileSync(f.published, "stale"); assert.throws(() => packageRecords(f.site), /사이트 데이터/);
   const rows = f.read("attendance"); rows.attendance[0].status = "present"; f.write("attendance", rows); assert.throws(() => packageRecords(f.site), /마지막 승인/);
 });
+
+test("장치 ZIP만 새 폴더에 풀어 별도 사이트 갱신과 재패키징 재현", t => {
+  const f = fixture(t); success(f.cli(["--yes"]));
+  const device = path.join(f.root, "device");
+  fs.mkdirSync(path.join(device, "scripts"), { recursive: true });
+  fs.mkdirSync(path.join(device, "docs"));
+  for (const name of ["import_records.js", "test_import_records.js", "package_records.js"]) fs.copyFileSync(path.join(ROOT, "scripts", name), path.join(device, "scripts", name));
+  fs.copyFileSync(path.join(ROOT, "docs/RECORD_IMPORT.md"), path.join(device, "docs/RECORD_IMPORT.md"));
+  fs.cpSync(f.inputs, path.join(device, "record-input"), { recursive: true });
+  fs.cpSync(f.output, path.join(device, "generated"), { recursive: true });
+  packageRecords(device, f.site);
+  const bytes = fs.readFileSync(path.join(device, "deliverables/record-updater-device.zip"));
+  const extracted = path.join(f.root, "새 장치 폴더"), names = []; let offset = 0;
+  while (bytes.readUInt32LE(offset) === 0x04034b50) {
+    const size = bytes.readUInt32LE(offset + 18), length = bytes.readUInt16LE(offset + 26), extra = bytes.readUInt16LE(offset + 28);
+    const name = bytes.subarray(offset + 30, offset + 30 + length).toString("utf8");
+    assert(!name.includes("..") && !path.isAbsolute(name));
+    const start = offset + 30 + length + extra;
+    const raw = require("node:zlib").inflateRawSync(bytes.subarray(start, start + size));
+    assert.equal(crc32(raw), bytes.readUInt32LE(offset + 14));
+    const target = path.join(extracted, name); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.writeFileSync(target, raw);
+    names.push(name); offset = start + size;
+  }
+  assert.equal(names.length, 16);
+  assert(names.every(name => /^(scripts\/|record-input\/|generated\/|docs\/RECORD_IMPORT\.md$|README\.md$|comparison\.json$)/.test(name)));
+  assert(!names.some(name => /^(assets|data|last-result)\//.test(name)));
+  const readResults = () => Object.fromEntries(fs.readdirSync(path.join(extracted, "generated")).map(name => [name, fs.readFileSync(path.join(extracted, "generated", name))]));
+  const before = readResults(), siteBefore = fs.readFileSync(f.published), contentBefore = fs.readFileSync(path.join(f.site, "content.js"));
+  const run = script => spawnSync(process.execPath, [path.join(extracted, "scripts", script), "--site-root", f.site,
+    ...(script === "import_records.js" ? ["--approvals", path.join(extracted, "generated/applied-approval.json")] : [])], { cwd: f.root, encoding: "utf8" });
+  success(run("import_records.js")); assert.deepEqual(readResults(), before);
+  success(run("import_records.js")); assert.deepEqual(readResults(), before);
+  assert.deepEqual(fs.readFileSync(f.published), siteBefore);
+  assert.deepEqual(fs.readFileSync(path.join(f.site, "content.js")), contentBefore);
+  success(run("package_records.js"));
+  assert.deepEqual(fs.readFileSync(path.join(extracted, "deliverables/record-updater-device.zip")), bytes);
+});

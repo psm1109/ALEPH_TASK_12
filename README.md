@@ -71,7 +71,7 @@ node scripts/import_records.js
 
 과제 `body`가 비어 있으면 `content.js`에 보관된 같은 코드의 기존 본문을 유지합니다. 새 본문이 있으면 일반 텍스트로 안전하게 표시합니다. 이야기·리추얼·고정한 장면의 줄바꿈은 유지합니다.
 
-[전체 입력 형식·실행 세 단계·오류 해결](docs/RECORD_IMPORT.md)을 참고하세요. 검사: `node --test scripts/test_import_records.js`. 현재 승인 데이터의 사이트·장치 ZIP과 비교 생성: `node scripts/package_records.js`.
+[전체 입력 형식·실행 세 단계·오류 해결](docs/RECORD_IMPORT.md)을 참고하세요. 검사: `node --test scripts/test_import_records.js`. 사이트를 제외한 장치 ZIP(코드·입력·README·마지막 결과와 승인·비교) 생성: `node scripts/package_records.js`. 제출 파일은 `deliverables/record-updater-device.zip`이며, 별도 사이트 연결은 ZIP의 README에 있는 `--site-root` 명령을 사용합니다.
 
 ## 지원 문서
 

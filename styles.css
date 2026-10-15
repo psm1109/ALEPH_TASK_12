@@ -154,6 +154,8 @@ body.modal-open { overflow: hidden; }
 .document .status { margin-top: 0; }
 .contact-row { display: flex; justify-content: space-between; gap: 24px; font-size: 14px; }
 .contact-row a { text-decoration: underline; text-underline-offset: 4px; }
+#contact-link a[href^="mailto:"][href$="@gmail.com"] { display: inline-flex; align-items: center; gap: 10px; }
+#contact-link a[href^="mailto:"][href$="@gmail.com"]::before { content: ""; width: 24px; height: 18px; flex: 0 0 24px; background: url("assets/gmail.svg") center / contain no-repeat; }
 footer { text-align: center; font-size: 12px; color: #777; padding: 0 0 20px; }
 .skip-link { position: fixed; top: -80px; left: 16px; z-index: 2; background: #fff; border: 1px solid; padding: 8px 15px; }
 .skip-link:focus { top: 10px; }

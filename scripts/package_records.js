@@ -39,7 +39,7 @@ function zip(files) {
   end.writeUInt32LE(centralSize, 12); end.writeUInt32LE(offset, 16);
   return Buffer.concat([...local, ...directory, end]);
 }
-function packageRecords(root = ROOT) {
+function packageRecords(root = ROOT, siteRoot = root) {
   const result = build(path.join(root, "record-input"));
   const approval = load(path.join(root, "generated"), "applied-approval.json");
   if (approval.snapshotId !== result.snapshotId) throw new RecordError("현재 입력이 마지막 승인과 다릅니다. 먼저 node scripts/import_records.js로 검토·갱신하세요.");
@@ -49,32 +49,29 @@ function packageRecords(root = ROOT) {
     const sha = value => crypto.createHash("sha256").update(value).digest("hex");
     return { file, identical: true, firstSha256: sha(first[file]), secondSha256: sha(second[file]) };
   });
-  if (first["records-import.js"] !== fs.readFileSync(path.join(root, "data/records-import.js"), "utf8")) throw new RecordError("사이트 데이터와 현재 승인 결과가 다릅니다. 먼저 갱신하세요.");
+  if (first["records-import.js"] !== fs.readFileSync(path.join(siteRoot, "data/records-import.js"), "utf8")) throw new RecordError("사이트 데이터와 현재 승인 결과가 다릅니다. 먼저 갱신하세요.");
   const files = new Map();
   const add = name => files.set(name, fs.readFileSync(path.join(root, name)));
-  for (const name of ["index.html", "styles.css", "app.js", "records-ui.js", "paper-view.js", "content.js"]) add(name);
   for (const name of ["import_records.js", "test_import_records.js", "package_records.js"]) add(`scripts/${name}`);
   for (const name of ["manifest.json", "attendance.json", "rituals.json", "submissions.json"]) add(`record-input/${name}`);
-  for (const name of ["records-history.js", "records-import.js", "paper-markdown.js"]) add(`data/${name}`);
-  function assets(folder) {
-    for (const entry of fs.readdirSync(path.join(root, folder), { withFileTypes: true })) {
-      const name = `${folder}/${entry.name}`;
-      if (entry.isDirectory()) assets(name); else if (entry.isFile()) add(name);
-    }
-  }
-  assets("assets");
+  // 장치와 사이트는 별도 제출합니다. 결과 JS는 generated에만 보관합니다.
   files.set("README.md", fs.readFileSync(path.join(root, "docs/RECORD_IMPORT.md")));
   files.set("docs/RECORD_IMPORT.md", files.get("README.md")); files.set("comparison.json", dump(comparison));
-  for (const folder of ["last-result", "generated"]) {
+  for (const folder of ["generated"]) {
     for (const [name, value] of Object.entries(first)) files.set(`${folder}/${name}`, value);
     files.set(`${folder}/applied-approval.json`, dump(approval));
   }
   writeTransaction(new Map([[path.join(root, "deliverables/comparison.json"), Buffer.from(dump(comparison))],
-    [path.join(root, "deliverables/record-updater.zip"), zip(files)]]));
+    [path.join(root, "deliverables/record-updater-device.zip"), zip(files)]]));
   return comparison;
 }
 module.exports = { crc32, zip, packageRecords };
 if (require.main === module) {
-  try { packageRecords(); console.log("현재 승인 기록·사이트·장치 ZIP과 두 실행 비교를 생성했습니다."); }
+  try {
+    const args = process.argv.slice(2);
+    if (args.length && (args.length !== 2 || args[0] !== "--site-root" || !args[1] || args[1].startsWith("--"))) throw new RecordError("사용법: node scripts/package_records.js [--site-root 사이트폴더]");
+    packageRecords(ROOT, args.length ? path.resolve(args[1]) : ROOT);
+    console.log("사이트를 제외한 장치 ZIP과 두 실행 비교를 생성했습니다.");
+  }
   catch (error) { console.error(error instanceof RecordError ? error.message : error.code || error.name); process.exitCode = 1; }
 }
