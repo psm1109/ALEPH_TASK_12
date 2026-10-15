@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="content.js" defer></script>
   <script src="data/records-history.js" defer></script>
+  <script src="data/records-import.js" defer></script>
   <script src="records-ui.js" defer></script>
   <script src="assets/vendor/marked.umd.js" defer></script>
   <script src="data/paper-markdown.js" defer></script>
@@ -24,7 +25,6 @@
     <main id="home">
       <section class="hero" aria-labelledby="intro-title">
         <div class="hero-copy"><h1 id="intro-title">안녕하세요,<br><span data-name>박선민</span>입니다.</h1><p id="tagline">저는 이론을 실제 경험으로 연결하며, 배움의 깊이를 더해가는 사람입니다.</p><a class="button" href="#story">내 이야기 읽기</a></div>
-        <!-- <img class="hero-image" src="assets/hero-network.png" alt="네트워크 장비를 점검하는 캐릭터의 흑백 선화" width="1024" height="1024" fetchpriority="high"> -->
       </section>
       <section id="story" class="section" aria-labelledby="story-title">
         <h2 id="story-title">내 이야기</h2>
@@ -54,7 +54,8 @@
         </div>
         </div>
         <p id="record-source" class="caption">출처: 내 출석 기록 · 리추얼 기록 · 내 제출 현황 (사용자 제공 누적 기록)</p>
-        <noscript><p class="caption">달력과 제출 내용을 보려면 JavaScript를 활성화해 주세요.</p></noscript>
+        <section id="ritual-excerpt" aria-label="선택한 리추얼 장면"></section>
+        <noscript><p class="caption">위 숫자는 초기 기록입니다. 최신 승인 기록과 제출 내용을 보려면 JavaScript를 활성화해 주세요.</p></noscript>
         <dialog class="submission-modal" id="submission-list-modal" aria-labelledby="submission-list-title">
           <div class="submission-modal-header"><h2 id="submission-list-title">제출 과제 11건</h2><button type="button" class="submission-modal-close" id="submission-list-close" autofocus>닫기</button></div>
           <div class="submission-modal-body">
@@ -73,11 +74,6 @@
           </ul>
           </div>
         </dialog>
-        <aside class="record-connection" aria-labelledby="record-connection-title">
-          <h3 id="record-connection-title">어려움 속에서도 이어간 기록</h3>
-          <p id="record-connection-body">제 뜻을 말하기 어려웠던 순간과 함께 돌아보는 기록입니다. 아침 58회, 마무리 57회의 리추얼은 일상에서 행동을 이어간 흔적입니다.</p>
-          <div id="record-story-link"><a href="#story-communication">내 뜻을 표현하며 배운 소통 읽기</a></div>
-        </aside>
       </section>
       <section id="projects" class="section" aria-labelledby="projects-title">
         <h2 id="projects-title">대표작</h2>

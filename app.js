@@ -2,6 +2,20 @@
   "use strict";
   const data = window.PORTFOLIO_CONTENT;
   if (!data) return;
+  const imported = window.PORTFOLIO_IMPORT;
+  if (imported) {
+    window.PORTFOLIO_HISTORY = imported.history;
+    data.records.period = imported.period;
+    data.records.submissions = imported.submissions.map(row => ({ ...row, submitted: row.date }));
+    data.records.source = `출처: 승인한 JSON 기록 · ${imported.asOf} 기준`;
+    // 목록은 최신 스냅샷을 따르되 미제공 본문이 기존 제출 내용을 가리지 않게 합니다.
+    const savedSubmissions = data.submissionContents || {};
+    data.submissionContents = Object.fromEntries(imported.submissions.map(row => [row.code,
+      row.body.trim() ? { title: row.title, plainBody: row.body }
+        : savedSubmissions[row.code] ? { ...savedSubmissions[row.code], title: row.title }
+        : { title: row.title, plainBody: "아직 제출 본문을 제공하지 않았습니다." }
+    ]));
+  }
   const text = (id, value) => { document.getElementById(id).textContent = value; };
   const safeUrl = (value, contact = false) => {
     if (!value || typeof value !== "string") return null;
@@ -20,6 +34,25 @@
     if (href) element.href = href;
     return element;
   };
+  // 실행 중 선택해 승인한 장면을 표시하고, 이전 스냅샷이면 초기 장면을 사용합니다.
+  const excerpt = imported?.ritualExcerpt || data.ritualExcerpt;
+  if (excerpt) {
+    const section = document.getElementById("ritual-excerpt");
+    const heading = document.createElement("h3"); heading.textContent = "리추얼에서 고른 한 장면";
+    const description = document.createElement("p"); description.className = "caption";
+    description.textContent = excerpt.description;
+    const article = document.createElement("article"); article.className = "record-connection";
+    const title = document.createElement("h4"); title.textContent = excerpt.title;
+    const quote = document.createElement("blockquote");
+    for (const body of excerpt.body.split(/\n\s*\n/)) {
+      const paragraph = document.createElement("p");
+      window.appendReadableText(paragraph, body); quote.append(paragraph);
+    }
+    const source = document.createElement("p"); source.className = "caption";
+    source.textContent = `출처: ${excerpt.source}`;
+    article.append(title, quote, source);
+    section.replaceChildren(heading, description, article);
+  }
   const submissionModal = document.getElementById("submission-modal");
   const triggers = new WeakMap();
   const syncModalLock = () => document.body.classList.toggle("modal-open", Boolean(document.querySelector("dialog[open]")));
@@ -47,8 +80,10 @@
     const submission = data.submissionContents?.[code];
     text("submission-modal-title", submission?.title || `${code} 제출 내용`);
     const body = document.getElementById("submission-modal-body");
+    body.classList.toggle("submission-plain-text", typeof submission?.plainBody === "string");
     // 기존 제출 HTML만 사용합니다. 가져온 기록의 문자열은 textContent로 표시합니다.
-    if (submission) body.innerHTML = submission.body;
+    if (submission && typeof submission.plainBody === "string") body.textContent = submission.plainBody;
+    else if (submission) body.innerHTML = submission.body;
     else body.textContent = "제출 내용을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 열어주세요.";
     openModal(submissionModal, trigger);
   };
@@ -70,7 +105,9 @@
       article.append(date);
     }
     scene.body.split(/\n\s*\n/).forEach(body => {
-      const paragraph = document.createElement("p"); paragraph.textContent = body; article.append(paragraph);
+      const paragraph = document.createElement("p");
+      paragraph.className = "story-body";
+      window.appendReadableText(paragraph, body); article.append(paragraph);
     });
     if (scene.ability) {
       const ability = document.createElement("p"); ability.className = "story-ability";
@@ -111,12 +148,12 @@
   document.getElementById("contact-link").replaceChildren(link(data.contact.label, data.contact.url, true));
   const records = data.records;
   if (records) {
-    const { submissions, connection } = records;
+    const { submissions } = records;
     window.initRecordsUI(records, openModal);
     text("submission-list-title", `제출 과제 ${submissions.length}건`);
     document.getElementById("submission-list").replaceChildren(...submissions.map(item => {
       const row = document.createElement("li");
-      const title = document.createElement("strong"); title.textContent = `${item.code} · Studio 과제 ${item.code.slice(1)}`;
+      const title = document.createElement("strong"); title.textContent = `${item.code} · ${item.title || `Studio 과제 ${item.code.slice(1)}`}`;
       const detail = document.createElement("span"); detail.textContent = `${item.submitted} 제출 · ${item.status}`;
       row.append(title, detail);
       const view = document.createElement("button"); view.type = "button";
@@ -129,8 +166,6 @@
       return row;
     }));
     text("record-source", records.source);
-    text("record-connection-title", connection.title);
-    text("record-connection-body", connection.body);
-    document.getElementById("record-story-link").replaceChildren(link(connection.linkLabel, `#${connection.storyId}`));
+
   }
 })();

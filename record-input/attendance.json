@@ -1,0 +1,434 @@
+{
+  "attendance": [
+    {
+      "date": "2026-08-11",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:25",
+      "exit": "18:00",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-11"
+    },
+    {
+      "date": "2026-08-12",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:33",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-12"
+    },
+    {
+      "date": "2026-08-13",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:38",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-13"
+    },
+    {
+      "date": "2026-08-14",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:41",
+      "exit": "17:50",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-14"
+    },
+    {
+      "date": "2026-08-18",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:42",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-18"
+    },
+    {
+      "date": "2026-08-19",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:35",
+      "exit": "17:55",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-19"
+    },
+    {
+      "date": "2026-08-20",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:45",
+      "exit": "17:57",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-20"
+    },
+    {
+      "date": "2026-08-21",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:25",
+      "exit": "17:51",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-21"
+    },
+    {
+      "date": "2026-08-24",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:38",
+      "exit": "18:05",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-24"
+    },
+    {
+      "date": "2026-08-25",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:30",
+      "exit": "17:50",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-25"
+    },
+    {
+      "date": "2026-08-26",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:26",
+      "exit": "17:56",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-26"
+    },
+    {
+      "date": "2026-08-27",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:33",
+      "exit": "17:53",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-27"
+    },
+    {
+      "date": "2026-08-28",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:04",
+      "exit": "17:51",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-28"
+    },
+    {
+      "date": "2026-08-31",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:59",
+      "exit": "18:00",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-08-31"
+    },
+    {
+      "date": "2026-09-01",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:04",
+      "exit": "17:50",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-01"
+    },
+    {
+      "date": "2026-09-02",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:05",
+      "exit": "17:55",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-02"
+    },
+    {
+      "date": "2026-09-03",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:29",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-03"
+    },
+    {
+      "date": "2026-09-04",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:58",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-04"
+    },
+    {
+      "date": "2026-09-07",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:56",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-07"
+    },
+    {
+      "date": "2026-09-08",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:57",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-08"
+    },
+    {
+      "date": "2026-09-09",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:53",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-09"
+    },
+    {
+      "date": "2026-09-10",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:57",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-10"
+    },
+    {
+      "date": "2026-09-11",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:06",
+      "exit": "17:53",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-11"
+    },
+    {
+      "date": "2026-09-14",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:00",
+      "exit": "18:06",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-14"
+    },
+    {
+      "date": "2026-09-15",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:01",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-15"
+    },
+    {
+      "date": "2026-09-16",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:47",
+      "exit": "18:03",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-16"
+    },
+    {
+      "date": "2026-09-17",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:55",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-17"
+    },
+    {
+      "date": "2026-09-18",
+      "status": "excused",
+      "symbol": "▦",
+      "entry": "08:33",
+      "exit": "13:00",
+      "outing": "",
+      "note": "보정됨 · 병가 — 병원방문으로 인한 조퇴",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-18"
+    },
+    {
+      "date": "2026-09-21",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:03",
+      "exit": "18:00",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-21"
+    },
+    {
+      "date": "2026-09-22",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:02",
+      "exit": "17:53",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-22"
+    },
+    {
+      "date": "2026-09-23",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:00",
+      "exit": "17:50",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-23"
+    },
+    {
+      "date": "2026-09-28",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:59",
+      "exit": "17:55",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-28"
+    },
+    {
+      "date": "2026-09-29",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:00",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-29"
+    },
+    {
+      "date": "2026-09-30",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:09",
+      "exit": "17:57",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-09-30"
+    },
+    {
+      "date": "2026-10-01",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:00",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-01"
+    },
+    {
+      "date": "2026-10-02",
+      "status": "present",
+      "symbol": "○",
+      "entry": "07:28",
+      "exit": "17:52",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-02"
+    },
+    {
+      "date": "2026-10-06",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:01",
+      "exit": "18:09",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-06"
+    },
+    {
+      "date": "2026-10-07",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:11",
+      "exit": "17:55",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-07"
+    },
+    {
+      "date": "2026-10-08",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:04",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-08"
+    },
+    {
+      "date": "2026-10-12",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:21",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-12"
+    },
+    {
+      "date": "2026-10-13",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:04",
+      "exit": "17:56",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-13"
+    },
+    {
+      "date": "2026-10-14",
+      "status": "present",
+      "symbol": "○",
+      "entry": "08:00",
+      "exit": "17:54",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-14"
+    },
+    {
+      "date": "2026-10-15",
+      "status": "pending",
+      "symbol": "",
+      "entry": "08:01",
+      "exit": "",
+      "outing": "",
+      "note": "",
+      "source": "내 출석 기록 · 부산 B반 · 2026-10-15"
+    }
+  ]
+}

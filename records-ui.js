@@ -1,3 +1,15 @@
+/* 원문과 승인 ID는 그대로 두고 화면에서만 문장 단위로 읽기 쉽게 나눕니다. */
+window.appendReadableText = (target, value) => {
+  // 공백도 각 조각에 남겨 textContent를 이어 붙이면 원문과 같게 유지합니다.
+  const sentences = value.split(/(?<=[.!?。！？])(?=[ \t]+\S)/u);
+  for (const sentence of sentences) {
+    const span = document.createElement("span");
+    span.className = "readable-sentence";
+    span.textContent = sentence;
+    target.append(span);
+  }
+};
+
 /* 원문 스냅샷과 화면을 분리해 이후 가져오기 장치도 같은 데이터를 공급할 수 있게 합니다. */
 window.initRecordsUI = (records, openModal) => {
   "use strict";
@@ -113,7 +125,9 @@ window.initRecordsUI = (records, openModal) => {
     const dl = el("dl", undefined, "ritual-fields");
     for (const line of lines) {
       const split = line.indexOf(":"); const row = el("div");
-      row.append(el("dt", split < 0 ? "기록" : line.slice(0, split)), el("dd", split < 0 ? line : line.slice(split + 1).trim())); dl.append(row);
+      const value = el("dd");
+      window.appendReadableText(value, split < 0 ? line : line.slice(split + 1).trim());
+      row.append(el("dt", split < 0 ? "기록" : line.slice(0, split)), value); dl.append(row);
     }
     return dl;
   };
