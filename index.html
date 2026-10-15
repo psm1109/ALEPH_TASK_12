@@ -24,10 +24,11 @@
     </header>
     <main id="home">
       <section class="hero" aria-labelledby="intro-title">
-        <div class="hero-copy"><h1 id="intro-title">안녕하세요,<br><span data-name>박선민</span>입니다.</h1><p id="tagline">저는 이론을 실제 경험으로 연결하며, 배움의 깊이를 더해가는 사람입니다.</p><a class="button" href="#story">내 이야기 읽기</a></div>
+        <img class="hero-portrait" src="assets/profile.png" alt="정장을 입은 박선민의 프로필 사진" width="1140" height="1380" fetchpriority="high">
+        <div class="hero-copy"><h1 id="intro-title">안녕하세요,<br><span data-name>박선민</span>입니다.</h1><p id="tagline">저는 이론을 실제 경험으로 연결하며, 배움의 깊이를 더해가는 사람입니다.</p></div>
       </section>
       <section id="story" class="section" aria-labelledby="story-title">
-        <h2 id="story-title">내 이야기</h2>
+        <h2 id="story-title">저의 이야기</h2>
         <!-- 이야기 본문은 content.js의 story에서만 관리합니다. -->
         <div class="story-panel" id="story-content">
           <noscript><p>내 이야기를 읽으려면 브라우저에서 JavaScript를 활성화해 주세요.</p></noscript>
@@ -59,6 +60,7 @@
         <dialog class="submission-modal" id="submission-list-modal" aria-labelledby="submission-list-title">
           <div class="submission-modal-header"><h2 id="submission-list-title">제출 과제 11건</h2><button type="button" class="submission-modal-close" id="submission-list-close" autofocus>닫기</button></div>
           <div class="submission-modal-body">
+          <p class="caption">같은 결과물 주소의 과제는 하나로 묶었습니다. 이미지를 누르면 결과물이 새 탭으로 열립니다. 미리보기는 2026년 10월 15일의 화면으로, 제출 당시와 다를 수 있습니다.</p>
           <ul class="submission-list" id="submission-list">
             <li><strong>T11 · Studio 과제 11</strong><span>10월 7일 오후 02:42 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T11 제출 내용 보기</button></li>
             <li><strong>T10 · Studio 과제 10</strong><span>10월 7일 오전 01:03 제출 · 최종 확인 완료</span><button type="button" class="submission-view" aria-haspopup="dialog" aria-controls="submission-modal" disabled>T10 제출 내용 보기</button></li>
@@ -104,6 +106,7 @@
       <h2 id="submission-modal-title">제출 내용</h2>
       <button type="button" class="submission-modal-close" id="submission-modal-close" autofocus>닫기</button>
     </div>
+    <p class="caption submission-detail-meta" id="submission-modal-meta"></p>
     <div class="submission-modal-body submission-document" id="submission-modal-body"></div>
     <p class="caption submission-modal-caption">첨부파일은 이름만 기록되어 있으며 이 창에 포함되어 있지 않습니다.</p>
   </dialog>

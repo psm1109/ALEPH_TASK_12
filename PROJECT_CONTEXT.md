@@ -1,10 +1,90 @@
 # 현재 작업 상태
 
-- 마지막 수정 날짜: 2026-10-15 (Asia/Seoul)
-- 브랜치: `main`, 기준 커밋: `27b7cee3ef9054a31582d8afee5f507a822a30ae`
-- 이번 작업 시작 시 앞선 자기소개서 작업의 Word·원문 JSON·생성기·README·인계 문서 변경이 있었습니다. 기존 변경을 보존하고 Word 배치 보정을 추가했습니다. 커밋·push·배포는 하지 않았습니다.
+- 마지막 수정 날짜: 2026-10-16 (Asia/Seoul)
+- 브랜치: `main`, 기준 커밋: `85248c71a18877c6a0e636d6b4f11721843b725e`
+- 이번 작업 시작 시 기존 화면·지원 문서 변경과 `T11.md`, `deliverables/comparison.json` 삭제, `assets/submissions/` 미추적 파일이 있었습니다. 기존 변경을 보존하고 첫 화면 왼쪽에 프로필 사진을 추가하고 소개 문구를 오른쪽으로 배치했습니다. 커밋·push·배포는 하지 않았습니다.
 
-## 이번 완료: Word 자기소개서 간격과 페이지 밀림 보정
+## 이번 완료: 첫 화면 왼쪽 사진과 소개 문구 정렬
+
+- 2026-10-16 (Asia/Seoul), main / 85248c71a18877c6a0e636d6b4f11721843b725e 기준. 사용자가 앞서 생성한 남색 정장 사진을 `assets/profile.png`로 복사하고 `index.html`의 hero 왼쪽에 추가하고 소개 문구를 오른쪽으로 옮겼습니다. `styles.css`에서 내 이야기 목차/본문과 동일한 열 비율·24px 간격을 사용해 사진 왼쪽은 섹션 제목/목차와, 소개 문구 왼쪽은 이야기 본문 패널과 맞췄습니다. 사진은 PC 너비 210px, 640px 이하에서는 소개글 위에 왼쪽 정렬하여 너비 160px로 표시합니다. 원본 비율과 전체 얼굴을 유지하고 대체 텍스트·이미지 크기를 지정했습니다. JavaScript·기록·문서 데이터에는 변경이 없습니다.
+- 주요 파일: `index.html`, `styles.css`, `assets/profile.png`, `PROJECT_CONTEXT.md`. 기존 미커밋 변경·삭제를 보존했습니다.
+- 검사: Node/Playwright 인라인 명령으로 로컬 file:// Chrome의 1435·800·390·320px에서 이미지 로드(1140×1380), PC 왼쪽/모바일 위 배치, 사진과 섹션 제목의 왼쪽 기준선 일치, PC 소개 문구와 이야기 패널 왼쪽 기준선 일치, 가로 넘침 없음, 페이지 오류 없음 확인. `.checks/hero-photo-1435.png`, `.checks/hero-photo-390.png`를 갱신했습니다. 최종 PC 화면을 직접 시각 확인했습니다. `git diff --check` 통과(기존 파일 LF/CRLF 안내만). `.checks/`는 Git 제외 임시 자료입니다.
+- 실제 배포·Supabase 미확인, SQL 미실행. 새 커밋 해시 없음. 다음 단계: 로컬 `index.html`을 새로고침해 사진 크기와 배치를 검토합니다. 공개 반영은 별도 배포가 필요하며 직접 push하지 않습니다.
+
+## 앞선 완료: 경력기술서 글자 잘림 보정
+
+- 2026-10-16 (Asia/Seoul), main / 85248c71a18877c6a0e636d6b4f11721843b725e 기준. 사용자 화면의 제목 잘림은 원래 19pt 제목에 15pt 고정 줄 높이를 적용했던 설정과 관련됩니다. 사용자가 편집한 최신 compact 파일(32,508바이트)을 입력으로 문서/스타일의 고정 줄 높이 9곳만 최소 줄 높이(atLeast)로 바꾸어 큰 글자에 맞춰 줄이 늘어나게 했습니다.
+- 결과 파일: `deliverables/project-experience-url-compact-fixed.docx`. 원본이 Word에서 열려 있어 별도 저장했습니다. 사용자 수정 텍스트·글자 크기·문서 구성·링크·나머지 ZIP 구성 파일은 보존했습니다. 기존 사이트용 Word 파일도 변경하지 않았습니다.
+- 검사: 전후 OOXML에서 exact→atLeast 외 변경 없음 및 나머지 ZIP 구성 파일 바이트 일치 확인. `git diff --check` 통과. render_docx.py 재실행은 soffice.exe 부재로 실패(.checks/career-fixed-render.log), 실제 Word 시각 확인은 미완료입니다. 커밋·push·배포·SQL 미실행.
+- 다음 단계: 수정 파일을 Word에서 열어 제목과 표 글자 잘림을 확인하고 직접 편집을 이어갑니다.
+
+## 앞선 완료: 경력기술서 표를 페이지에 이어 배치
+
+- 2026-10-16 (Asia/Seoul), main / 85248c71a18877c6a0e636d6b4f11721843b725e 기준. 사용자 요청으로 과제 두 개마다 있던 강제 페이지 나눔과 표 전체 문단 연결, 행 분할 금지를 해제했습니다. 제목만 다음 내용에 연결하고 문단/표 사이 여백을 줄여 페이지의 남은 공간부터 자연스럽게 채우게 했습니다. 내용·글자 크기·링크는 유지했습니다.
+- 수정 결과: `deliverables/project-experience-url-compact.docx`. 기존 파일에 Word 잠금 파일(`deliverables/~$oject-experience-url.docx`)이 있어 열린 원본은 덮어쓰지 않고 별도 이름으로 저장했습니다. 다른 화면/Word 변경은 보존했습니다. 주요 파일은 새 Word와 PROJECT_CONTEXT.md이며 임시 편집 스크립트는 `.checks/compact-career-doc.py`입니다.
+- 검사: 번들 Python으로 `.checks/compact-career-doc.py` 실행, 전후 전체 텍스트/외부 링크 동일, 표 8개·하이퍼링크 16개 유지, 강제 페이지 구분/행 분할 금지/표 문단 연결 제거 확인. `git diff --check` 통과. 렌더러 재실행은 soffice.exe 부재 및 임시 폴더 정리 WinError5로 실패했습니다. 최종 페이지 수와 시각 배치는 미확인입니다.
+- 다음 단계: 새 compact 파일을 Word에서 열어 페이지 경계를 확인하고 직접 문구를 편집합니다. 기존 사이트 다운로드 문서는 변경하지 않았으며 배포·Supabase·SQL·커밋·push는 실행하지 않았습니다.
+
+## 앞선 완료: 내 이야기를 기존 6개 항목으로 복원
+
+- 2026-10-16 (Asia/Seoul), main / 85248c71a18877c6a0e636d6b4f11721843b725e 기준. 사용자 요청으로 content.js의 story 배열을 3항목 재구성 전 6편의 제목·기간·본문·역량 요약·id로 복원했습니다. Git HEAD의 story 블록이 앞선 대화에서 확인한 원본 6편과 일치함을 확인해 그 블록만 사용했습니다. 리추얼 발췌의 관련 이야기 제목도 받았던 배려를 다른 사람에게로 되돌렸습니다.
+- app.js에서 3항목에만 쓰던 aliases 로직을 제거하고 기존 실제 패널 id 기반 장면 주소 연결을 복원했습니다. PC 목차/본문과 모바일 펼침 배치는 유지합니다. README의 항목 수와 읽기 설명도 6편으로 복원했습니다.
+- 주요 수정: content.js, app.js, README.md, PROJECT_CONTEXT.md. 앞선 제출 카드·썸네일·과제 설명 및 새 경력기술서 deliverables/project-experience-url.docx, Word 다운로드 파일·기록 장치 등 다른 변경은 보존했습니다. 커밋·push·배포 없음.
+- 검사: Node assert로 복원 story가 HEAD의 6편과 객체 전체 일치, story/관련 리추얼 설명 외 content 필드 전체가 작업 직전과 일치함을 확인했습니다. node --check app.js, node --check content.js, git diff --check 통과(LF/CRLF 안내만). node .checks/verify-story.cjs 통과: 로컬 file:// Chrome 1280/800/390/320px의 6편 제목·본문 일치·선택/이전다음/Enter·포커스·기존 #story-care 주소·경계 버튼·가로 넘침 없음·페이지 오류 없음. .checks는 Git 제외 임시 검사입니다.
+- 실제 배포·Supabase 미확인, SQL 미실행. 제출 카드/외부 URL·Word 렌더링은 이번 복원 범위가 아니므로 재실행하지 않았습니다.
+- 다음 단계: index.html → 내 이야기에서 복원한 6편을 확인합니다. 경력기술서 Word는 사용자가 직접 편집하며, 배포 또는 커밋은 요청 시 진행합니다. 직접 push하지 않습니다.
+
+## 앞선 완료: URL이 있는 과제 8개의 경력기술서 작성
+
+- 2026-10-16 (Asia/Seoul), main / 85248c71a18877c6a0e636d6b4f11721843b725e 기준. 사용자가 첨부한 제목과 2열 표 양식으로 `deliverables/project-experience-url.docx`를 작성했습니다. 기존 화면·문서 안내 변경을 보존했습니다. 커밋·push·배포 없음.
+- `content.js`의 submissionContents에서 결과물/소스 URL이 있는 T01~T08을 포함하고 URL이 없는 T09~T11은 제외했습니다. 과제마다 해당 능력·기간·상황·행동·결과를 작성하고 결과물/제출 시점 소스 링크를 넣었습니다. 수행 시작일은 확인되지 않아 `record-input/submissions.json`의 제출일을 기간에 명시했습니다. AI 구현과 본인 판단을 구분했으며 현재 서비스 운영을 새로 검증했다고 쓰지 않았습니다.
+- 주요 파일: 새 `deliverables/project-experience-url.docx`, 이 문서. 기존 `assets/documents/project-experience.docx`와 다운로드 링크, 이전 JSON/생성기는 변경하지 않았습니다. 이번 산출물은 사용자가 Word에서 직접 편집할 별도 문서입니다. 임시 작성/검사는 Git 제외 `.checks/create-career-doc.py`, `.checks/document-source.json`에 있습니다.
+- 검사: 번들 Python으로 `.checks/create-career-doc.py` 실행 성공, Word 재열기로 표 8개/각 5개 필드/하이퍼링크 16개 검증. `git diff --check` 통과(LF/CRLF 안내만). 문서 글꼴은 맑은 고딕, 흰 바탕/회색 테두리 표, 격자 맞춤 해제 및 고정 포인트 줄 간격, 표 내부 연결/행 분할 금지를 적용했습니다.
+- 시각 검사 미완료: 문서 스킬 `render_docx.py deliverables/project-experience-url.docx --output_dir .checks/career-render --emit_pdf`를 실행했으나 soffice.exe가 없어 실패했고 임시 폴더 정리에도 WinError5가 발생했습니다. 번들 native 목록에도 LibreOffice가 없으며 Word.Application도 확인되지 않았습니다. 실제 Word 페이지 수와 최종 배치, 외부 URL 현재 접속, 다운로드·배포·Supabase 미확인, SQL 미실행.
+- 다음 단계: Word에서 새 파일을 열어 문구·페이지 배치를 검토하고 직접 수정합니다. 사이트 다운로드 파일로 쓰려면 사용자 결정에 따라 완성본을 `assets/documents/project-experience.docx`로 교체하고 배포 후 다운로드를 확인합니다.
+
+## 철회한 변경: 이야기 3항목 재구성
+
+- 2026-10-15에 적용한 고난·극복·더 나은 나 3항목 구성은 2026-10-16 사용자 요청으로 철회했습니다. 현재 사이트는 아래 최신 완료에 기록한 기존 6편이며 세 항목의 문구·새 주소·aliases 로직은 사용하지 않습니다.
+
+## 앞선 완료: URL 없는 썸네일 제목과 과제별 수행 설명
+
+- 2026-10-15 (Asia/Seoul), `main` / `85248c71a18877c6a0e636d6b4f11721843b725e` 기준. 제출 목록을 PC 2열·640px 이하 1열로 바꾸고 T01~T08 결과물 URL을 현재 공개 화면 썸네일·도메인과 연결했습니다. 같은 결과물 URL인 T01/T08, T04/T05, T06/T07은 각각 카드와 썸네일 하나로 묶었습니다. 총 11건을 결과물 5개와 URL 없는 과제 3개, 총 8개 카드로 표시합니다. 각 카드에는 썸네일·사이트 주소·과제별 제출 내용 버튼만 표시합니다. 반복되는 과제 번호 요약/Studio 제목/날짜·상태/구분선을 목록에서 제거하고 연결된 과제 버튼을 가로로 배치했습니다. 좁은 폭에서는 버튼이 줄바꿈합니다. 제출 날짜·상태는 각 제출 내용 모달 상단으로 옮겼으며 11개 원문 접근과 사이트별 그룹을 유지합니다. URL 없는 과제는 썸네일 중앙에 Studio 과제 09/10/11 제목을 표시하고, 아래 사이트 주소 자리에 등록된 URL이 없습니다를 표시합니다. 중복 제목과 썸네일 내부 URL 없음 안내는 제거했습니다. URL 전체가 같은 경우에만 묶으므로 같은 도메인의 다른 경로·쿼리 결과물은 별개로 유지합니다. T09~T11은 URL 미등록 표시와 기존 제출 내용 버튼을 제공합니다.
+- `content.js`의 `submissionContents.T01~T11.body` 세 번째 문단에 있던 공통 안내를 과제 목적과 수행 작업 설명으로 교체했습니다. 기존 제출 본문의 재현 절차와 AI/본인 판단에 근거해 작성하고 직접 정한 방향과 AI에 맡긴 작업을 구분했습니다. T04 정보판/T05 계산기, T06 PDS/T07 인증 보강, T01 소개/T08 패스키를 구별합니다. 결과물·저장소 URL, 재현 절차, AI 판단 원문과 첨부파일 목록은 유지했습니다. 새 입력 body가 있으면 기존 규칙대로 그 일반 텍스트 본문이 우선합니다.
+- `app.js`는 초기 HTML 또는 새 일반 텍스트 본문 중 ‘결과물 URL’ 항목에서만 HTTP(S) 주소를 추출합니다. 소스 저장소와 참고 링크를 대신 연결하지 않으며 자격 증명이 포함된 URL도 제외합니다. 썸네일·도메인은 새 탭으로 열고 noopener/noreferrer를 설정합니다. 이번 설명 문단 외 제출 본문·기록 갱신 장치·DB는 변경하지 않았습니다. 이미지 오류 시 코드/링크 안내가 남습니다.
+- `content.js`의 `submissionPreviews`에 URL별 이미지 경로를 관리합니다. 주소 변경 시 옛 이미지가 다른 결과물에 연결되지 않습니다. 새로운 URL은 링크부터 표시하며 새 캡처/맵 등록이 필요합니다. `assets/submissions/t01.jpg`, `t02.jpg`, `t03.jpg`, `t04.jpg`, `t06.jpg` 5개는 2026-10-15 공개 첫 화면입니다. T06은 비로그인 화면입니다. `index.html`에 현재 캡처이며 제출 당시와 다를 수 있다는 안내를 추가했습니다.
+- 주요 수정: `app.js`, `styles.css`, `content.js`, `index.html`, `assets/submissions/*.jpg`, `README.md`, `PROJECT_CONTEXT.md`.
+- 검사: `node --check app.js`, `node --check content.js`, `git diff --check` 통과. `node .checks/verify-submissions.cjs`에서 로컬 file:// Chrome으로 11건/8개 카드/고유 링크·썸네일5개/URL없음3건, T01+T08·T04+T05·T06+T07 그룹과 과제별 버튼 11개 일치, 1280·800·390·320px 이미지 로드와 모달 가로 넘침 없음, URL 없는 썸네일 제목3개/주소 대체 안내3개, 11개 과제 설명 문단 및 이전 안내 제거·날짜/상태 표시·Esc·초점 복귀, 이미지 실패 대체 표시, 일반 텍스트 URL 추출·잘못된 스킴 제외·페이지 오류 없음 확인. `.checks/submissions-1280.png`, `submissions-390.png` 화면 캡처를 갱신하고 `.checks/submissions-no-url.png`에서 URL 없는 과제 3개의 모바일 화면을 직접 시각 확인했습니다. 5개 원본 이미지는 직전 작업에서 시각 확인한 파일을 그대로 사용합니다. `.checks/`는 Git 제외 임시 검증 자료입니다.
+- 외부 확인 범위: 직전 썸네일 작업에서 공개 결과물 5개 주소의 HTTP 200과 첫 화면을 Chrome으로 확인해 캡처했습니다. 최초 샌드박스 DNS 실패 후 허용된 네트워크 실행에서 성공했고 T06은 networkidle 대기 초과 후 DOM 로드 기준으로 캡처했습니다. 로그인·저장 등 서비스 내부 기능과 실제 Supabase는 미확인, SQL 미실행입니다. 이번 제목·설명 수정 작업에서는 외부 사이트를 재확인하지 않았으며 포트폴리오 변경 배포도 미실행입니다. 기존 기록 장치 33개 검사는 화면 변경과 무관하여 재실행하지 않았습니다. 커밋 없음.
+- 다음 단계: 로컬 `index.html` → ‘제출 과제 자세히 보기’에서 화면 확인. 사용자 요청 시 현재 변경을 커밋하고 정적 호스팅 절차로 배포한 뒤 썸네일/새 탭 링크를 재확인합니다. 절대 직접 push하지 않습니다. 지원 Word 문서는 사용자가 완성한 파일로 직접 교체하며 생성기는 실행하지 않습니다.
+
+## 앞선 완료: 지원 문서를 직접 편집·교체하는 방식으로 확정
+
+- 2026-10-15 (Asia/Seoul), `main` / `85248c71a18877c6a0e636d6b4f11721843b725e` 기준. 사용자는 Word 파일을 직접 편집한 뒤 올리고 방문자가 내려받는 방식을 사용합니다. 현재 문서는 최종본이 아닌 임시 파일입니다. Python/JSON으로 지원 문서를 재생성하지 않습니다.
+- `README.md`의 지원 문서 절을 직접 파일 교체·배포 안내로 교체했습니다. 자기소개서/경력기술서는 같은 경로로 교체하면 되고, 파일명 변경 또는 이력서 추가 시 `content.js`의 documents와 `index.html`의 #document-list를 함께 수정합니다.
+- 주요 수정 파일: `README.md`, `PROJECT_CONTEXT.md`. 기존 Word 파일·생성기·원문 JSON·다운로드 로직은 변경하지 않았습니다. 생성기/JSON은 이전 작업 보존 자료이며 직접 편집한 문서를 덮어쓰므로 실행하지 않습니다. 아래 Python 관련 기록은 과거 작업 경위입니다. 논문용 `scripts/build_paper.py`는 별개입니다.
+- 검사: Node 정적 확인으로 content.js에 등록된 두 문서 파일 존재, index.html의 같은 경로/download 속성 일치, README에서 옛 Word 생성 명령 제거 확인. `git diff --check` 통과. 문서/생성기에 신규 diff 없음 확인. 실제 다운로드·브라우저·배포·Supabase는 이번 작업에서 미확인, SQL 미실행, 커밋 없음.
+- 다음 단계: 사용자가 완성한 Word 파일로 `assets/documents/self-introduction.docx`, `assets/documents/project-experience.docx`를 교체합니다. 이력서 완성 시 파일과 두 링크를 등록하고, 배포 후 각 다운로드 파일이 최종본인지 확인합니다.
+
+## 앞선 완료: 이야기 목차와 선택 본문 구성
+
+- 2026-10-15 (Asia/Seoul), `main` / `85248c71a18877c6a0e636d6b4f11721843b725e` 기준. 사용자 승인 시안에 맞춰 PC에서 왼쪽 6개 목차, 오른쪽 선택 본문으로 구성했습니다. 선택 목차는 검정 배경이며 본문 아래 이전·다음/현재 순서를 표시합니다. 760px 이하에서는 선택한 제목 바로 아래 본문이 펼쳐집니다.
+- 첫 이야기가 기본 표시됩니다. 제목·기간·본문·역량은 기존 `content.js`에서 그대로 읽으며 생략·말줄임·내부 스크롤 없이 전체 표시합니다. 이야기 내부의 문장별 강제 줄바꿈만 일반 문단 흐름으로 바꿨습니다. 원문 데이터는 수정하지 않았습니다.
+- 목차는 기본 button의 키보드 조작, aria-expanded/aria-controls를 지원합니다. 이전·다음 전환 시 새 목차로 포커스를 옮기며 처음/마지막 경계 버튼은 비활성화합니다. 기존 `#story-care`, `#story-communication` 주소로 방문하거나 해시가 바뀌면 해당 이야기를 엽니다.
+- 주요 수정 파일: `app.js`, `styles.css`, `README.md`, `PROJECT_CONTEXT.md`. 앞선 `index.html` 버튼 제거도 유지합니다. JavaScript 없는 안내와 이야기 외 기록·문서 로직은 유지했습니다.
+- 검사: `node --check app.js`, `git diff --check` 통과. `node .checks/verify-story.cjs`에서 로컬 file:// Chrome으로 1280/800/390/320px 각각 6편 제목·본문 원문 일치, 선택한 본문 하나만 표시, 좌우/세로 배치, 가로 넘침 없음, 이전·다음 전환·포커스·Enter 조작·장면 주소·경계 비활성화·페이지 오류 없음 확인했습니다. `.checks/story-desktop.png`, `.checks/story-mobile.png`를 캡처하고 직접 시각 확인했습니다. `.checks/`는 Git 제외 임시 검사입니다.
+- 실제 배포·Supabase 미확인, SQL 미실행. 기록 장치 검사와 Word 렌더링은 이번 변경 범위가 아니므로 재실행하지 않았습니다. 커밋 없음.
+- 다음 단계: 로컬 `index.html`에서 첫 이야기부터 원하는 순서로 읽어 보고, 사용자 요청 시 배포 절차를 진행합니다. 지원 문서의 남은 작성 및 배포 비로그인 확인은 별도 작업입니다.
+
+## 앞선 완료: 소개 아래 이야기 읽기 버튼 제거
+
+- 2026-10-15 (Asia/Seoul). `index.html`의 소개 문구 바로 아래 ‘내 이야기 읽기’ 링크 하나를 제거했습니다. 해당 링크에 의존하는 JavaScript가 없음을 확인했으며 소개 문구·이야기 본문·상단 메뉴·기존 스타일은 유지했습니다.
+- 주요 수정 파일: `index.html`, `PROJECT_CONTEXT.md`.
+- 검사: `git diff --check` 통과. Node 정적 확인으로 버튼 문구 제거, 소개 문구·상단 이야기 메뉴·이야기 영역 보존을 확인했습니다.
+- 실제 브라우저·배포·Supabase는 이번 작업에서 미확인, SQL 미실행입니다.
+- 다음 단계: `index.html`을 브라우저에서 새로고침해 첫 화면을 확인합니다. 지원 문서의 남은 작성 및 실제 배포 확인은 별도 작업입니다.
+
+## 앞선 완료: Word 자기소개서 간격과 페이지 밀림 보정
 
 - 2026-10-15 (Asia/Seoul), main / 27b7cee3ef9054a31582d8afee5f507a822a30ae 기준. 사용자 제공 Word 화면에서 큰 줄 간격과 세 번째 장면의 페이지 이동을 확인했습니다.
 - scripts/build_application_documents.py의 자기소개서에만 docGrid 제거 및 Normal/Title/Heading1 snapToGrid=0, 고정 포인트 줄 간격(본문16pt/제목29pt/소제목19pt)을 적용했습니다. 본문 연속 keep_with_next를 해제하고 네 번째 장면 앞 강제 페이지 구분도 제거했습니다. 제목·기간과 첫 문단은 연결하며 본문은 페이지에 따라 자연스럽게 흐릅니다.

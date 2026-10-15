@@ -79,6 +79,8 @@
   const openSubmission = (code, trigger) => {
     const submission = data.submissionContents?.[code];
     text("submission-modal-title", submission?.title || `${code} 제출 내용`);
+    const record = data.records?.submissions.find(item => item.code === code);
+    text("submission-modal-meta", record ? `${record.submitted} 제출 · ${record.status}` : "");
     const body = document.getElementById("submission-modal-body");
     body.classList.toggle("submission-plain-text", typeof submission?.plainBody === "string");
     // 기존 제출 HTML만 사용합니다. 가져온 기록의 문자열은 textContent로 표시합니다.
@@ -87,14 +89,61 @@
     else body.textContent = "제출 내용을 불러오지 못했습니다. 페이지를 새로고침한 뒤 다시 열어주세요.";
     openModal(submissionModal, trigger);
   };
+  const submissionUrl = submission => {
+    // 결과물 항목만 읽어 소스 저장소나 본문의 참고 링크를 대표 링크로 오인하지 않습니다.
+    let value;
+    if (typeof submission?.plainBody === "string") {
+      const section = submission.plainBody.split(/결과물\s*URL\s*[:：]?/i)[1]?.split(/소스\s*저장소\s*URL|재현[·ㆍ]/i)[0];
+      value = section?.match(/https?:\/\/[^\s<>"']+/i)?.[0];
+    } else if (submission?.body) {
+      const document = new DOMParser().parseFromString(submission.body, "text/html");
+      const heading = [...document.querySelectorAll("h2")].find(el => el.textContent.trim() === "결과물 URL");
+      for (let node = heading?.nextElementSibling; node && node.tagName !== "H2"; node = node.nextElementSibling) {
+        value = node.querySelector("a[href]")?.getAttribute("href");
+        if (value) break;
+      }
+    }
+    try {
+      const url = new URL(value);
+      if (["http:", "https:"].includes(url.protocol) && !url.username && !url.password) return url.href;
+    } catch { /* 결과물 URL이 없거나 잘못되면 제출 내용만 제공합니다. */ }
+    return null;
+  };
   document.querySelectorAll("[data-name]").forEach(el => { el.textContent = data.name; });
   document.title = `${data.name} · Portfolio`;
   text("tagline", data.tagline);
   const story = document.getElementById("story-content");
-  story.replaceChildren(...data.story.map(scene => {
+  story.classList.add("story-browser");
+  const storyButtons = [];
+  const storyPanels = [];
+  const selectStory = (index, focus = false) => {
+    storyButtons.forEach((button, i) => button.setAttribute("aria-expanded", String(i === index)));
+    storyPanels.forEach((panel, i) => { panel.hidden = i !== index; });
+    if (focus) storyButtons[index].focus({ preventScroll: true });
+  };
+  story.replaceChildren(...data.story.map((scene, index) => {
+    const item = document.createElement("div"); item.className = "story-item";
+    const button = document.createElement("button");
+    button.type = "button"; button.className = "story-chapter";
+    button.id = `story-chapter-${index + 1}`;
+    button.style.gridRow = String(index + 1);
+    const number = document.createElement("span"); number.className = "story-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+    const chapterCopy = document.createElement("span");
+    const chapterTitle = document.createElement("span"); chapterTitle.className = "story-chapter-title";
+    chapterTitle.textContent = scene.title;
+    const chapterDate = document.createElement("span"); chapterDate.className = "story-chapter-date";
+    chapterDate.textContent = scene.dateLabel || scene.date || "";
+    chapterCopy.append(chapterTitle, chapterDate); button.append(number, chapterCopy);
     const article = document.createElement("article");
-    if (scene.id) article.id = scene.id;
+    article.className = "story-scene";
+    article.id = scene.id || `story-scene-${index + 1}`;
+    article.style.gridRow = `1 / span ${data.story.length}`;
+    article.setAttribute("aria-labelledby", `${button.id}-title`);
+    button.setAttribute("aria-controls", article.id);
+    button.addEventListener("click", () => selectStory(index));
     const heading = document.createElement("h3"); heading.textContent = scene.title;
+    heading.id = `${button.id}-title`;
     article.append(heading);
     // '7월 말 이후' 같은 기간 표현에는 임의의 날짜를 부여하지 않습니다.
     if (scene.date || scene.dateLabel) {
@@ -119,8 +168,30 @@
       }
       article.append(ability);
     }
-    return article;
+    const controls = document.createElement("div"); controls.className = "story-controls";
+    const previous = document.createElement("button"); previous.type = "button";
+    previous.textContent = "← 이전 이야기"; previous.disabled = index === 0;
+    previous.addEventListener("click", () => selectStory(index - 1, true));
+    const position = document.createElement("span");
+    position.textContent = `${String(index + 1).padStart(2, "0")} / ${String(data.story.length).padStart(2, "0")}`;
+    const next = document.createElement("button"); next.type = "button";
+    next.textContent = "다음 이야기 →"; next.disabled = index === data.story.length - 1;
+    next.addEventListener("click", () => selectStory(index + 1, true));
+    controls.append(previous, position, next); article.append(controls);
+    storyButtons.push(button); storyPanels.push(article);
+    item.append(button, article);
+    return item;
   }));
+  // 기존 장면 주소로 방문해도 접힌 본문 대신 해당 이야기를 바로 읽게 합니다.
+  const revealStoryHash = () => {
+    const index = storyPanels.findIndex(panel => `#${panel.id}` === window.location.hash);
+    if (index < 0) return;
+    selectStory(index);
+    storyPanels[index].scrollIntoView({ block: "nearest" });
+  };
+  selectStory(0);
+  revealStoryHash();
+  window.addEventListener("hashchange", revealStoryHash);
   text("paper-title", data.paper.title);
   text("paper-summary", data.paper.summary);
   text("paper-description", data.paper.description);
@@ -152,18 +223,63 @@
     const { submissions } = records;
     window.initRecordsUI(records, openModal);
     text("submission-list-title", `제출 과제 ${submissions.length}건`);
-    document.getElementById("submission-list").replaceChildren(...submissions.map(item => {
+    const groups = new Map();
+    for (const item of submissions) {
+      const url = submissionUrl(data.submissionContents?.[item.code]);
+      // 같은 결과물 주소만 묶고 URL 없는 과제는 개별 제출로 보존합니다.
+      const key = url || item.code;
+      if (!groups.has(key)) groups.set(key, { url, items: [] });
+      groups.get(key).items.push(item);
+    }
+    document.getElementById("submission-list").replaceChildren(...[...groups.values()].map(({ url, items }) => {
       const row = document.createElement("li");
-      const title = document.createElement("strong"); title.textContent = `${item.code} · ${item.title || `Studio 과제 ${item.code.slice(1)}`}`;
-      const detail = document.createElement("span"); detail.textContent = `${item.submitted} 제출 · ${item.status}`;
-      row.append(title, detail);
-      const view = document.createElement("button"); view.type = "button";
-      view.textContent = `${item.code} 제출 내용 보기`;
-      view.className = "submission-view";
-      view.setAttribute("aria-haspopup", "dialog");
-      view.setAttribute("aria-controls", "submission-modal");
-      view.addEventListener("click", () => openSubmission(item.code, view));
-      row.append(view);
+      const codes = items.map(item => item.code).join(" · ");
+      const preview = document.createElement(url ? "a" : "div");
+      preview.className = "submission-preview";
+      if (!url) preview.classList.add("submission-preview-empty");
+      if (url) {
+        preview.href = url; preview.target = "_blank"; preview.rel = "noopener noreferrer";
+        preview.setAttribute("aria-label", `${codes} 결과물 열기 (새 탭)`);
+      }
+      const fallback = document.createElement("span"); fallback.className = "submission-preview-fallback";
+      const code = document.createElement("b"); code.textContent = url ? codes : items[0].title || `Studio 과제 ${items[0].code.slice(1)}`;
+      fallback.append(code);
+      if (url) {
+        const hint = document.createElement("small"); hint.textContent = "결과물 열기 ↗";
+        fallback.append(hint);
+      }
+      preview.append(fallback);
+      const thumbnail = url && data.submissionPreviews?.[url];
+      if (thumbnail) {
+        const image = document.createElement("img");
+        image.alt = ""; image.loading = "lazy"; image.width = 1280; image.height = 800;
+        image.addEventListener("error", () => image.remove(), { once: true });
+        image.src = thumbnail; preview.append(image);
+      }
+      row.append(preview);
+      if (url) {
+        const destination = link(`${new URL(url).hostname} ↗`, url);
+        destination.className = "submission-destination";
+        destination.target = "_blank"; destination.rel = "noopener noreferrer";
+        destination.setAttribute("aria-label", `${codes} 결과물: ${new URL(url).hostname} (새 탭)`);
+        row.append(destination);
+      } else {
+        const unavailable = document.createElement("span"); unavailable.className = "submission-destination";
+        unavailable.textContent = "등록된 URL이 없습니다";
+        row.append(unavailable);
+      }
+      const tasks = document.createElement("div"); tasks.className = "submission-tasks";
+      for (const item of items) {
+        const task = document.createElement("div"); task.className = "submission-task";
+        const view = document.createElement("button"); view.type = "button";
+        view.textContent = `${item.code} 제출 내용`;
+        view.className = "submission-view";
+        view.setAttribute("aria-haspopup", "dialog");
+        view.setAttribute("aria-controls", "submission-modal");
+        view.addEventListener("click", () => openSubmission(item.code, view));
+        task.append(view); tasks.append(task);
+      }
+      row.append(tasks);
       return row;
     }));
     text("record-source", records.source);
