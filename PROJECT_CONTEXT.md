@@ -1,10 +1,29 @@
 # 현재 작업 상태
 
 - 마지막 수정 날짜: 2026-10-15 (Asia/Seoul)
-- 브랜치: `main`, 기준 커밋: `9c66a9f891be36e8ba687b9bf45baea0635647fa`
-- 작업 시작 시 기존 변경은 PROJECT_CONTEXT.md, content.js, index.html, styles.css 및 미추적 assets/gmail.svg였습니다. 기존 변경을 보존하고 이번 장치 ZIP 축소 작업을 추가했습니다. 커밋·push·배포는 하지 않았습니다.
+- 브랜치: `main`, 기준 커밋: `27b7cee3ef9054a31582d8afee5f507a822a30ae`
+- 이번 작업 시작 시 앞선 자기소개서 작업의 Word·원문 JSON·생성기·README·인계 문서 변경이 있었습니다. 기존 변경을 보존하고 Word 배치 보정을 추가했습니다. 커밋·push·배포는 하지 않았습니다.
 
-## 이번 완료: 사이트를 제외한 장치 전용 ZIP
+## 이번 완료: Word 자기소개서 간격과 페이지 밀림 보정
+
+- 2026-10-15 (Asia/Seoul), main / 27b7cee3ef9054a31582d8afee5f507a822a30ae 기준. 사용자 제공 Word 화면에서 큰 줄 간격과 세 번째 장면의 페이지 이동을 확인했습니다.
+- scripts/build_application_documents.py의 자기소개서에만 docGrid 제거 및 Normal/Title/Heading1 snapToGrid=0, 고정 포인트 줄 간격(본문16pt/제목29pt/소제목19pt)을 적용했습니다. 본문 연속 keep_with_next를 해제하고 네 번째 장면 앞 강제 페이지 구분도 제거했습니다. 제목·기간과 첫 문단은 연결하며 본문은 페이지에 따라 자연스럽게 흐릅니다.
+- assets/documents/self-introduction.docx를 --only introduction으로 재생성하고 README 설명을 갱신했습니다. 원문 JSON·경력기술서는 이번 보정에서 바꾸지 않았습니다.
+- 번들 Python 검사: 6개 장면의 제목·날짜·본문·역량 원문 일치, docGrid 없음, 세 스타일의 snapToGrid 해제/lineRule exact, 본문 연속 묶음과 강제 페이지 구분 없음, Python ast 문법 확인 통과. git diff --check 통과.
+- 렌더링 환경은 앞서 확인한 대로 LibreOffice/Word 변환기 부재입니다. 실제 수정본 Word 페이지 수와 최종 시각 배치는 미확인입니다. 사용자 화면의 검은 네모/꺾인 화살표는 Word 편집 표시일 수 있으며 문서 내용으로 추가한 기호가 아닙니다.
+- 다음 단계: 수정본을 Word에서 다시 열어 간격·페이지 배치를 확인합니다. 배포·브라우저·Supabase 미확인, SQL 미실행. 커밋·push 없음.
+
+## 앞선 완료: 카드 1 이야기로 자기소개서 Word 작성
+
+- 2026-10-15 (Asia/Seoul). 사용자 제공 이야기 6편과 일치하는 content.js의 장면을 assets/documents/application-content.json의 introduction.scenes에 저장하고 self-introduction.docx에 반영했습니다. 제목·기간·본문 문단·역량 설명을 보존하고 문장 사이 정상 띄어쓰기를 적용했습니다. 사실·문구를 새로 만들지 않았습니다.
+- A4, 맑은 고딕 11pt 본문, 검정 제목/소제목, 회색 기간, 역량 강조, 세 장면씩 페이지 구분을 설정했습니다. 실제 페이지 수는 렌더링 전이므로 확정하지 않습니다.
+- scripts/build_application_documents.py에 장면형 본문과 --only introduction을 지원했습니다. 경력기술서는 이번에 재생성하지 않았습니다. 기존 다운로드 경로를 유지하고 README의 미작성 안내를 현재 상태로 바꿨습니다.
+- 검증: 번들 Python/python-docx로 6개 제목·기간·본문·역량이 원문 JSON과 전부 일치, 페이지 구분 1개, 제목 테두리 없음, Python ast 문법 확인, git diff --check 통과.
+- 시각 검증 제한: 스킬 render_docx.py를 실행했으나 번들 LibreOffice가 Windows에 없고 PATH의 soffice.exe도 없어 실패했습니다. Word.Application 등록도 없어 Word 변환 대안 사용 불가. 임시 폴더 정리에도 WinError5가 발생했습니다. PNG/PDF 페이지 렌더링과 육안 검증은 완료하지 못했습니다.
+- 변경 파일: assets/documents/self-introduction.docx, assets/documents/application-content.json, scripts/build_application_documents.py, README.md, PROJECT_CONTEXT.md. 사이트 본문/경력기술서/장치 ZIP은 변경하지 않았습니다.
+- 다음 단계: Word가 있는 PC에서 두 페이지 배치·줄바꿈을 확인하고 필요 시 조정. 이후 이력서와 경력기술서 내용을 작성하고 배포에서 문서 다운로드 확인. 자기소개서 본문은 작성 완료이며 시각 검증은 미확인입니다.
+
+## 앞선 완료: 사이트를 제외한 장치 전용 ZIP
 
 - 2026-10-15 (Asia/Seoul), main / 9c66a9f891be36e8ba687b9bf45baea0635647fa 기준입니다.
 - 제출본은 deliverables/record-updater-device.zip입니다. 기존 533,943바이트/38항목에서 192,271바이트/16항목으로 약 64% 줄였습니다. 사이트 HTML/CSS/JS·이미지·논문·Word·data/·중복 last-result/를 제외하고 scripts 3개, 입력 4개, generated 마지막 결과와 승인 6개, README/상세 안내/비교 파일만 포함했습니다.

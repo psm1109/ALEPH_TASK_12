@@ -75,7 +75,7 @@ node scripts/import_records.js
 
 ## 지원 문서
 
-`assets/documents/self-introduction.docx`와 `assets/documents/project-experience.docx`는 나중에 작성할 자기소개서·경력기술서입니다. 사용자 요청으로 기존 본문과 생성용 원문 데이터를 비웠으며 현재 파일에는 이름과 문서 제목만 있습니다. 다운로드 기능과 파일 경로는 유지합니다. 이력서는 사용자가 별도로 작성 중이므로 이번 산출물에 포함하지 않았습니다.
+`assets/documents/self-introduction.docx`에는 사용자가 제공한 카드 1의 내 이야기 6편을 제목·기간·본문·역량 설명으로 정리했습니다. 경력기술서 `assets/documents/project-experience.docx`는 아직 이름과 제목만 있으며 이력서는 별도 작성 중입니다. 기존 다운로드 경로는 유지합니다.
 
 두 Word 파일은 사이트 문서 영역에서 내려받을 수 있고 JavaScript를 끈 경우에도 링크가 작동합니다. 내용과 출처는 `assets/documents/application-content.json`, 생성기는 `scripts/build_application_documents.py`에서 관리합니다. Python과 `python-docx`가 필요합니다. Codex에서는 `load_workspace_dependencies`가 반환한 Python 경로로 아래 명령을 실행합니다.
 
@@ -83,7 +83,9 @@ node scripts/import_records.js
 python scripts/build_application_documents.py
 ```
 
-자기소개서는 JSON의 `introduction.field`(선택 지원 분야), `title`, `paragraphs`에 내용을 입력합니다. 경력기술서는 `experience.scope`, `role`, `projects`에 내용을 입력합니다. 과제 항목은 `code`, `title`, `submitted`, `ability`, `situation`, `action`, `result`를 사용합니다. 과제를 채울 때 `asOf`도 입력합니다. 내용이 비어 있으면 생성기는 본문·표·기준일을 넣지 않습니다. 원문 변경 후 문서를 다시 생성하고 Word에서 내용과 페이지 배치를 확인하세요. 배포 시 `assets/documents/`를 함께 포함합니다. 원본 카드·제출 기록이 바뀌더라도 문서는 자동으로 변경되지 않습니다.
+자기소개서만 다시 만들려면 `python scripts/build_application_documents.py --only introduction`을 사용합니다. 장면형 본문은 JSON의 `introduction.scenes`에 title/dateLabel/body/ability/abilitySummary를 저장합니다. Word에서 간격이 늘어나지 않도록 문서 격자 맞춤을 해제하고 고정 포인트 줄 간격을 사용하며, 강제 페이지 나눔 없이 본문을 이어 갑니다. 본문 문장 사이 띄어쓰기를 유지합니다.
+
+기존 문단형 자기소개서는 JSON의 `introduction.field`(선택 지원 분야), `title`, `paragraphs`에 내용을 입력합니다. 경력기술서는 `experience.scope`, `role`, `projects`에 내용을 입력합니다. 과제 항목은 `code`, `title`, `submitted`, `ability`, `situation`, `action`, `result`를 사용합니다. 과제를 채울 때 `asOf`도 입력합니다. 내용이 비어 있으면 생성기는 본문·표·기준일을 넣지 않습니다. 원문 변경 후 문서를 다시 생성하고 Word에서 내용과 페이지 배치를 확인하세요. 배포 시 `assets/documents/`를 함께 포함합니다. 원본 카드·제출 기록이 바뀌더라도 문서는 자동으로 변경되지 않습니다.
 
 ## 논문과 배포
 
