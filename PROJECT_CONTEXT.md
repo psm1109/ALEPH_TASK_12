@@ -1,18 +1,51 @@
 # 현재 작업 상태
 
 - 마지막 수정 날짜: 2026-10-16 (Asia/Seoul)
-- 현재 브랜치: main. 이번 통합 커밋의 기준(부모) 커밋: 92b5667837453c376bace25c3a0b835d0029cdc1.
-- 사용자가 로컬 변경 전체를 하나의 커밋으로 작성하도록 요청했습니다. 아래 변경을 통합 커밋에 포함하며 원격 push 및 배포는 하지 않습니다. 통합 커밋 자체의 해시는 자기 참조를 피하기 위해 본문에 넣지 않으며 git log -1 --format="%H %s"로 확인합니다. 완료 후 작업 트리는 git status --short로 확인합니다.
+- 현재 브랜치: main. 이번 작업 기준 커밋: ccf9cc89508fee47ab02c1a0947f951075721084 (feat: 화면 정리 및 이력서 연결).
+- 이번 작업 시작 시 앞선 점검의 PROJECT_CONTEXT.md 변경이 있었으며 보존했습니다. 사용자 요청에 따라 Word 2개·README·이 인계 문서를 수정했습니다. 사이트 코드·이력서·기록 입력·ZIP은 이번 범위에서 변경하지 않았습니다. 커밋·push·배포는 하지 않았습니다.
 
-## 이번 완료: 로컬 변경 통합 커밋
+## 이번 완료: 경력기술서 역량과 자기소개서 동기화
 
-- 진로 탐색과 통신병 경험을 통합하고 고난/회복을 분리한 이야기 5편, 사용자의 최신 본문·제목·역량 요약 편집을 포함합니다. 소통 단독 항목은 제거된 현재 상태를 반영합니다. 역량은 자기동기력·자기조절력·대인관계력이며, 고난 장면은 원래 없는 역량 요약을 덧붙이지 않습니다. 이야기 ID를 명시하고 고난/회복의 중복 ID를 구분했습니다.
-- 이야기 영역은 PC 640px/모바일 560px 높이, 내부 스크롤과 키보드 접근, 전환 시 맨 위 표시를 제공합니다. 첫 화면은 이름과 새 소개 문구, 사진/소개 상단 정렬 및 글자 크기·줄 간격 조정을 반영합니다.
-- 제공된 이력서 원본을 assets/documents/resume.docx로 보존하고 한국어 파일명으로 다운로드하도록 연결했습니다. 제목 옆 작은 ‘(추후 보완 예정)’ 안내와 문서 3개의 동일 높이를 적용했습니다. JavaScript 비활성화 초기 화면도 일치합니다.
-- 주요 파일: app.js, content.js, index.html, styles.css, assets/documents/resume.docx, README.md, PROJECT_CONTEXT.md (7개). .checks의 검증 스크립트/이미지는 Git 제외 임시 자료입니다.
-- 최종 검사: node --check app.js, node --check content.js 통과. node .checks/verify-story-fixed.cjs, node .checks/verify-intro-refined.cjs, node .checks/verify-resume-note.cjs 모두 통과. 로컬 Chrome에서 이야기 높이/스크롤/하단 이동/키보드 접근, 소개글·사진 정렬, 문서 안내/동일 높이/한국어 파일명 다운로드/바이트 일치, JS 활성/비활성 및 320~1280px 검증(각 명령의 화면 범위는 아래 상세 기록 참고). git diff --check 및 커밋 전 git diff --cached --check 통과.
-- 실제 배포·Supabase 미확인, SQL 미실행. 이력서 본문·레이아웃 품질 검토는 미실행입니다. 원격 push·배포는 수행하지 않습니다.
-- 다음 단계: git log -1 --format="%H %s"와 git status --short로 통합 커밋/깨끗한 작업 트리를 확인하고 index.html을 열어 검토합니다. 공개 반영은 별도 사용자 요청으로 진행합니다. 이력서 보완 시 assets/documents/resume.docx를 교체합니다.
+- 사용자 승인 범위: T04/T07 역량 재분류, Word 자기소개서를 현재 웹 이야기 5편과 일치, README의 이력서 안내 정정. 웹 이야기 순서/분량/사건을 새로 편집하는 작업은 포함하지 않습니다.
+- assets/documents/project-experience.docx: T04 환율 정보판을 API/자동 수집 방식의 주도적 선택에 근거한 자기동기력으로, T07 로그인 보호를 보안 기준 적용/반복 검증에 근거한 자기조절력으로 변경했습니다. 본문은 역량명 2곳만 바꿨으며, 8개 과제·상황·행동·결과·URL·서식은 보존했습니다. ZIP 내부도 word/document.xml 외 모든 항목 바이트 동일을 확인했습니다.
+- assets/documents/self-introduction.docx: 현재 content.js story 5편의 순서·제목·날짜·본문·역량·역량 요약과 정확히 일치시켰습니다. 고난 장면처럼 웹에 역량이 없는 항목에는 추가하지 않았습니다. 기존 문단/글꼴/페이지 스타일을 재사용했으며, word/document.xml 외 구성 파일은 바이트 동일합니다. 옛 소통 장면과 문제해결력 분류는 문서에서 빠졌습니다.
+- README.md: 첫 안내와 지원 문서 구역에 이력서·자기소개서·경력기술서의 실제 파일/다운로드 상태를 반영했습니다. resume.docx 경로·한국어 다운로드명·추후 보완 예정 상태와 T01~T08 경력기술서 범위/두 역량의 판단 근거를 기록했습니다. 이전 Word 생성기와 application-content.json은 사용하지 않았습니다.
+- 주요 수정 파일: assets/documents/project-experience.docx, assets/documents/self-introduction.docx, README.md, PROJECT_CONTEXT.md.
+- 확인: .checks/sync-application-docs.py 실행 성공. 별도 Python 검증으로 자기소개서 전체 문단이 웹 5편과 정확히 일치, 경력기술서 8개 과제의 허용 역량 사용, 두 Word의 비본문 ZIP 항목 보존, README의 구형 이력서 준비 중 문구 제거를 확인했습니다. git diff --check 통과(기존 Windows 줄바꿈 안내만).
+- 시각 검증: 스킬의 render_docx.py는 soffice.exe 부재로 실패했습니다. 대안으로 설치된 Microsoft Word를 숨김/읽기 전용으로 열어 임시 PDF를 생성했고 pypdfium2로 PNG를 만들었습니다. 자기소개서 2쪽과 경력기술서 4쪽을 전부 시각 검토해 글자 잘림·겹침 없음 확인. 경력기술서의 기존 표가 페이지에 이어지는 배치는 유지했습니다. Word 종료 후 원본 파일은 추가 저장하지 않았습니다. 첫 격리 환경 Word 호출이 대기해 중단 후 해당 호출에서 생성한 프로세스만 정리하고 허용된 재실행으로 성공했습니다.
+- 재현 자료(임시/Git 제외): .checks/current-story.json, .checks/sync-application-docs.py, .checks/document-sync-before/ 원본 백업, .checks/document-sync-render/{self-introduction,project-experience}/의 PDF/PNG. 내장 Python 실행 경로는 C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe입니다. 검증 스크립트는 원본 백업 보호를 위해 같은 경로로 재실행하면 중단하도록 작성했습니다.
+- 실제 배포·Supabase·SQL은 확인/실행하지 않았습니다. 코드 동작 변경이 없어 기록 장치 33개 검사는 이번 작업에서 반복하지 않았습니다(앞선 점검에서는 통과). 새 커밋 해시 없음.
+
+## 앞선 점검: BRA-C01~C10 및 제출 산출물 재점검
+
+
+- 실제 content.js, index.html, README.md, Word 3개의 OOXML 본문, 기록 입력/생성 결과, 기록 장치 소스, deliverables/record-updater.zip을 대조했습니다. 오래된 application-content.json과 과거 인계의 빈 문서 기록은 현재 Word 본문의 상태를 나타내지 않습니다.
+- C01 엄격 기준 미충족: 현재 5편 순서는 진로 → 고난 → 회복 → 졸업작품 → 현재입니다. 고난으로 시작하도록 재배치가 필요합니다. 본문은 공백 포함·줄바꿈 제외 1,869자(제목/날짜/역량 요약 제외)로 1,500자 안팎 목표보다 369자 많습니다.
+- C02 세 능력 표시는 존재합니다. 자기조절력 장면의 요약은 배려/도움에 가까우므로 감정 조절을 위해 본인이 한 행동과 결과를 실제 경험으로 구체화할 필요가 있습니다. 이후 이번 동기화로 Word 자기소개서도 웹 5편과 동일해졌습니다.
+- C03 이름과 ‘사람입니다’로 끝나는 소개가 있습니다. ‘…한 사람’의 문자 그대로 종결을 요구한다면 소개 끝 표현을 맞출 필요가 있습니다. C04 기간형 날짜와 2026-09-11 리추얼 날짜가 있습니다.
+- C05 출처 표시 및 현재 집계 확인: 기준일 2026-10-15, 출석 대상 43일/인정 42일/97.7%/확정 전 1일, 리추얼 60일/아침60·마무리60/총120회, 제출11건. 전체 기간 2026-08-11~2026-11-12의 중간 누적입니다. 최종 13주 집계로 표현하면 안 됩니다.
+- C06 T10 논문 Markdown 원본/보기/다운로드 및 T13 앱 예정 자리(2026-10-18) 존재. 실제 배포 링크 접근은 미확인입니다.
+- C07 이력서·자기소개서·경력기술서 Word 파일과 다운로드 링크 모두 존재하며 본문도 있습니다. 이력서는 추가예정/빈칸이 남은 초안입니다. README의 이력서 준비 중 안내는 이번 작업에서 실제 상태로 정정했습니다.
+- C08 기재한 8개 과제 범위의 능력/상황/행동/결과 형식을 충족합니다. 이번에 T04는 자기동기력, T07은 자기조절력으로 변경해 모든 과제가 지정 세 능력 중 하나에 해당합니다. 사용자 확인(2026-10-16): 경력기술서는 프로젝트 결과물 URL이 남아 있는 과제만 대상으로 작성했습니다. 따라서 T09~T11 제외는 의도한 범위이며 누락이나 추가 필요 항목으로 판단하지 않습니다.
+- C09 현재 장치 33개 검사 통과, 실제 입력과 승인으로 renderFiles 두 번 호출 시 5개 산출물 일치 및 현재 사이트 데이터 일치. 기존 ZIP을 새 .checks/submission-audit-6366d0dcbd8941d58d0c5cfc7ac59b68 폴더로 압축 해제해 포함 README의 승인 재현 명령으로 두 번 실행, generated 전체 SHA-256 일치 확인.
+- ZIP에는 실행 소스·README·last-result가 있습니다. 다만 기존 ZIP은 옛 사이트/옛 Word를 포함하며 최신 package_records.js/test_import_records.js와 다릅니다. README의 현재 제출 경로 deliverables/record-updater-device.zip은 존재하지 않고 기존 record-updater.zip만 있습니다. 최신 장치 ZIP 재생성이 필요합니다. ZIP은 .gitignore의 *.zip에 의해 Git에서 제외됩니다.
+- C10 사용자 확인(2026-10-16): 이력서·자기소개서에 들어가는 본인 개인정보는 공개를 감수하는 허용 범위입니다. 이를 결함이나 삭제 필수 항목으로 판단하지 않습니다. 타인의 실명·연락처 및 비밀번호·토큰·API 키는 계속 제외 대상입니다. 학술 인용 저자명에 대한 기존 예외는 유지합니다.
+- C10 최종 충족 판정 보류: 주요 텍스트/기록의 이메일 및 대표 비밀값 패턴 검사에서 사이트 본인 이메일 외 이메일과 대표 토큰 패턴은 검출되지 않았습니다. Word 작성자 메타데이터는 자기소개서/경력기술서가 본인, 이력서는 일반 사용자 값입니다. 전체 원문의 타인 실명·이미지 속 개인정보·모든 비밀값 유형에 대한 전수 검토는 하지 않았습니다. 학술 인용 저자명을 제외한다는 앞선 사용자 결정은 유지합니다.
+
+## 이번 검사와 실제 범위
+
+- node --test scripts/test_import_records.js: 첫 실행 spawn EPERM, 실행 허용 후 재실행 33개 전부 통과(과거 32개 기록을 대체).
+- Node VM으로 story 필드/분량 확인, build/renderFiles 실제 입력 결정성/사이트 일치 확인.
+- .NET ZIP/OOXML 읽기로 Word 본문·메타데이터 및 기존 ZIP 목록/소스 일치 여부 확인. 문서 레이아웃 렌더링은 미실행으로 잘림·겹침 품질 판정은 하지 않았습니다.
+- 기존 ZIP 압축 해제본에서 node scripts/import_records.js --approvals generated/applied-approval.json 두 번 성공, generated 모든 파일 SHA-256 일치. 원본 사이트/ZIP은 보존했습니다.
+- 실제 배포 브라우저·외부 URL·Supabase 미확인, SQL 미실행. 이번 점검은 로컬 파일/실행 근거입니다.
+
+## 다음 작업자가 실행할 순서
+
+1. 사용자 확인을 받아 실제 사실 범위에서 웹 이야기 순서를 고난 → 회복 → 현재로 정리하고 약 1,500자로 압축합니다. 자기조절력의 본인 행동/결과를 구체화합니다.
+2. resume.docx의 추가예정/빈칸을 완성합니다. 이후 웹 이야기를 변경하면 self-introduction.docx도 함께 맞춥니다. URL 결과물이 없는 T09~T11은 경력기술서 추가 대상이 아닙니다. 이전 Word 생성기는 실행하지 않습니다.
+3. node scripts/package_records.js로 deliverables/record-updater-device.zip을 생성합니다. 새 ZIP README대로 새 폴더에서 실행 검증합니다. README의 이력서 안내 정정은 완료했습니다.
+4. 최종 사이트·Word·이미지·ZIP 전체를 대상으로 타인 실명/연락처와 비밀값을 검토하고, 배포 사이트를 비로그인 브라우저에서 확인합니다. 기간 종료 시 최종 기록 갱신 여부를 판단합니다.
 
 ## 앞선 완료: 이력서 보완 안내 가로 배치와 문서 카드 높이 통일
 
