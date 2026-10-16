@@ -131,7 +131,11 @@
   const storyPanels = [];
   const selectStory = (index, focus = false) => {
     storyButtons.forEach((button, i) => button.setAttribute("aria-expanded", String(i === index)));
-    storyPanels.forEach((panel, i) => { panel.hidden = i !== index; });
+    storyPanels.forEach((panel, i) => {
+      const newlySelected = panel.hidden && i === index;
+      panel.hidden = i !== index;
+      if (newlySelected) panel.scrollTop = 0;
+    });
     if (focus) storyButtons[index].focus({ preventScroll: true });
   };
   story.replaceChildren(...data.story.map((scene, index) => {
@@ -150,6 +154,7 @@
     chapterCopy.append(chapterTitle, chapterDate); button.append(number, chapterCopy);
     const article = document.createElement("article");
     article.className = "story-scene";
+    article.tabIndex = 0;
     article.id = scene.id || `story-scene-${index + 1}`;
     article.style.gridRow = `1 / span ${data.story.length}`;
     article.setAttribute("aria-labelledby", `${button.id}-title`);
@@ -226,8 +231,12 @@
   document.getElementById("document-list").replaceChildren(...data.documents.map(doc => {
     const card = document.createElement("div"); card.className = "document";
     const heading = document.createElement("h3"); heading.textContent = doc.title;
+    if (doc.note) {
+      const note = document.createElement("span"); note.className = "document-note";
+      note.textContent = doc.note; heading.append(note);
+    }
     const status = link(safeUrl(doc.url) ? "Word 다운로드" : "준비 중", doc.url); status.className = "status";
-    if (safeUrl(doc.url)) status.setAttribute("download", "");
+    if (safeUrl(doc.url)) status.setAttribute("download", doc.filename || "");
     card.append(heading, status); return card;
   }));
   document.getElementById("contact-link").replaceChildren(link(data.contact.label, data.contact.url, true));

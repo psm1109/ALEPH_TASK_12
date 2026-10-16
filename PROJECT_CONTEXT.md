@@ -1,16 +1,92 @@
 # 현재 작업 상태
 
 - 마지막 수정 날짜: 2026-10-16 (Asia/Seoul)
-- 브랜치: `main`, 기준 커밋: `338f45810a41dee420110eaa806b514bcdea714c`
-- 이번 작업 시작 시 작업 트리는 깨끗했습니다. 앞선 화면·사진 변경은 위 커밋에 포함되어 있습니다. 이번에는 동료 피드백 인용만 추가했으며 커밋·push·배포는 하지 않았습니다.
+- 현재 브랜치: main. 이번 통합 커밋의 기준(부모) 커밋: 92b5667837453c376bace25c3a0b835d0029cdc1.
+- 사용자가 로컬 변경 전체를 하나의 커밋으로 작성하도록 요청했습니다. 아래 변경을 통합 커밋에 포함하며 원격 push 및 배포는 하지 않습니다. 통합 커밋 자체의 해시는 자기 참조를 피하기 위해 본문에 넣지 않으며 git log -1 --format="%H %s"로 확인합니다. 완료 후 작업 트리는 git status --short로 확인합니다.
 
-## 이번 완료: 리추얼 장면에 동료 피드백 추가
+## 이번 완료: 로컬 변경 통합 커밋
 
-- 2026-10-16 (Asia/Seoul), main / 338f45810a41dee420110eaa806b514bcdea714c 기준. `content.js`의 `ritualPeerFeedback`에 사용자가 제공한 원문을 저장하고 `app.js`에서 기존 리추얼 본문 아래 ‘동료가 말해 준 내 장점’ 제목과 별도 인용문으로 표시합니다. `styles.css`에 구분선과 간격을 추가했습니다. 두 인용문 아래 출처는 한 번만 ‘출처: 2026-09-11 아침 리추얼’로 표시합니다. 원본 `record-input/rituals.json`의 해당 날짜 open 배열과 사용자 최종 확인에 일치합니다.
-- 승인 장면 제목과 연결된 경우만 동료 피드백을 표시합니다. 장면이 바뀌면 피드백은 숨기고 해당 장면 자체의 출처를 사용합니다. 기록 입력·승인 스키마·생성 데이터는 변경하지 않았습니다.
-- 주요 파일: `content.js`, `app.js`, `styles.css`, `PROJECT_CONTEXT.md`.
-- 검사: `node --check app.js`, `node --check content.js` 통과. Node/Playwright 인라인 명령으로 로컬 file:// Chrome의 1280·390·320px에서 인용문 원문 일치, 출처 1개와 최종 아침 표기, 가로 넘침 없음 확인. 장면 변경 시 피드백 숨김/본래 출처 유지와 페이지 오류 없음도 확인했습니다. 최종 `.checks/ritual-peer-feedback.png`를 저장하고 시각 확인했습니다. `git diff --check` 통과(LF/CRLF 안내만).
-- 실제 배포·Supabase 미확인, SQL 미실행. 새 커밋 해시 없음. 다음 단계: 로컬 `index.html`의 ‘리추얼에서 고른 한 장면’에서 두 인용문과 공통 출처를 확인합니다. 공개 반영은 별도 배포가 필요하며 직접 push하지 않습니다.
+- 진로 탐색과 통신병 경험을 통합하고 고난/회복을 분리한 이야기 5편, 사용자의 최신 본문·제목·역량 요약 편집을 포함합니다. 소통 단독 항목은 제거된 현재 상태를 반영합니다. 역량은 자기동기력·자기조절력·대인관계력이며, 고난 장면은 원래 없는 역량 요약을 덧붙이지 않습니다. 이야기 ID를 명시하고 고난/회복의 중복 ID를 구분했습니다.
+- 이야기 영역은 PC 640px/모바일 560px 높이, 내부 스크롤과 키보드 접근, 전환 시 맨 위 표시를 제공합니다. 첫 화면은 이름과 새 소개 문구, 사진/소개 상단 정렬 및 글자 크기·줄 간격 조정을 반영합니다.
+- 제공된 이력서 원본을 assets/documents/resume.docx로 보존하고 한국어 파일명으로 다운로드하도록 연결했습니다. 제목 옆 작은 ‘(추후 보완 예정)’ 안내와 문서 3개의 동일 높이를 적용했습니다. JavaScript 비활성화 초기 화면도 일치합니다.
+- 주요 파일: app.js, content.js, index.html, styles.css, assets/documents/resume.docx, README.md, PROJECT_CONTEXT.md (7개). .checks의 검증 스크립트/이미지는 Git 제외 임시 자료입니다.
+- 최종 검사: node --check app.js, node --check content.js 통과. node .checks/verify-story-fixed.cjs, node .checks/verify-intro-refined.cjs, node .checks/verify-resume-note.cjs 모두 통과. 로컬 Chrome에서 이야기 높이/스크롤/하단 이동/키보드 접근, 소개글·사진 정렬, 문서 안내/동일 높이/한국어 파일명 다운로드/바이트 일치, JS 활성/비활성 및 320~1280px 검증(각 명령의 화면 범위는 아래 상세 기록 참고). git diff --check 및 커밋 전 git diff --cached --check 통과.
+- 실제 배포·Supabase 미확인, SQL 미실행. 이력서 본문·레이아웃 품질 검토는 미실행입니다. 원격 push·배포는 수행하지 않습니다.
+- 다음 단계: git log -1 --format="%H %s"와 git status --short로 통합 커밋/깨끗한 작업 트리를 확인하고 index.html을 열어 검토합니다. 공개 반영은 별도 사용자 요청으로 진행합니다. 이력서 보완 시 assets/documents/resume.docx를 교체합니다.
+
+## 앞선 완료: 이력서 보완 안내 가로 배치와 문서 카드 높이 통일
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 기존 미커밋 파일과 새 resume.docx를 보존했습니다.
+- content.js와 index.html의 이력서 안내를 ‘(추후 보완 예정)’으로 변경했습니다. styles.css의 document-note를 inline/11px/왼쪽 간격 5px로 바꿔 제목 옆 같은 줄에 표시합니다.
+- 모바일도 문서 3개 모두 제목 위/다운로드 아래의 같은 배치로 맞춰 보완 문구 때문에 이력서 카드만 높아지지 않게 했습니다. 641~760px에서는 문서를 1열로 표시해 작은 3열 카드에서 안내가 줄바꿈하는 것을 방지합니다. 다운로드 URL·파일명·파일 내용은 유지합니다.
+- 주요 파일: content.js, index.html, styles.css, PROJECT_CONTEXT.md.
+- 검사: node --check content.js 통과. node .checks/verify-resume-note.cjs 통과: 로컬 HTTP Chrome의 JS 활성/비활성에서 1280·800·761·641·390·320px 안내 문구가 이력서 오른쪽 같은 줄에 표시, 카드 3개 높이 일치(오차 1px 미만), 가로 넘침 없음 확인. 다운로드 한국어 파일명·파일 바이트 일치와 페이지 오류 없음도 재확인했습니다. git diff --check 통과(LF/CRLF 안내만).
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행, 새 커밋 해시 없음.
+- 다음 단계: index.html의 문서 3개에서 제목 옆 안내와 동일 카드 높이를 확인합니다. 공개 반영에는 별도 배포가 필요합니다.
+
+## 앞선 완료: 이력서 다운로드 연결 및 보완예정 표시
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 시작 시 PROJECT_CONTEXT.md·README.md·app.js·content.js·index.html·styles.css의 기존 미커밋 변경을 보존했습니다.
+- 사용자 지정 C:/Users/user/Desktop/이력서_박선민.docx(44,030바이트)를 assets/documents/resume.docx로 그대로 복사했습니다. 원본과 복사본 SHA-256 일치를 확인했으며 문서 본문을 읽거나 편집하지 않았습니다.
+- content.js의 이력서 url/filename/note를 지정하고 app.js에서 문서별 note와 다운로드 파일명을 지원했습니다. 카드 제목 아래 ‘보완예정’을 표시하고 ‘Word 다운로드’를 누르면 이력서_박선민.docx로 받습니다. index.html의 초기 카드도 동일하게 맞춰 JavaScript 비활성화 때도 제공합니다. 다른 두 문서의 링크/표시는 유지했습니다.
+- 주요 파일: assets/documents/resume.docx, content.js, app.js, index.html, styles.css(document-note), PROJECT_CONTEXT.md.
+- 검사: node --check app.js 및 node --check content.js 통과. node .checks/verify-resume-download.cjs 통과: 로컬 HTTP Chrome의 JS 활성/비활성 모두 보완예정 표시, 문서 카드 3개 유지, 실제 다운로드 성공·한국어 파일명·파일 바이트 일치, 1280·390·320px 가로 넘침 없음·페이지 오류 없음 확인. git diff --check 통과(LF/CRLF 안내만).
+- 문서 레이아웃/본문의 품질 검토는 요청 범위가 아니므로 미실행. 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행으로 새 커밋 해시 없음.
+- 다음 단계: index.html의 이력서 카드에서 보완예정과 다운로드를 확인합니다. 파일을 보완하면 assets/documents/resume.docx를 새 원본으로 교체합니다. 공개 사이트에는 별도 배포가 필요합니다.
+
+## 앞선 완료: 소개 문구 글자와 사진 정렬
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 시작 시 PROJECT_CONTEXT.md·README.md·app.js·content.js·index.html·styles.css에 기존 미커밋 변경이 있었으며 보존했습니다. 사용자 편집으로 사진은 표시되고 이름만 제목에 있는 현재 index.html을 유지했습니다.
+- content.js의 tagline을 사용자가 선택한 ‘저는 이론을 실제 경험으로 연결하며 배움의 깊이를 더하고, 소통과 배려를 통해 신뢰를 쌓아가는 사람입니다.’로 맞췄습니다. 기존 index.html에는 이미 새 문장이 있었지만 app.js가 이전 data.tagline으로 덮어쓰는 상태여서 데이터 값을 동기화했습니다.
+- styles.css에서 소개 문구를 PC 18px/640px 이하 16px, 줄 높이 1.85, 자간 -0.25px, 최대 너비 36em과 균형 줄바꿈으로 조정했습니다. 문단의 불필요한 하단 여백을 제거하고 hero의 align-items를 start로 바꿔 사진과 소개 영역 상단을 맞췄습니다. 모바일은 사진 아래 소개글 및 왼쪽 기준선 정렬을 유지합니다.
+- 주요 파일: content.js, styles.css, PROJECT_CONTEXT.md. index.html·app.js 및 이야기 본문은 이번 작업에서 변경하지 않았습니다.
+- 검사: node --check content.js 통과. node .checks/verify-intro-refined.cjs 통과: 로컬 file:// Chrome 1280·800·390·320px에서 JS 실행 후 새 문장 유지, 글자 크기 18/16px, 이름/문구 왼쪽 정렬, PC 사진/소개 상단 일치, 모바일 사진/소개 왼쪽 정렬과 세로 배치, 가로 넘침·페이지 오류 없음 확인. .checks/intro-refined-1280.png 및 intro-refined-390.png로 최종 화면 직접 시각 확인. git diff --check 통과(LF/CRLF 안내만).
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행으로 새 커밋 해시 없음.
+- 다음 단계: index.html을 새로고침해 사진과 소개 문구의 정렬을 검토합니다. 문구를 바꿀 때는 content.js의 tagline과 index.html의 초기 문구를 함께 맞춥니다.
+
+## 앞선 완료: 이야기 본문 영역 높이 고정
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 시작 시 PROJECT_CONTEXT.md·README.md·content.js·index.html에 기존 미커밋 변경이 있었으며 모두 보존했습니다. 현재 이야기 본문은 사용자가 추가 편집한 상태로 이번에는 변경하지 않았습니다.
+- styles.css의 story-scene을 PC 640px, 760px 이하 560px 높이로 고정했습니다. 내용이 길면 내부 세로 스크롤로 읽으며 scrollbar-gutter로 스크롤바 유무에 따른 본문 너비 변화를 줄였습니다. flex 자식의 축소를 막아 긴 글과 이전/다음 버튼까지 모두 접근할 수 있도록 했습니다.
+- app.js에서 본문에 키보드 초점(tabIndex=0)과 초점 테두리를 제공하고, 숨겨진 이야기로 전환 시 해당 본문의 scrollTop을 0으로 초기화합니다. PC 목차/본문과 모바일 제목 아래 펼침 구조 및 기존 주소는 유지합니다.
+- 주요 파일: styles.css, app.js, README.md, PROJECT_CONTEXT.md. 이야기 텍스트·기록·DB는 변경하지 않았습니다.
+- 검사: node --check app.js 통과. node .checks/verify-story-fixed.cjs 통과: 로컬 file:// Chrome의 1280·800·390·320px에서 전 항목의 본문 높이 640/560px 일치, 이야기 전환 시 전체 이야기 영역 높이 동일, 가로 넘침 없음, 긴 글 하단 이전/다음 버튼 접근, 전환 시 스크롤 초기화, 키보드 End 스크롤 및 페이지 오류 없음 확인. .checks/story-fixed-320.png는 임시 스크린샷으로 저장했으나 별도 시각 검토는 하지 않았습니다. git diff --check 통과(LF/CRLF 안내만).
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행, 새 커밋 해시 없음.
+- 다음 단계: index.html을 새로고침해 PC/모바일 고정 높이와 본문 내부 스크롤을 확인합니다. 높이를 조절하려면 styles.css의 story-scene 기본 및 760px 미디어 규칙의 height를 변경합니다.
+
+## 앞선 완료: 이야기 표현 교정과 역량 분류 정리
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 시작 시 PROJECT_CONTEXT.md·README.md·content.js·index.html의 기존 미커밋 변경을 보존했습니다. 사용자가 고난/회복을 분리하고 본문을 직접 편집한 최신 활성 5편이 입력입니다. 현재 첫 제목은 빈 문자열이 아니며, 기존 소통 이야기 주석 블록은 사용자가 제거한 상태입니다.
+- content.js의 story에서 조사·띄어쓰기·군더더기·문장 연결을 교정했습니다. 진로 제목을 ‘진로를 탐색하고 구체화한 계기’로 다듬고 지원/접수 표현, 고난 장면의 인용문 연결, 회복 장면의 행정 절차 도움 표현, 졸업작품의 협업/감사 인사 문장 등을 정리했습니다. 사건·역할·시점·이야기 순서·문단 수·기존 역량 요약은 유지했습니다.
+- 진로 탐색 ability는 자기동기력, 졸업작품 ability는 대인관계력으로 바꾸어 문제해결력을 제외했습니다. 회복·현재 학습 장면의 대인관계력은 유지했습니다. 고난 장면은 원래 ability/abilitySummary가 없어 새 평가나 요약을 덧붙이지 않았습니다.
+- 고난/회복의 중복 story-care ID는 고난을 story-hardship으로 구분하고 회복의 story-care 주소는 유지했습니다. 중복 DOM ID가 이야기 이동 대상을 모호하게 만드는 영향을 없앴습니다. README에 현재 5편 및 허용 역량 세 가지를 기록했습니다.
+- 주요 파일: content.js, README.md, PROJECT_CONTEXT.md. 비교 원본은 Git 제외 .checks/story-before-polish.js. app.js·index.html·기록 데이터·다운로드 문서는 이번 범위에서 변경하지 않았습니다.
+- 검사: node --check content.js 통과. Node VM/strict assert 인라인 검사로 5편과 ID 고유성, 허용 역량, 날짜/기존 요약/문단 수 보존 및 story 외 모든 콘텐츠 동일 확인. git diff --check 통과(LF/CRLF 안내만). 문구·분류 중심 변경으로 브라우저 검사는 재실행하지 않았습니다.
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행, 새 커밋 해시 없음.
+- 다음 단계: index.html을 새로고침해 다섯 이야기의 교정 표현을 검토합니다. 고난 장면의 역량/요약 추가는 현재 원문에 없는 내용을 쓰는 일이므로 별도 사용자 요청 시 다룹니다.
+
+## 앞선 완료: 이야기 항목의 필드와 순서 통일
+
+- 2026-10-16 (Asia/Seoul), main / 92b5667837453c376bace25c3a0b835d0029cdc1 기준. 시작 시 PROJECT_CONTEXT.md·README.md·content.js·index.html에 미커밋 변경이 있었고 보존했습니다. 첫 이야기 제목은 빈 문자열이며 사용자가 고친 본문과 두 번째 제목도 유지했습니다.
+- content.js의 활성 4개 항목 및 주석 처리한 소통 항목을 id → title → date → dateLabel → ability → abilitySummary → body 순서로 통일했습니다. 기간형 날짜에는 date 빈 문자열을 넣고 dateLabel을 같은 위치에 배치했습니다.
+- 기존 자동 생성된 화면 ID인 story-scene-1·story-scene-3·story-scene-4를 데이터에 명시했습니다. story-care와 숨김 항목 story-communication은 유지합니다. 기존 이야기 주소가 바뀌지 않도록 ID 값을 보존했으며 앞으로 순서를 바꾸어도 명시 ID를 유지합니다. app.js의 렌더링 로직은 변경하지 않았습니다.
+- 주요 파일: content.js, README.md(필드 규칙), PROJECT_CONTEXT.md. .checks/story-before-schema.js는 비교용 임시 원본입니다.
+- 검사: Node VM/strict assert 인라인 검사로 활성 항목 전체 키·순서 일치, ID 고유성 및 변경 전 화면 ID와 일치, 날짜 표시·제목·본문·역량·기타 콘텐츠 보존 확인. node --check content.js 및 git diff --check 통과(LF/CRLF 안내만). 이번에는 브라우저 검사를 재실행하지 않았습니다.
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행, 새 커밋 해시 없음.
+- 다음 단계: content.js story에서 같은 필드 순서로 편집하고 id는 고유한 고정값으로 유지합니다. index.html을 새로고침하여 표시를 확인합니다. 첫 이야기 빈 제목은 사용자 편집 상태이며 이번 범위에서 채우지 않았습니다.
+
+## 앞선 완료: 진로 탐색과 통신병 경험을 하나의 이야기로 통합
+
+- content.js의 첫 두 이야기를 ‘컴퓨터에 대한 관심에서 문제 해결의 보람으로’로 합쳤습니다. 컴퓨터공학과 진학 → 통신병 시절 첫 단독 현장 점검 → 사용자 불편을 해결한 보람과 진로 탐색을 세 문단으로 연결했습니다. 장애 원인 점검·타 부서 확인 요청·간부의 설정 변경 역할을 유지했습니다.
+- 기간은 2018.02 ~ 2019.09, 대표 역량은 문제해결력입니다. 숨겨진 소통 이야기를 제외한 표시 항목은 기존 5개에서 4개로 줄었습니다. 나머지 활성 이야기와 다른 콘텐츠 필드가 HEAD와 동일함을 비교 확인했습니다. 기존 사진/소통 이야기 숨김은 유지했습니다.
+- 주요 파일: content.js, README.md(현재 표시 4개 안내), PROJECT_CONTEXT.md. app.js·기록 입력·생성 데이터·Word 문서는 변경하지 않았습니다.
+- 검사: node --check content.js 통과. node .checks/verify-story-merge.cjs 통과: 로컬 file:// Chrome에서 4개 항목·통합 제목/기간/세 문단 일치, 나머지 이야기/다른 데이터 보존, 다음 이야기 이동 및 1280·390·320px 가로 넘침 없음·페이지 오류 없음 확인. 최초 샌드박스 실행은 자식 프로세스/Chrome spawn EPERM으로 실패했고 허용된 재실행에서 통과했습니다. git diff --check 통과(LF/CRLF 안내만).
+- 실제 배포·Supabase 미확인, SQL 미실행. 커밋·push·배포 미실행으로 새 커밋 해시 없음. 다운로드용 기존 문서는 이번 통합을 반영하지 않았습니다.
+- 다음 단계: index.html을 새로고침해 ‘저의 이야기’ 첫 항목의 제목과 세 문단을 검토합니다. 공개 반영에는 별도 배포가 필요합니다. 직접 push하지 않습니다.
+
+## 직전 완료: 리추얼 장면의 동료 피드백
+
+- 동료 피드백과 공통 출처 표시가 현재 HEAD에 포함되어 있습니다. 앞선 로컬 브라우저 검증 기록은 유지하되 이번 변경 범위는 이야기 통합입니다. 원문은 content.js의 ritualPeerFeedback에서 관리합니다.
 
 ## 앞선 완료: 첫 화면 왼쪽 사진과 소개 문구 정렬
 
