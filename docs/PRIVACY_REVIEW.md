@@ -31,7 +31,7 @@
 - 현재 로컬 파일을 확인한 결과이며, 실제 배포 사이트와 외부 링크의 대상 저장소·서비스·별도 첨부파일·Git 과거 이력은 이번 범위에 포함하지 않았습니다.
 - 기존 record-updater.zip은 개인정보 검사상 위반 항목은 없지만 최신 사이트/문서/장치 소스와 다른 구버전입니다. 제출에는 아래에서 재점검한 record-updater-device.zip을 사용합니다.
 - 파일이나 기록을 추가하거나 새 ZIP을 만들면 변경된 내용과 최종 ZIP을 다시 점검합니다.
-- 임시 점검 도구와 원문을 가린 상세 결과는 Git 제외 .checks/privacy-audit.py 및 .checks/privacy-audit/scan-report.json에 있습니다. 내장 Python으로 `python -X utf8 .checks/privacy-audit.py`를 실행합니다. 추가 형식 검사와 이름 후보/이미지의 문맥 검토도 함께 수행했습니다.
+- 원문을 가린 상세 결과는 Git 제외 `.checks/privacy-audit/scan-report.json`에 있습니다. 당시 임시 점검 도구는 개발 검토에만 사용했으며 사이트 운영이나 장치 실행에 필요하지 않습니다. 추가 형식 검사와 이름 후보/이미지의 문맥 검토도 함께 수행했습니다.
 
 ## 최신 장치 ZIP 재점검
 

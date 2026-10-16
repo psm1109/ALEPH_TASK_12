@@ -1,10 +1,33 @@
 # 현재 작업 상태
 
 - 마지막 수정 날짜: 2026-10-16 (Asia/Seoul)
-- 현재 브랜치: main. 이번 ZIP 생성 기준 커밋: d69aa370ed542caf01dbd72fc345c5191b32b7e3 (docs : 자기소개서 내용 보충 및 수정).
-- 이번 작업은 d69aa37 기준의 깨끗한 작업 트리에서 시작했습니다. 최신 장치 ZIP·비교 결과를 생성하고 개인정보 보고서·인계 문서를 갱신했습니다. 사이트 코드·지원 문서·기록 입력·기존 record-updater.zip은 변경하지 않았습니다. 커밋·push·배포는 하지 않았습니다.
+- 현재 브랜치: main. 이번 작업 기준 커밋: d4b0bf734e64c464a07aa7031a4254584e99037a (chore: 최신 기록 장치 ZIP 생성과 검증 결과 기록).
+- 이번 소개 영역 작업 시작 시 앞선 JavaScript 전환의 PROJECT_CONTEXT.md·README.md·data/paper-markdown.js·docs/PRIVACY_REVIEW.md 변경, Python2개 삭제 및 scripts/build_paper.js 추가가 있었으며 모두 보존했습니다. 이번 작업은 styles.css와 README.md·인계 문서에만 반영했습니다. 커밋·push·배포는 하지 않았습니다.
 
-## 이번 완료: 최신 장치 ZIP 생성 및 새 폴더 재현 검증
+## 이번 완료: 첫 화면 소개 영역 크기와 여백 조정
+
+- 사용자 첨부 화면의 작은 이름/소개 문구와 하단의 빈 느낌을 줄이기 위해 styles.css의 hero 영역을 조정했습니다. 소개 문구·이름·사진 원본·이야기·다운로드·기록 장치는 변경하지 않았습니다.
+- PC: 이름을 48~64px, 소개 문구를 21~26px로 확대하고 줄 간격/글자 간격/본문 최대 너비를 조정했습니다. 소개 문구 색을 #484848로 진하게 했습니다. 사진과 소개글의 세로 중심을 맞추고 hero의 고정 최소 높이를 제거, 상하 여백을 42/54px에서 34/42px로 줄였습니다. 소개글 왼쪽은 기존 이야기 본문 열과 같은 위치를 유지합니다.
+- 모바일640px 이하: 사진 아래에 소개글을 놓는 기존 세로 구성을 유지하면서 이름44px·본문18px, 요소 사이20px 및 상하28/32px로 조정했습니다. 사진 크기는 PC210px/모바일160px로 보존했습니다. 제목 확대는 .hero h1에 한정해 논문 모달 제목에 영향을 주지 않습니다.
+- 주요 파일: styles.css, README.md, PROJECT_CONTEXT.md. 기존 미커밋 JavaScript 전환 변경은 유지했습니다.
+- 검사: node .checks/verify-hero-space.cjs 통과. 로컬 file:// Chrome의 JS 활성/비활성 각각 1280·800·641·640·390·320px에서 사진 로드, 이름/소개 크기, PC 세로 중심/모바일 세로 배치와 왼쪽 정렬, 잘림·가로 넘침·페이지 오류 없음 확인. 1280px의 소개글 높이는 약186px로 늘어났고, 사진 높이254px와 세로 중심을 맞췄습니다.
+- .checks/hero-space-before.png와 hero-space-{1280,641,390,320}.png를 생성했고 변경 전/후PC·641px·390px를 직접 시각 검토했습니다. .checks는 Git 제외 임시 검증 자료입니다. git diff --check 통과(기존 Windows 줄바꿈 안내만).
+- 실제 배포·Supabase·외부 URL 미확인, SQL 미실행. 새 커밋 해시 없음. 다음 단계: index.html을 새로고침해 이름과 소개 문구의 크기/여백을 확인합니다. 공개 반영에는 별도 배포가 필요하며 이번 CSS 변경은 기록 장치 ZIP과 무관합니다.
+
+## 앞선 완료: 논문 생성 도구 JavaScript 전환과 Python 정리
+
+- scripts/build_paper.js 추가: Node.js 표준 fs/path만 사용해 assets/papers/t10-paper.md를 data/paper-markdown.js의 window.PORTFOLIO_PAPER_MARKDOWN 문자열로 변환합니다. 스크립트 위치 기준 경로이며 UTF-8 BOM 제거와 CRLF/CR → LF 정규화로 이전 생성기와 같은 논문 내용을 유지합니다. 명령: node scripts/build_paper.js. Node.js20 이상, npm 설치 불필요.
+- 사용하지 않는 scripts/build_application_documents.py와 대체된 scripts/build_paper.py를 삭제했습니다. scripts/__pycache__의 옛 캐시도 저장소 안의 정확한 경로를 확인한 뒤 제거했습니다. Git 제외 .checks의 과거 개발 점검용 Python은 작업 자료로 보존하며 서비스/제출 장치에 사용하지 않습니다.
+- README.md의 논문 갱신 명령을 Node.js로 바꾸고 Word 생성기 보존/실행 안내를 제거했습니다. assets/documents/application-content.json은 참고 자료로만 보존합니다. docs/PRIVACY_REVIEW.md의 과거 임시 점검 도구 실행 안내도 운영 요구사항과 혼동되지 않도록 정리했습니다.
+- data/paper-markdown.js를 새 도구로 재생성했습니다. 기존 결과와 표시 문자열은 정확히 같고 생성 안내 주석만 변경됐습니다. 논문 원본과 Word3개 SHA-256은 작업 전후 동일합니다.
+- 검사: node --check scripts/build_paper.js 및 node --check data/paper-markdown.js 통과. node .checks/verify-paper-port.cjs 통과(이전 표시 문자열 동일, Word/논문 원본 보존, 새 폴더/다른 cwd, BOM/CRLF/CR/한글/따옴표/탭/역슬래시/U+2028/U+2029, 두 실행 바이트 일치).
+- node .checks/verify-paper-card.cjs 통과: 로컬 Chrome 1280/390/320px의 카드 문구/버튼/논문 모달/표·본문/Escape/포커스/다운로드 바이트/JS 비활성 초기 표시/가로 넘침 없음/브라우저 오류 없음 확인. 두 검증 명령은 자식 프로세스/브라우저 실행 허용 환경에서 수행했습니다.
+- 기록 장치 소스·입력·docs/RECORD_IMPORT.md는 변경하지 않았습니다. build_paper.js는 사이트 논문 유지보수용으로 장치 ZIP 포함 대상이 아니므로 장치 ZIP 구성은 바뀌지 않습니다. 현재 로컬 deliverables/record-updater-device.zip은 존재하지 않아 이번에 ZIP 해시는 확인하지 못했습니다. 필요 시 node scripts/package_records.js로 다시 생성합니다. 관련 없는 33개 기록 검사는 이번에 반복하지 않았습니다.
+- 주요 파일: scripts/build_paper.js(추가), scripts/build_paper.py·scripts/build_application_documents.py(삭제), data/paper-markdown.js, README.md, docs/PRIVACY_REVIEW.md, PROJECT_CONTEXT.md. 검증 자료는 Git 제외 .checks/verify-paper-port.cjs, paper-before-js.js, paper-port-before-hashes.json 및 paper-js-* 폴더입니다.
+- 실제 배포·외부 링크·Supabase 미확인, SQL 미실행. 새 커밋 해시 없음. git diff --check 통과(기존 Windows 줄바꿈 안내만).
+- 다음 단계: 논문 수정 시 원문을 편집하고 node scripts/build_paper.js 실행 후 원문과 data/paper-markdown.js를 함께 배포합니다. Word는 직접 편집합니다. 아래 Python 생성기 관련 기록은 삭제 전 작업 이력이며 현재 실행 절차가 아닙니다.
+
+## 앞선 완료: 최신 장치 ZIP 생성 및 새 폴더 재현 검증
 
 - 결과 파일: deliverables/record-updater-device.zip, 192,271바이트, 16항목. SHA-256: 12a3ee40d2c948e6c7020509adabd47e0e22b57261bd3e644b6ebc7e130933c1.
 - 포함: scripts JavaScript3개·record-input JSON4개·README와 docs/RECORD_IMPORT.md·generated 마지막 결과/승인6개·comparison.json. 사이트/Word/이미지는 별도 제출 구성으로 포함하지 않습니다. 기존 record-updater.zip은 구버전으로 보존하며 제출에는 새 device.zip을 사용합니다.
@@ -66,7 +89,7 @@
 ## 다음 작업자가 실행할 순서
 
 1. 현재 웹 이야기 순서는 사용자 결정으로 유지합니다. 필요 시 별도 요청에 따라 약 1,500자로 압축하고 자기조절력의 본인 행동/결과를 구체화합니다.
-2. resume.docx의 추가예정/빈칸을 완성합니다. 이후 웹 이야기를 변경하면 self-introduction.docx도 함께 맞춥니다. URL 결과물이 없는 T09~T11은 경력기술서 추가 대상이 아닙니다. 이전 Word 생성기는 실행하지 않습니다.
+2. resume.docx의 추가예정/빈칸을 완성합니다. 이후 웹 이야기를 변경하면 self-introduction.docx도 함께 맞춥니다. URL 결과물이 없는 T09~T11은 경력기술서 추가 대상이 아닙니다. 지원 문서는 Word에서 직접 편집합니다.
 3. 최신 deliverables/record-updater-device.zip 생성 및 새 폴더 검증을 완료했습니다. 해당 파일로 장치를 제출하고 기존 record-updater.zip과 혼동하지 않습니다.
 4. 현재 로컬 사이트·Word·이미지·기존 ZIP의 개인정보/비밀값 점검은 완료했습니다. 변경 파일이나 새 최종 ZIP 생성 시 다시 점검하고, 배포 사이트를 비로그인 브라우저에서 확인합니다. 기간 종료 시 최종 기록 갱신 여부를 판단합니다.
 
@@ -202,7 +225,7 @@
 
 - 2026-10-15 (Asia/Seoul), `main` / `85248c71a18877c6a0e636d6b4f11721843b725e` 기준. 사용자는 Word 파일을 직접 편집한 뒤 올리고 방문자가 내려받는 방식을 사용합니다. 현재 문서는 최종본이 아닌 임시 파일입니다. Python/JSON으로 지원 문서를 재생성하지 않습니다.
 - `README.md`의 지원 문서 절을 직접 파일 교체·배포 안내로 교체했습니다. 자기소개서/경력기술서는 같은 경로로 교체하면 되고, 파일명 변경 또는 이력서 추가 시 `content.js`의 documents와 `index.html`의 #document-list를 함께 수정합니다.
-- 주요 수정 파일: `README.md`, `PROJECT_CONTEXT.md`. 기존 Word 파일·생성기·원문 JSON·다운로드 로직은 변경하지 않았습니다. 생성기/JSON은 이전 작업 보존 자료이며 직접 편집한 문서를 덮어쓰므로 실행하지 않습니다. 아래 Python 관련 기록은 과거 작업 경위입니다. 논문용 `scripts/build_paper.py`는 별개입니다.
+- 주요 수정 파일: `README.md`, `PROJECT_CONTEXT.md`. 기존 Word 파일·생성기·원문 JSON·다운로드 로직은 변경하지 않았습니다. 생성기/JSON은 이전 작업 보존 자료이며 직접 편집한 문서를 덮어쓰므로 실행하지 않습니다. 아래 Python 관련 기록은 과거 작업 경위입니다. 현재 논문 갱신은 `node scripts/build_paper.js`를 사용하며 과거 Python 생성기는 삭제했습니다.
 - 검사: Node 정적 확인으로 content.js에 등록된 두 문서 파일 존재, index.html의 같은 경로/download 속성 일치, README에서 옛 Word 생성 명령 제거 확인. `git diff --check` 통과. 문서/생성기에 신규 diff 없음 확인. 실제 다운로드·브라우저·배포·Supabase는 이번 작업에서 미확인, SQL 미실행, 커밋 없음.
 - 다음 단계: 사용자가 완성한 Word 파일로 `assets/documents/self-introduction.docx`, `assets/documents/project-experience.docx`를 교체합니다. 이력서 완성 시 파일과 두 링크를 등록하고, 배포 후 각 다운로드 파일이 최종본인지 확인합니다.
 
@@ -385,6 +408,6 @@
 - 다음 갱신은 위 Node 명령을 사용합니다. Python 기록 명령은 더 이상 존재하지 않습니다. docs/RECORD_IMPORT.md에 형식과 세 단계 실행이 있습니다.
 - BRA-C09 결정성과 새 폴더 실행 확인. BRA-C10 전체 제출물 검토는 미완료이며 학술 인용 저자명은 사용자 결정으로 제외합니다. privacyReviewed만으로 전수 검증을 대신하지 않습니다.
 - Node.js20에서 별도로 실행하지 않았고 현재 PC의 Node24에서 검증했습니다. 외부 네트워크와 npm 설치 없이 동작합니다.
-- Word 본문·이력서·최종 프로젝트 경험은 미작성. 별도 Word 생성기 scripts/build_application_documents.py는 python-docx, 논문 생성기 scripts/build_paper.py는 Python 표준 모듈을 사용하는 기존 도구입니다. 기록 갱신과 ZIP 실행에는 필요하지 않습니다.
+- 현재 Word3개의 본문과 다운로드 링크는 존재하며 이력서에는 보완 항목이 남아 있습니다. 과거 Word/Python 논문 생성기는 삭제했습니다. Word는 직접 편집하고 논문 표시 데이터는 node scripts/build_paper.js로 생성합니다.
 - 업로드 UI·DB·자동 배포는 없습니다. JavaScript 비활성화 시 초기 숫자와 안내만 표시됩니다.
 - .checks의 옛 Python 도구 참조/이전 링크·고정 장면 가정 검사는 과거 임시 자료입니다. 현행 검사는 scripts/test_import_records.js이며 선택 화면 검사는 .checks/verify-excerpt-choice.cjs입니다.
