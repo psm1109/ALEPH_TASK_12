@@ -1,16 +1,29 @@
 # 현재 작업 상태
 
 - 마지막 수정 날짜: 2026-10-16 (Asia/Seoul)
-- 현재 브랜치: main. 이번 개인정보 점검 기준 커밋: fa4b8741d9c55eb983223159e6e539a92290c8ee (docs: 지원 문서 역량 분류와 웹 이야기 통일).
-- 이번 개인정보 점검은 앞선 지원 문서 변경이 커밋된 fa4b874 기준의 깨끗한 작업 트리에서 시작했습니다. 이번에는 docs/PRIVACY_REVIEW.md와 이 인계 문서에 결과를 기록했습니다. 사이트 코드·지원 문서·기록 입력·기존 ZIP의 내용은 이번 점검에서 변경하지 않았습니다. 커밋·push·배포는 하지 않았습니다.
+- 현재 브랜치: main. 이번 ZIP 생성 기준 커밋: d69aa370ed542caf01dbd72fc345c5191b32b7e3 (docs : 자기소개서 내용 보충 및 수정).
+- 이번 작업은 d69aa37 기준의 깨끗한 작업 트리에서 시작했습니다. 최신 장치 ZIP·비교 결과를 생성하고 개인정보 보고서·인계 문서를 갱신했습니다. 사이트 코드·지원 문서·기록 입력·기존 record-updater.zip은 변경하지 않았습니다. 커밋·push·배포는 하지 않았습니다.
 
-## 이번 완료: 개인정보·비밀값 로컬 제출물 최종 점검
+## 이번 완료: 최신 장치 ZIP 생성 및 새 폴더 재현 검증
+
+- 결과 파일: deliverables/record-updater-device.zip, 192,271바이트, 16항목. SHA-256: 12a3ee40d2c948e6c7020509adabd47e0e22b57261bd3e644b6ebc7e130933c1.
+- 포함: scripts JavaScript3개·record-input JSON4개·README와 docs/RECORD_IMPORT.md·generated 마지막 결과/승인6개·comparison.json. 사이트/Word/이미지는 별도 제출 구성으로 포함하지 않습니다. 기존 record-updater.zip은 구버전으로 보존하며 제출에는 새 device.zip을 사용합니다.
+- node scripts/package_records.js 성공. 현재 실제 입력·기존 승인·사이트 데이터의 일치를 확인한 뒤 생성하며, 새 기록을 넣거나 승인 장면을 바꾸지 않았습니다. deliverables/comparison.json 5항목 모두 identical=true.
+- node --test scripts/test_import_records.js: 실행 허용 후 33개 모두 통과. node --check scripts/import_records.js, scripts/package_records.js, scripts/test_import_records.js 모두 통과.
+- 생성 ZIP을 .checks/latest-device-74b10da8ae644df1acdfbe23829aa01f/device에 풀고, 현재 공개 사이트 파일을 같은 경로의 site에 복사했습니다. 원본을 보존하고 ZIP README의 node scripts/import_records.js --site-root 사이트복사본 --approvals generated/applied-approval.json을 두 번 실행해 generated 6개 파일 SHA-256 일치 및 사이트 데이터 일치를 확인했습니다.
+- 압축 해제한 소스3개·입력4개와 현재 저장소 파일의 SHA-256 일치, ZIP README와 docs/RECORD_IMPORT.md 일치 확인. 압축 해제 폴더에서 node scripts/package_records.js --site-root 사이트복사본 실행 후 새 ZIP이 최초 ZIP과 바이트 단위로 일치했습니다.
+- 최신 ZIP 16개 텍스트 구성 요소 개인정보/비밀값 재점검: 실제 비밀번호·토큰·API 키·연결 문자열 등 검출0, 전화번호0. 이메일2회는 가상 테스트 주소, 이름형 표현42회는 본인 이름/이름 일부·강사 호칭으로 미해결 항목0. .checks/privacy-audit.py 재실행과 최신 ZIP 한정 추가 검토를 했으며 docs/PRIVACY_REVIEW.md에 결과를 반영했습니다. 임시 검사 첫 실행은 name_field 검사식 참조 이름 오류로 중단되어 바로잡아 재실행 후 통과했고 제출물에는 영향을 주지 않았습니다.
+- 수정/생성 주요 파일: deliverables/record-updater-device.zip, deliverables/comparison.json, docs/PRIVACY_REVIEW.md, PROJECT_CONTEXT.md. ZIP은 *.zip 규칙으로 Git 제외이며 로컬 파일로 별도 제출해야 합니다. 새 커밋 해시 없음.
+- 실제 배포·Supabase·외부 링크 미확인, SQL 미실행. 원본 사이트/문서/입력 파일은 보존했습니다. git diff --check 통과(기존 Windows 줄바꿈 안내만).
+- 다음 단계: 새 device.zip을 장치 제출 파일로 사용합니다. 변경된 사이트·Word는 별도로 제출/배포하고, 새 입력이나 소스 변경 시 ZIP 생성·실행·개인정보 점검을 반복합니다.
+
+## 앞선 완료: 개인정보·비밀값 로컬 제출물 최종 점검
 
 - 사용자 허용 범위: 본인 개인정보와 논문 저자명/학술 인용은 허용, 타인 실명·연락처와 실제 비밀번호·토큰·API 키 등 인증값은 제외. 이름형 표현·이메일 후보는 문맥에 따라 본인/호칭/가상 예제를 구분했습니다.
 - 점검 범위: 사이트/기록 원문/생성 결과/문서 등 로컬 텍스트 구성 요소 156개, 압축·문서 컨테이너 6개(기존 ZIP1·현재 Word3·ZIP 내 Word2), 중복 제거 이미지7개. 이미지7개는 직접 열어 확인하고 EXIF도 검사했습니다. ZIP 안 Word와 메타데이터·관계/링크도 재귀 점검했습니다.
 - 결과: 로컬 점검 범위에서 BRA-C10 위반 항목을 발견하지 않았습니다. 이메일9회는 중복 포함 본인 이메일/가상 테스트 주소, 전화번호1회는 본인 이력서 연락처입니다. 이름형 후보는 본인 전체 이름/이름 일부·강사 호칭·일반 문장으로 확인했습니다. 대표 토큰/JWT/개인키·인증정보 포함 연결 URL·비밀번호/API 키 할당·URL 비밀값·Bearer/쿠키·주민등록번호 형식에서 실제 값을 발견하지 않았습니다.
 - 검사: .checks/privacy-audit.py 성공(내장 Python -X utf8), 추가 형식 검사와 가상 샘플 검출 확인 통과. 문서 메타데이터의 비본인 한글 후보는 HeadingPairs의 ‘제목’이라는 문서 속성임을 확인했습니다. 세부 결과는 docs/PRIVACY_REVIEW.md, 민감값을 가린 임시 결과는 .checks/privacy-audit/scan-report.json에 있습니다.
-- 본문/ZIP을 수정할 개인정보 문제는 발견되지 않았습니다. 실제 배포·외부 링크 대상·별도 첨부파일·Git 과거 이력은 이번 범위 밖이며, 새 파일/기록/최종 ZIP 생성 시 변경 범위를 재점검합니다. 기존 ZIP 구버전 문제는 별도 남은 작업입니다.
+- 본문/ZIP을 수정할 개인정보 문제는 발견되지 않았습니다. 실제 배포·외부 링크 대상·별도 첨부파일·Git 과거 이력은 이번 범위 밖이며, 새 파일/기록/최종 ZIP 생성 시 변경 범위를 재점검합니다. 기존 ZIP 구버전 문제는 최신 record-updater-device.zip 생성으로 해결했습니다.
 - 사용자 추가 결정: 현재 진로 → 고난 → 회복 → 졸업작품 → 현재 순서는 맥락을 위한 도입으로 유지합니다. 고난을 첫 장면으로 옮기는 작업은 요구하지 않으며 미충족/수정 대상으로 분류하지 않습니다.
 - 이번 주요 파일: docs/PRIVACY_REVIEW.md, PROJECT_CONTEXT.md. 이번 점검으로 코드/Word 수정 없음, 새 커밋 해시 없음. git diff --check 통과(기존 Windows 줄바꿈 안내만).
 
@@ -38,7 +51,7 @@
 - C07 이력서·자기소개서·경력기술서 Word 파일과 다운로드 링크 모두 존재하며 본문도 있습니다. 이력서는 추가예정/빈칸이 남은 초안입니다. README의 이력서 준비 중 안내는 이번 작업에서 실제 상태로 정정했습니다.
 - C08 기재한 8개 과제 범위의 능력/상황/행동/결과 형식을 충족합니다. 이번에 T04는 자기동기력, T07은 자기조절력으로 변경해 모든 과제가 지정 세 능력 중 하나에 해당합니다. 사용자 확인(2026-10-16): 경력기술서는 프로젝트 결과물 URL이 남아 있는 과제만 대상으로 작성했습니다. 따라서 T09~T11 제외는 의도한 범위이며 누락이나 추가 필요 항목으로 판단하지 않습니다.
 - C09 현재 장치 33개 검사 통과, 실제 입력과 승인으로 renderFiles 두 번 호출 시 5개 산출물 일치 및 현재 사이트 데이터 일치. 기존 ZIP을 새 .checks/submission-audit-6366d0dcbd8941d58d0c5cfc7ac59b68 폴더로 압축 해제해 포함 README의 승인 재현 명령으로 두 번 실행, generated 전체 SHA-256 일치 확인.
-- ZIP에는 실행 소스·README·last-result가 있습니다. 다만 기존 ZIP은 옛 사이트/옛 Word를 포함하며 최신 package_records.js/test_import_records.js와 다릅니다. README의 현재 제출 경로 deliverables/record-updater-device.zip은 존재하지 않고 기존 record-updater.zip만 있습니다. 최신 장치 ZIP 재생성이 필요합니다. ZIP은 .gitignore의 *.zip에 의해 Git에서 제외됩니다.
+- ZIP에는 실행 소스·README·last-result가 있습니다. 다만 기존 ZIP은 옛 사이트/옛 Word를 포함하며 최신 package_records.js/test_import_records.js와 다릅니다. 현재는 최신 deliverables/record-updater-device.zip을 생성하고 새 폴더 재현/개인정보 검사를 완료했습니다. ZIP은 .gitignore의 *.zip에 의해 Git에서 제외됩니다.
 - C10 사용자 확인(2026-10-16): 이력서·자기소개서에 들어가는 본인 개인정보는 공개를 감수하는 허용 범위입니다. 이를 결함이나 삭제 필수 항목으로 판단하지 않습니다. 타인의 실명·연락처 및 비밀번호·토큰·API 키는 계속 제외 대상입니다. 학술 인용 저자명에 대한 기존 예외는 유지합니다.
 - C10 현재 로컬 제출물 점검 범위에서 위반 항목을 발견하지 않았습니다. docs/PRIVACY_REVIEW.md의 범위/결과/한계를 기준으로 판단합니다. 실제 배포·외부 링크 대상·Git 과거 이력은 이번 범위 밖입니다.
 
@@ -54,7 +67,7 @@
 
 1. 현재 웹 이야기 순서는 사용자 결정으로 유지합니다. 필요 시 별도 요청에 따라 약 1,500자로 압축하고 자기조절력의 본인 행동/결과를 구체화합니다.
 2. resume.docx의 추가예정/빈칸을 완성합니다. 이후 웹 이야기를 변경하면 self-introduction.docx도 함께 맞춥니다. URL 결과물이 없는 T09~T11은 경력기술서 추가 대상이 아닙니다. 이전 Word 생성기는 실행하지 않습니다.
-3. node scripts/package_records.js로 deliverables/record-updater-device.zip을 생성합니다. 새 ZIP README대로 새 폴더에서 실행 검증합니다. README의 이력서 안내 정정은 완료했습니다.
+3. 최신 deliverables/record-updater-device.zip 생성 및 새 폴더 검증을 완료했습니다. 해당 파일로 장치를 제출하고 기존 record-updater.zip과 혼동하지 않습니다.
 4. 현재 로컬 사이트·Word·이미지·기존 ZIP의 개인정보/비밀값 점검은 완료했습니다. 변경 파일이나 새 최종 ZIP 생성 시 다시 점검하고, 배포 사이트를 비로그인 브라우저에서 확인합니다. 기간 종료 시 최종 기록 갱신 여부를 판단합니다.
 
 ## 앞선 완료: 이력서 보완 안내 가로 배치와 문서 카드 높이 통일
